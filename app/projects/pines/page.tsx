@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import { projects } from "@/lib/projects";
+
 type ImageItem = {
   src: string;
   caption?: string;
@@ -8,6 +13,9 @@ export default function PinesPage() {
   /* =========================
      🎛 CONTROL PANEL
      ========================= */
+
+  const [open, setOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const showHeroImage = true;
 
@@ -21,10 +29,49 @@ export default function PinesPage() {
     { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
     { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
     { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
+    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
     { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
   ];
 
   const enabledImages = gallery.filter(img => img.enabled);
+
+  const currentSlug = "pines";
+
+  const selectedProjects = projects
+    .filter(p => p.active && p.slug !== currentSlug)
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 3);
+
+  /* =========================
+     📩 FORM HANDLER (Formspree AJAX)
+     ========================= */
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    const res = await fetch("https://formspree.io/f/mgorgjgb", {
+      method: "POST",
+      body: data,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (res.ok) {
+      setSubmitted(true);
+    }
+  };
+
+  /* =========================
+     🚀 NAV ACTIONS
+     ========================= */
+
+  const goToConversation = () => {
+    window.location.href = "/#contact"; // 👈 uses your homepage Calendly setup
+  };
 
   /* =========================
    🎨 SHARED SYSTEM
@@ -218,44 +265,140 @@ return (
         </section>
       )}
 
-      {/* TEASER */}
-      <section className={sectionTight}>
-        <div className={narrow}>
-          <p className="text-xl italic text-gray-200">
-            “You don’t get to come back and pretend none of it happened.”
-          </p>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="pb-32">
-        <div className={`${narrow} space-y-8`}>
-          <p className="text-2xl">
-            If this kind of story stays with you—we should talk.
+<section className="pb-32">
+  <div className={`${narrow} space-y-8`}>
+    <p className="text-2xl">
+      If this kind of story stays with you—we should talk.
+    </p>
+
+    <div className="flex flex-col md:flex-row gap-4">
+      <button
+        onClick={() => setOpen(true)}
+        className={buttonSecondary}
+      >
+        Request Materials
+      </button>
+
+      <button
+  onClick={goToConversation}
+  className={buttonPrimary}
+>
+  Start a Conversation
+</button>
+    </div>
+  </div>
+</section>
+
+{/* ================= RELATED PROJECTS ================= */}
+<section className="border-t border-gray-800 pt-16 pb-24">
+  <div className={container}>
+
+    {/* HEADLINE */}
+    <div className="mb-10">
+      <p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-4">
+        More Stories
+      </p>
+    </div>
+
+    {/* GRID */}
+    <div className="grid md:grid-cols-3 gap-8">
+      {selectedProjects.map(project => (
+        <a
+          key={project.slug}
+          href={`/projects/${project.slug}`}
+          className="group block"
+        >
+          <div
+            className="w-full h-[200px] bg-cover bg-center mb-4 transition group-hover:opacity-80"
+            style={{ backgroundImage: `url(${project.image})` }}
+          />
+
+          <p className="text-sm text-white/50 mb-2">
+            {project.title}
           </p>
 
-          <div className="flex flex-col md:flex-row gap-4">
-            <button className={buttonSecondary}>
-              Request Materials
-            </button>
-            <button className={buttonPrimary}>
-              Start a Conversation
-            </button>
-          </div>
-        </div>
-      </section>
+          <p className="text-lg text-white">
+            {project.zinger}
+          </p>
+        </a>
+      ))}
+    </div>
 
-      {/* NAV */}
-      <section className="border-t border-gray-800 pt-10 pb-20">
-        <div className={`${container} flex justify-between text-sm text-gray-500`}>
-          <a href="/projects" className="hover:text-white">
-            ← Back to Projects
-          </a>
-          <a href="/projects/wilder" className="hover:text-white">
-            Next Project →
-          </a>
+  </div>
+</section>
+
+{/* ================= MODAL ================= */}
+{open && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+
+    <div className="bg-black border border-white/20 p-8 w-full max-w-md relative">
+
+      {/* Close */}
+      <button
+        onClick={() => {
+          setOpen(false);
+          setSubmitted(false);
+        }}
+        className="absolute top-4 right-4 text-white/50 hover:text-white"
+      >
+        ✕
+      </button>
+
+      <h2 className="text-xl mb-6">
+        Request Materials
+      </h2>
+
+      {!submitted ? (
+        <form onSubmit={handleSubmit} className="space-y-4">
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Your email"
+            required
+            className="w-full px-4 py-3 bg-black border border-white/20 text-white"
+          />
+
+          <textarea
+            name="message"
+            placeholder="What caught your interest? (optional)"
+            className="w-full px-4 py-3 bg-black border border-white/20 text-white"
+          />
+
+          <input
+            type="hidden"
+            name="project"
+            value="Pines"
+          />
+
+          <button
+            type="submit"
+            className="w-full border border-white px-6 py-3 hover:bg-white hover:text-black transition"
+          >
+            Request Materials
+          </button>
+
+        </form>
+      ) : (
+        <div className="text-center space-y-4">
+          <p className="text-lg">Got it.</p>
+          <p className="text-sm text-white/60">
+            I’ll send it over shortly.
+          </p>
+
+          <button
+            onClick={() => setOpen(false)}
+            className="mt-4 text-sm underline text-white/60 hover:text-white"
+          >
+            Close
+          </button>
         </div>
-      </section>
+      )}
+
+    </div>
+  </div>
+)}
 
     </main>
   );
