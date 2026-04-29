@@ -39,7 +39,7 @@ export default function PinesPage() {
      🎯 RELATED PROJECTS LOGIC
      ========================= */
 
-  const currentSlug = "pines";
+  const currentSlug = "nothing-changes";
 
   const [selectedProjects, setSelectedProjects] = useState<typeof projects>([]);
 
@@ -215,7 +215,7 @@ export default function PinesPage() {
       <div className="relative z-10 flex flex-col justify-end h-full px-16 pb-24 w-full">
 
         <h1 className="text-[clamp(2.5rem,5vw,5rem)] font-bold leading-[1.05] mb-8 w-full">
-          <span className="block">WHAT'S BURIED BENEATH THE PINES</span>
+          <span className="block">NOTHING CHANGES</span>
         </h1>
 
         <p className="text-base md:text-lg text-zinc-200 max-w-[60%]">
