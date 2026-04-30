@@ -8,6 +8,8 @@ export type Project = {
 
   genre?: string;
   overview?: string;
+featured?: boolean;
+slate?: boolean;
 
   // 🔥 OPTIONAL (future use — safe to leave empty)
   logline?: string;
