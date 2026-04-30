@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-export default function ExperienceStart({ onBegin, onExit }) {
+type Props = {
+  onBegin: () => void;
+  onExit: () => void;
+};
+
+export default function ExperienceStart({ onBegin, onExit }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -31,13 +36,13 @@ export default function ExperienceStart({ onBegin, onExit }) {
           onClick={onExit}
           className="cursor-pointer absolute -top-8 right-0 text-white/40 hover:text-white text-[10px] uppercase tracking-[0.3em] transition"
         >
-          Exit Experience
+          Exit
         </button>
 
-        {/* 🎥 SAME IMAGE FRAME AS PROMPTS */}
+        {/* IMAGE */}
         <div className="w-full aspect-video overflow-hidden relative">
           <img
-            src="/images/lords/lords.png" // 👈 use your hero image here
+            src="/images/lords/lords.png"
             alt="Experience Start"
             className="w-full h-full object-cover scale-105"
           />
@@ -49,13 +54,12 @@ export default function ExperienceStart({ onBegin, onExit }) {
           Every story starts with a choice.
         </p>
 
-        {/* BEGIN (same style as choices) */}
+        {/* BEGIN (UNCHANGED) */}
         <div className="flex flex-col items-center gap-4 pt-4">
           <button
   onClick={onBegin}
   className="
     relative
-cursor-pointer
     text-white/80 hover:text-white
 
     text-sm md:text-base
@@ -70,7 +74,6 @@ cursor-pointer
     START YOUR ADVENTURE
   </span>
 
-  {/* GLOW LAYER */}
   <span
     className="
       absolute inset-0
