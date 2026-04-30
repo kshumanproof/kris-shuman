@@ -54,36 +54,42 @@ export default function ExperienceStart({ onBegin, onExit }: Props) {
           Every story starts with a choice.
         </p>
 
-        {/* BEGIN (UNCHANGED) */}
+        {/* BEGIN */}
         <div className="flex flex-col items-center gap-4 pt-4">
           <button
-  onClick={onBegin}
-  className="
-    relative
-    text-white/80 hover:text-white
+            onClick={() => {
+              // 🔥 THIS IS THE FIX
+              localStorage.setItem("experienceStarted", "true");
 
-    text-sm md:text-base
-    tracking-[0.4em]
+              // keep your existing flow intact
+              onBegin();
+            }}
+            className="
+              relative
+              text-white/80 hover:text-white
 
-    transition duration-300
+              text-sm md:text-base
+              tracking-[0.4em]
 
-    animate-pulse-slow
-  "
->
-  <span className="relative z-10">
-    START YOUR ADVENTURE
-  </span>
+              transition duration-300
 
-  <span
-    className="
-      absolute inset-0
-      blur-xl
-      opacity-40
-      bg-white
-      animate-glow
-    "
-  />
-</button>
+              animate-pulse-slow
+            "
+          >
+            <span className="relative z-10">
+              START YOUR ADVENTURE
+            </span>
+
+            <span
+              className="
+                absolute inset-0
+                blur-xl
+                opacity-40
+                bg-white
+                animate-glow
+              "
+            />
+          </button>
         </div>
       </div>
     </div>
