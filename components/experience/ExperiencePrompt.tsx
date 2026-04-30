@@ -2,6 +2,20 @@
 
 import { useEffect, useState } from "react";
 
+type Option = {
+  text: string;
+  project: string;
+};
+
+type Props = {
+  image: string;
+  prompt: string;
+  optionA: Option;
+  optionB: Option;
+  onSelect: (route: string) => void;
+  onExit: () => void;
+};
+
 export default function ExperiencePrompt({
   image,
   prompt,
@@ -9,7 +23,7 @@ export default function ExperiencePrompt({
   optionB,
   onSelect,
   onExit,
-}) {
+}: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -64,7 +78,8 @@ export default function ExperiencePrompt({
         <div className="flex flex-col items-center gap-4 pt-4">
           <button
             onClick={() => onSelect(optionA.project)}
-            className="cursor-pointer
+            className="
+              cursor-pointer
               text-white/70 hover:text-white
               text-sm md:text-base
               tracking-[0.3em]
@@ -78,7 +93,8 @@ export default function ExperiencePrompt({
 
           <button
             onClick={() => onSelect(optionB.project)}
-            className="cursor-pointer
+            className="
+              cursor-pointer
               text-white/70 hover:text-white
               text-sm md:text-base
               tracking-[0.3em]
