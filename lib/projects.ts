@@ -4,8 +4,10 @@ export type Project = {
   zinger: string;
   image: string;
 
-  // 🔥 NEW CORE FIELDS
   status: string;
+
+  genre?: string;
+  overview?: string;
 
   // 🔥 OPTIONAL (future use — safe to leave empty)
   logline?: string;
@@ -35,6 +37,8 @@ export const projects: Project[] = [
     slug: "the-last-stop",
     title: "The Last Stop",
     zinger: "You don’t get a second chance—you get a different ending.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/lords/lords.png",
     status: "Early Development",
     active: true,
@@ -43,6 +47,8 @@ export const projects: Project[] = [
     slug: "sunsets-in-memphis",
     title: "Sunsets In Memphis",
     zinger: "Some places don’t let you leave—they just wait.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/memphis.jpg",
     status: "Early Development",
     active: true,
@@ -51,6 +57,8 @@ export const projects: Project[] = [
     slug: "wilder",
     title: "Wilder",
     zinger: "Silence doesn’t mean nothing happened.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/lords/lords.png",
     status: "In Development",
     active: true,
@@ -59,6 +67,8 @@ export const projects: Project[] = [
     slug: "dupree",
     title: "Who Stole the Head of Bobbi DuPree",
     zinger: "Some stories don’t want to be solved.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/dupree.jpg",
     status: "In Development",
     active: true,
@@ -67,6 +77,8 @@ export const projects: Project[] = [
     slug: "pines",
     title: "What’s Buried Beneath the Pines",
     zinger: "You don’t outrun the past—it follows.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/pines.jpg",
     status: "In Development",
 
@@ -81,6 +93,8 @@ export const projects: Project[] = [
     slug: "lords-of-franklin-county",
     title: "Lords of Franklin County",
     zinger: "Power doesn’t corrupt—it reveals.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/lords.jpg",
     status: "In Development",
     active: true,
@@ -89,6 +103,8 @@ export const projects: Project[] = [
     slug: "my-life-before-me",
     title: "My Life Before Me",
     zinger: "You can’t remember something that never happened… or can you?",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/life-before.jpg",
     status: "Early Development",
     active: true,
@@ -97,6 +113,8 @@ export const projects: Project[] = [
     slug: "nothing-changes",
     title: "Nothing Changes",
     zinger: "People don’t change. They reveal.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/nothing-changes.jpg",
     status: "Early Development",
     active: true,
@@ -105,6 +123,8 @@ export const projects: Project[] = [
     slug: "dead-in-the-water",
     title: "Dead in the Water",
     zinger: "Still waters don’t stay still.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/dead-water.jpg",
     status: "Early Development",
     active: true,
@@ -113,6 +133,8 @@ export const projects: Project[] = [
     slug: "ballad-of-colibri",
     title: "The Ballad of Colibri",
     zinger: "Some songs are written in blood.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/colibri.jpg",
     status: "Early Development",
     active: true,
@@ -121,6 +143,8 @@ export const projects: Project[] = [
     slug: "nowhere-kings",
     title: "The Nowhere Kings",
     zinger: "If nowhere is home, where do you go?",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/nowhere.jpg",
     status: "Early Development",
     active: true,
@@ -132,6 +156,8 @@ export const projects: Project[] = [
     title: "Gas Boyz",
     zinger: "Zinger goes here.",
     image: "/images/gas-boys/gas-boys.png",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     status: "In Production",
 
     // 🔥 Example of future video usage
@@ -144,6 +170,8 @@ export const projects: Project[] = [
     slug: "the-white-raven",
     title: "The White Raven",
     zinger: "Zinger goes here.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/placeholder.jpg",
     status: "Early Development",
     active: true,
@@ -152,6 +180,8 @@ export const projects: Project[] = [
     slug: "project-15",
     title: "Untitled Project",
     zinger: "Zinger goes here.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/placeholder.jpg",
     status: "Concept",
     active: false,
@@ -160,6 +190,8 @@ export const projects: Project[] = [
     slug: "project-16",
     title: "Untitled Project",
     zinger: "Zinger goes here.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/placeholder.jpg",
     status: "Concept",
     active: false,
@@ -168,6 +200,8 @@ export const projects: Project[] = [
     slug: "project-17",
     title: "Untitled Project",
     zinger: "Zinger goes here.",
+overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/placeholder.jpg",
     status: "Concept",
     active: false,
