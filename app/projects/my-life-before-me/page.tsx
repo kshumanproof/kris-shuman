@@ -41,22 +41,27 @@ export default function PinesPage() {
 
   const currentSlug = "my-life-before-me";
 
+  // 🔥 ADD THIS (PROJECT LOOKUP)
+  const project = projects.find((p) => p.slug === currentSlug);
+
+  if (!project) return <div>Not found</div>;
+
   const [selectedProjects, setSelectedProjects] = useState<typeof projects>([]);
 
   useEffect(() => {
-  const filtered = projects.filter(
-    (p) => p.active && p.slug !== currentSlug
-  );
+    const filtered = projects.filter(
+      (p) => p.active && p.slug !== currentSlug
+    );
 
-  // TRUE shuffle (Fisher-Yates)
-  const shuffled = [...filtered];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
+    // TRUE shuffle (Fisher-Yates)
+    const shuffled = [...filtered];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
 
-  setSelectedProjects(shuffled.slice(0, 3));
-}, [currentSlug]);
+    setSelectedProjects(shuffled.slice(0, 3));
+  }, [currentSlug]);
 
   /* =========================
      📩 FORM HANDLER (Formspree AJAX)
@@ -170,11 +175,11 @@ export default function PinesPage() {
   <div className="relative z-10 flex flex-col justify-end h-full px-6 pb-16">
 
     <h1 className="text-3xl font-bold mb-4">
-      PINES
+      MY LIFE BEFORE ME
     </h1>
 
     <p className="text-sm text-zinc-300 leading-relaxed">
-      Some families don’t pass down land—they pass down what’s buried beneath it.
+      Redemption isn’t about getting your life back—it’s about fixing the damage you left behind.
     </p>
 
   </div>
@@ -218,8 +223,8 @@ export default function PinesPage() {
           <span className="block">MY LIFE BEFORE ME</span>
         </h1>
 
-        <p className="text-base md:text-lg text-zinc-200 max-w-[60%]">
-          Some families don’t pass down land—they pass down what’s buried beneath it.
+        <p className="text-base md:text-lg text-zinc-200 max-w-[80%]">
+          Redemption isn’t about getting your life back—it’s about fixing the damage you left behind.
         </p>
 
       </div>
@@ -228,7 +233,7 @@ export default function PinesPage() {
 <section className="py-24">
   <div className={narrow}>
     <p className="text-xl md:text-2xl italic text-gray-200 leading-relaxed">
-      “You don’t get to come back and pretend none of it happened.”
+      “You messed up. A lot. And we’re going to make it all better.”
     </p>
   </div>
 </section>
@@ -246,16 +251,8 @@ export default function PinesPage() {
       </p>
 
       <p className="text-lg md:text-xl text-zinc-300 leading-relaxed">
-        When a man returns home after years away, he finds a family that’s learned to survive without him—and secrets that never left.
-      </p>
-
-      <p className="text-lg md:text-xl text-zinc-300 leading-relaxed">
-        What starts as a quiet homecoming turns into a slow unraveling, as buried truths begin to surface and old roles refuse to stay buried.
-      </p>
-
-      <p className="text-lg md:text-xl text-zinc-300 leading-relaxed">
-        Because some things don’t stay in the past. They wait.
-      </p>
+  {project.overview}
+</p>
 
     </div>
 
@@ -269,10 +266,10 @@ export default function PinesPage() {
         </p>
 
         <ul className="space-y-3 text-lg text-white/80">
+          <li>Redemption</li>
+          <li>Consequences</li>
           <li>Identity</li>
-          <li>Family Legacy</li>
-          <li>Buried Truth</li>
-          <li>Moral Consequence</li>
+          <li>Second Chances</li>
         </ul>
       </div>
 
@@ -283,11 +280,11 @@ export default function PinesPage() {
         </p>
 
         <p className="text-lg text-white/80 mb-4">
-          Slow-burn tension. Grounded. Intimate. Uneasy.
+          Irreverent. Fast-paced. Existential. Darkly funny.
         </p>
 
         <p className="text-sm text-white/50">
-          Winter’s Bone meets Prisoners
+          The Good Place meets Quantum Leap
         </p>
       </div>
 

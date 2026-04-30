@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import ExperienceStart from "@/components/experience/ExperienceStart";
+import { projects } from "@/lib/projects";
 
 const heroLines = [
   ["You don’t outrun who you are.", "You just get better at hiding it."],
@@ -10,17 +11,7 @@ const heroLines = [
   ["People don’t change.", "They reveal."],
 ];
 
-const heroImage = "/images/lords/lords.png";
-
-const projects = [
-  {
-    title: "PINES",
-    slug: "pines",
-    description:
-      "A runaway son returns to his family’s crumbling timber empire after his father’s death.",
-    image: "/images/gas-boys/gas-boys.png",
-  },
-];
+const heroImage = "/images/forest-road.png";
 
 export default function Home() {
   const [line] = useState(() => {
@@ -29,11 +20,11 @@ export default function Home() {
     return heroLines[index];
   });
 
-  const lead = projects[0];
+  const lead = projects.find(p => p.featured);
+
   const [showCalendly, setShowCalendly] = useState(false);
   const [showTop, setShowTop] = useState(false);
 
-  // EXPERIENCE STATE
   const [showStart, setShowStart] = useState(false);
   const [experienceTick, setExperienceTick] = useState(0);
   const [showEnding, setShowEnding] = useState(false);
@@ -43,11 +34,9 @@ export default function Home() {
       window.location.href = "https://calendly.com/kris-krisshuman/30min";
       return;
     }
-
     setShowCalendly(true);
   };
 
-  // ✅ SCROLL EFFECT (unchanged)
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -62,14 +51,11 @@ export default function Home() {
     };
   }, []);
 
-  // ✅ ENDING EFFECT (correct placement)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
     if (params.get("ending") === "true") {
       setShowEnding(true);
-
-      // clean URL so it doesn't persist
       window.history.replaceState({}, "", "/");
     }
   }, []);
@@ -107,12 +93,11 @@ export default function Home() {
               </h1>
 
               <p className="text-sm text-zinc-200">
-                Character-driven films about identity, redemption, and the cost of becoming who you are.
+                Character-driven stories about identity, redemption, and the cost of becoming who you are.
               </p>
 
               <p className="text-[10px] uppercase tracking-[0.25em] text-white/50 mt-3 mb-6">
-                Austin Film Festival Semifinalist • Script Pipeline • Final Draft Big Break
-              </p>
+                Austin Film Festival • Script Pipeline • Final Draft Big Break • PAGE Awards              </p>
             </div>
 
             <a
@@ -188,12 +173,12 @@ export default function Home() {
             ))}
           </h1>
 
-          <p className="text-base md:text-lg text-zinc-200 max-w-[60%]">
-            Character-driven films about identity, redemption, and the cost of becoming who you are.
+          <p className="text-base md:text-lg text-zinc-200 max-w-[80%]">
+            Character-driven stories about identity, redemption, and the cost of becoming who you are.
           </p>
 
           <p className="text-xs uppercase tracking-[0.25em] text-white/50 mt-4">
-            Austin Film Festival Semifinalist • Script Pipeline • Final Draft Big Break
+            Austin Film Festival • Script Pipeline • Final Draft Big Break • PAGE Awards
           </p>
 
           <div className="mt-6">
@@ -256,185 +241,81 @@ export default function Home() {
             <h2 className="text-4xl font-bold mb-4 transition group-hover:text-white">
               {lead.title}
             </h2>
+
             <p className="text-zinc-400 transition group-hover:text-zinc-300">
-              {lead.description}
-            </p>
+  {lead.zinger}
+</p>
           </div>
         </a>
       </section>
 
      {/* ================= PROJECT SLATE ================= */}
-<section className="px-6 md:px-16 pt-6 pb-24 border-t border-zinc-900">
+      <section className="px-6 md:px-16 pt-6 pb-24 border-t border-zinc-900">
 
-  <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-8">
-    Stories in Development
-  </p>
+        <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-8">
+          Stories in Development
+        </p>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
 
-    {/* ===== PROJECT 1 ===== */}
-    <a href="/projects/pines" className="group block">
-      <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
-        <img
-          src="/images/pines/ft-gray-woods.jpg"
-          alt="Pines"
-          className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
-        />
-      </div>
+          {projects
+            .filter(p => p.slate)
+            .slice(0, 6)
+            .map((project) => (
+              <a
+                key={project.slug}
+                href={`/projects/${project.slug}`}
+                className="group block"
+              >
+                <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                </div>
 
-      <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
-        PINES
-      </h3>
+                <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
+                  {project.title}
+                </h3>
 
-      <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-        Early Development
-      </p>
+                <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
+                  {project.status}
+                </p>
 
-      <p className="text-sm text-zinc-400 mb-1">
-        A son returns home to bury his father—and inherits everything he ran from.
-      </p>
-    </a>
+                <p className="text-sm text-zinc-400 mb-1">
+  {project.zinger}
+</p>
+              </a>
+            ))}
 
-    {/* ===== PROJECT 2 ===== */}
-    <a href="/projects/wilder" className="group block">
-      <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
-        <img
-          src="/images/wilder/wilder.webp"
-          alt="Wilder"
-          className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
-        />
-      </div>
+        </div>
 
-      <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
-        WILDER
-      </h3>
+        <div className="mt-16 flex justify-end">
+          <a
+            href="/work"
+            className="
+              group
+              text-xs uppercase tracking-[0.3em]
+              text-zinc-500 hover:text-white
+              transition
+            "
+          >
+            <span>More Projects</span>
 
-      <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-        Early Development
-      </p>
+            <span
+              className="
+                inline-block ml-2
+                transform transition-transform duration-300
+                group-hover:translate-x-1
+              "
+            >
+              →
+            </span>
+          </a>
+        </div>
 
-      <p className="text-sm text-zinc-400 mb-1">
-        A son returns home to bury his father—and inherits everything he ran from.
-      </p>
-    </a>
-
-    {/* ===== PROJECT 3 ===== */}
-    <a href="/projects/dupree" className="group block">
-      <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
-        <img
-          src="/images/dupree/dupree.webp"
-          alt="Dupree"
-          className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
-        />
-      </div>
-
-      <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
-        DUPREE
-      </h3>
-
-      <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-        Early Development
-      </p>
-
-      <p className="text-sm text-zinc-400 mb-1">
-        A son returns home to bury his father—and inherits everything he ran from.
-      </p>
-    </a>
-
-    {/* ===== PROJECT 4 ===== */}
-    <a href="/projects/lords" className="group block">
-      <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
-        <img
-          src="/images/lords/lords.png"
-          alt="Lords"
-          className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
-        />
-      </div>
-
-      <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
-        LORDS
-      </h3>
-
-      <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-        Early Development
-      </p>
-
-      <p className="text-sm text-zinc-400 mb-1">
-        A son returns home to bury his father—and inherits everything he ran from.
-      </p>
-    </a>
-
-    {/* ===== PROJECT 5 ===== */}
-    <a href="/projects/gas-boys" className="group block">
-      <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
-        <img
-          src="/images/gas-boys/gas-boys.png"
-          alt="Gas Boys"
-          className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
-        />
-      </div>
-
-      <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
-        GAS BOYS
-      </h3>
-
-      <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-        Early Development
-      </p>
-
-      <p className="text-sm text-zinc-400 mb-1">
-        A son returns home to bury his father—and inherits everything he ran from.
-      </p>
-    </a>
-
-    {/* ===== PROJECT 6 (PLACEHOLDER) ===== */}
-    <a href="/projects/placeholder" className="group block">
-      <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
-        <img
-          src="/images/placeholder.jpg"
-          alt="Coming Soon"
-          className="w-full h-full object-cover opacity-60 transition duration-700 group-hover:scale-105"
-        />
-      </div>
-
-      <h3 className="text-lg font-semibold mb-2 text-zinc-400">
-        UNTITLED
-      </h3>
-
-      <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-        Early Development
-      </p>
-
-      <p className="text-sm text-zinc-400 mb-1">
-        A son returns home to bury his father—and inherits everything he ran from.
-      </p>
-    </a>
-
-  </div>
-<div className="mt-16 flex justify-end">
-  <a
-    href="/work"
-    className="
-      group
-      text-xs uppercase tracking-[0.3em]
-      text-zinc-500 hover:text-white
-      transition
-    "
-  >
-    <span>More Projects</span>
-
-    <span
-      className="
-        inline-block ml-2
-        transform transition-transform duration-300
-        group-hover:translate-x-1
-      "
-    >
-      →
-    </span>
-  </a>
-</div>
-</section>
+      </section>
 
 
 {/* ================= THE WRITER ================= */}
