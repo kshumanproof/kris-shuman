@@ -411,6 +411,29 @@ export default function Home() {
     </a>
 
   </div>
+<div className="mt-16 flex justify-end">
+  <a
+    href="/work"
+    className="
+      group
+      text-xs uppercase tracking-[0.3em]
+      text-zinc-500 hover:text-white
+      transition
+    "
+  >
+    <span>More Projects</span>
+
+    <span
+      className="
+        inline-block ml-2
+        transform transition-transform duration-300
+        group-hover:translate-x-1
+      "
+    >
+      →
+    </span>
+  </a>
+</div>
 </section>
 
 

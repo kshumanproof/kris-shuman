@@ -1,8 +1,8 @@
 import ExperienceLayer from "@/components/experience/ExperienceLayer";
 import ContinuePrompt from "@/components/experience/ContinuePrompt";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Geist, Geist_Mono, Reenie_Beanie } from "next/font/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +12,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const hand = Reenie_Beanie({
+  variable: "--font-hand",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${hand.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-black text-white">
         {children}

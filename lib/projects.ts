@@ -3,6 +3,20 @@ export type Project = {
   title: string;
   zinger: string;
   image: string;
+
+  // 🔥 NEW CORE FIELDS
+  status: string;
+
+  // 🔥 OPTIONAL (future use — safe to leave empty)
+  logline?: string;
+  synopsis?: string;
+  themes?: string[];
+  tone?: string;
+
+  // 🔥 OPTIONAL MEDIA (for trailers later)
+  mediaType?: "image" | "video";
+  mediaSrc?: string;
+
   active: boolean;
 };
 
@@ -11,14 +25,18 @@ export const projects: Project[] = [
     slug: "family-tradition",
     title: "Family Tradition",
     zinger: "Some families don’t inherit land—they inherit what’s buried beneath it.",
+    overview: "knofnoen oindqo wcoinc qoicnqpc qicq coqi coqic qoic.",
+    genre: "Drama",
     image: "/images/family-tradition.jpg",
+    status: "Early Development",
     active: true,
   },
   {
     slug: "the-last-stop",
     title: "The Last Stop",
     zinger: "You don’t get a second chance—you get a different ending.",
-    image: "/images/last-stop.jpg",
+    image: "/images/lords/lords.png",
+    status: "Early Development",
     active: true,
   },
   {
@@ -26,6 +44,7 @@ export const projects: Project[] = [
     title: "Sunsets In Memphis",
     zinger: "Some places don’t let you leave—they just wait.",
     image: "/images/memphis.jpg",
+    status: "Early Development",
     active: true,
   },
   {
@@ -33,6 +52,7 @@ export const projects: Project[] = [
     title: "Wilder",
     zinger: "Silence doesn’t mean nothing happened.",
     image: "/images/lords/lords.png",
+    status: "In Development",
     active: true,
   },
   {
@@ -40,6 +60,7 @@ export const projects: Project[] = [
     title: "Who Stole the Head of Bobbi DuPree",
     zinger: "Some stories don’t want to be solved.",
     image: "/images/dupree.jpg",
+    status: "In Development",
     active: true,
   },
   {
@@ -47,6 +68,13 @@ export const projects: Project[] = [
     title: "What’s Buried Beneath the Pines",
     zinger: "You don’t outrun the past—it follows.",
     image: "/images/pines.jpg",
+    status: "In Development",
+
+    // 🔥 Example future-ready data
+    logline:
+      "A runaway son returns to his family’s crumbling timber empire after his father’s death.",
+    themes: ["family", "legacy", "buried truth"],
+
     active: true,
   },
   {
@@ -54,6 +82,7 @@ export const projects: Project[] = [
     title: "Lords of Franklin County",
     zinger: "Power doesn’t corrupt—it reveals.",
     image: "/images/lords.jpg",
+    status: "In Development",
     active: true,
   },
   {
@@ -61,6 +90,7 @@ export const projects: Project[] = [
     title: "My Life Before Me",
     zinger: "You can’t remember something that never happened… or can you?",
     image: "/images/life-before.jpg",
+    status: "Early Development",
     active: true,
   },
   {
@@ -68,6 +98,7 @@ export const projects: Project[] = [
     title: "Nothing Changes",
     zinger: "People don’t change. They reveal.",
     image: "/images/nothing-changes.jpg",
+    status: "Early Development",
     active: true,
   },
   {
@@ -75,6 +106,7 @@ export const projects: Project[] = [
     title: "Dead in the Water",
     zinger: "Still waters don’t stay still.",
     image: "/images/dead-water.jpg",
+    status: "Early Development",
     active: true,
   },
   {
@@ -82,6 +114,7 @@ export const projects: Project[] = [
     title: "The Ballad of Colibri",
     zinger: "Some songs are written in blood.",
     image: "/images/colibri.jpg",
+    status: "Early Development",
     active: true,
   },
   {
@@ -89,15 +122,22 @@ export const projects: Project[] = [
     title: "The Nowhere Kings",
     zinger: "If nowhere is home, where do you go?",
     image: "/images/nowhere.jpg",
+    status: "Early Development",
     active: true,
   },
 
-  // 🔥 EXTRA SLOTS (future-proof)
+  // 🔥 EXTRA SLOTS
   {
     slug: "gas-boys",
     title: "Gas Boyz",
     zinger: "Zinger goes here.",
     image: "/images/gas-boys/gas-boys.png",
+    status: "In Production",
+
+    // 🔥 Example of future video usage
+    mediaType: "video",
+    mediaSrc: "/videos/gas-boys.mp4",
+
     active: true,
   },
   {
@@ -105,6 +145,7 @@ export const projects: Project[] = [
     title: "The White Raven",
     zinger: "Zinger goes here.",
     image: "/images/placeholder.jpg",
+    status: "Early Development",
     active: true,
   },
   {
@@ -112,6 +153,7 @@ export const projects: Project[] = [
     title: "Untitled Project",
     zinger: "Zinger goes here.",
     image: "/images/placeholder.jpg",
+    status: "Concept",
     active: false,
   },
   {
@@ -119,6 +161,7 @@ export const projects: Project[] = [
     title: "Untitled Project",
     zinger: "Zinger goes here.",
     image: "/images/placeholder.jpg",
+    status: "Concept",
     active: false,
   },
   {
@@ -126,6 +169,7 @@ export const projects: Project[] = [
     title: "Untitled Project",
     zinger: "Zinger goes here.",
     image: "/images/placeholder.jpg",
+    status: "Concept",
     active: false,
   },
 ];
