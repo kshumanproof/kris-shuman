@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ExperienceStart from "@/components/experience/ExperienceStart";
 
 const heroLines = [
   ["You don’t outrun who you are.", "You just get better at hiding it."],
@@ -32,6 +33,11 @@ export default function Home() {
   const [showCalendly, setShowCalendly] = useState(false);
   const [showTop, setShowTop] = useState(false);
 
+  // EXPERIENCE STATE
+  const [showStart, setShowStart] = useState(false);
+  const [experienceTick, setExperienceTick] = useState(0);
+  const [showEnding, setShowEnding] = useState(false);
+
   const openCalendly = () => {
     if (typeof window !== "undefined" && window.innerWidth < 768) {
       window.location.href = "https://calendly.com/kris-krisshuman/30min";
@@ -41,6 +47,7 @@ export default function Home() {
     setShowCalendly(true);
   };
 
+  // ✅ SCROLL EFFECT (unchanged)
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -53,6 +60,18 @@ export default function Home() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+  }, []);
+
+  // ✅ ENDING EFFECT (correct placement)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("ending") === "true") {
+      setShowEnding(true);
+
+      // clean URL so it doesn't persist
+      window.history.replaceState({}, "", "/");
+    }
   }, []);
 
   return (
@@ -68,8 +87,9 @@ export default function Home() {
 
           <div className="absolute inset-0 bg-black/60 pointer-events-none" />
 
-          <a
-            href="/experience"
+          {/* ✅ FIXED BUTTON */}
+          <button
+            onClick={() => setShowStart(true)}
             className="
               absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2
               z-40
@@ -81,7 +101,7 @@ export default function Home() {
             "
           >
             Play A Game?
-          </a>
+          </button>
 
           <div className="absolute top-6 left-6 right-6 z-30 flex justify-between items-center">
             <p className="text-xs uppercase tracking-[0.2em] text-white/70">
@@ -111,32 +131,34 @@ export default function Home() {
             </div>
 
             <a
-  href="https://calendly.com/kris-krisshuman/30min"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="
-    inline-block
-    relative z-[60]
-    pointer-events-auto
-    px-6 py-3 md:px-8 md:py-4
-    text-xs md:text-sm uppercase tracking-[0.3em]
-    border border-white/50
-    text-white
-    bg-white/10
-    hover:bg-white/20
-    transition
-  "
->
-  Book A Call
-</a>
+              href="https://calendly.com/kris-krisshuman/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                inline-block
+                relative z-[60]
+                pointer-events-auto
+                px-6 py-3 md:px-8 md:py-4
+                text-xs md:text-sm uppercase tracking-[0.3em]
+                border border-white/50
+                text-white
+                bg-white/10
+                hover:bg-white/20
+                transition
+              "
+            >
+              Book A Call
+            </a>
           </div>
         </div>
       </section>
 
       {/* ================= DESKTOP HERO ================= */}
       <section className="hidden md:block relative w-full h-[80vh] md:h-screen overflow-hidden">
-        <a
-          href="/experience"
+
+        {/* ✅ FIXED BUTTON */}
+        <button
+          onClick={() => setShowStart(true)}
           className="
             fixed top-6 left-1/2 -translate-x-1/2
             z-50
@@ -150,7 +172,7 @@ export default function Home() {
           "
         >
           How 'Bout A Little Game?
-        </a>
+        </button>
 
         <img
           src={heroImage}
@@ -209,6 +231,22 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ✅ EXPERIENCE START MODAL */}
+      {showStart && (
+        <ExperienceStart
+          onBegin={() => {
+  localStorage.setItem("experienceActive", "true");
+  localStorage.setItem("experienceStep", "0");
+
+  // 🔥 THIS IS THE MISSING PIECE
+  window.dispatchEvent(new Event("experienceStart"));
+
+  setShowStart(false);
+}}
+          onExit={() => setShowStart(false)}
+        />
+      )}
+    
       {/* ================= FEATURED PROJECT ================= */}
       <section className="mt-10 px-6 md:px-16 pt-24 pb-10 border-t border-zinc-900">
         <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-6">
@@ -398,18 +436,25 @@ export default function Home() {
 >
 
   <div className="max-w-2xl mx-auto">
-    <p className="text-2xl md:text-3xl leading-relaxed">
-      I write about people at the breaking point.
-      The ones trying to outrun who they’ve been—
-      and learning the hard way that you don’t get to.
-    </p>
+  <p className="text-2xl md:text-3xl leading-relaxed">
+    I write about people at the breaking point.
+    <br />
+    The ones trying to outrun who they’ve been—
+    <br />
+    and learning the hard way that you don’t get to.
+  </p>
 
-    <div className="mt-12 text-sm uppercase tracking-[0.25em]">
-      <a href="/about" className="text-white/60 hover:text-white transition">
-        View Full Bio
-      </a>
-    </div>
+  <p className="mt-6 text-m uppercase tracking-[0.2em] text-white/90 text-right">
+    — Kris
+  </p>
+
+  <div className="mt-12 text-m uppercase tracking-[0.25em]">
+    <a href="/about" className="text-white/60 hover:text-white transition">
+      View Full Bio
+    </a>
   </div>
+</div>
+  
 
 </section>
 
@@ -546,6 +591,37 @@ export default function Home() {
   >
     ↑
   </button>
+)}
+
+{showEnding && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-6">
+    <div className="relative w-full max-w-xl bg-black border border-white/10 p-10 text-center space-y-6">
+
+      <button
+        onClick={() => setShowEnding(false)}
+        className="absolute top-4 right-4 text-white/50 hover:text-white text-xs uppercase tracking-[0.2em]"
+      >
+        Close
+      </button>
+
+      <p className="text-xl md:text-2xl leading-relaxed">
+        Every story leaves something behind.
+      </p>
+
+      <p className="text-white/70">
+        If this one stayed with you…
+        we should talk.
+      </p>
+
+      <button
+        onClick={openCalendly}
+        className="border border-white/50 px-6 py-3 uppercase tracking-[0.3em] text-sm hover:bg-white hover:text-black transition"
+      >
+        Book A Call
+      </button>
+
+    </div>
+  </div>
 )}
 </main>
   );
