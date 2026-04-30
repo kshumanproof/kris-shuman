@@ -87,22 +87,7 @@ export default function Home() {
 
           <div className="absolute inset-0 bg-black/60 pointer-events-none" />
 
-          {/* ✅ FIXED BUTTON */}
-          <button
-            onClick={() => setShowStart(true)}
-            className="
-              absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2
-              z-40
-              px-6 py-2 text-xs uppercase tracking-[0.3em]
-              border border-white/30
-              text-white
-              bg-white/5 backdrop-blur-sm
-              shadow-[0_0_20px_rgba(255,255,255,0.15)]
-            "
-          >
-            Play A Game?
-          </button>
-
+          
           <div className="absolute top-6 left-6 right-6 z-30 flex justify-between items-center">
             <p className="text-xs uppercase tracking-[0.2em] text-white/70">
               Kris Shuman

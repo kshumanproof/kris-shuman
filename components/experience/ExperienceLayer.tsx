@@ -81,11 +81,14 @@ export default function ExperienceLayer() {
         router.push(route);
       }}
       onExit={() => {
-        localStorage.setItem("experienceActive", "false");
-        localStorage.removeItem("experienceStep");
-        setActive(false);
-        setShowPrompt(false);
-      }}
+  localStorage.setItem("experienceActive", "false");
+  localStorage.removeItem("experienceStep");
+
+  setActive(false);
+
+  // 🔥 notify rest of app immediately
+  window.dispatchEvent(new Event("experienceChanged"));
+}}
     />
   );
 }

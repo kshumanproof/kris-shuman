@@ -2,7 +2,7 @@ export const experienceSteps = [
   {
     id: 1,
     prompt: "Placeholder question 1 - the sunday dinner one",
-    image: "/images/experience/placeholder-1.jpg",
+    image: "/images/experience/lords.png",
     options: [
       { text: "Placeholder answer A1", project: "/projects/pines" },
       { text: "Placeholder answer B1", project: "/projects/wilder" },
@@ -11,7 +11,7 @@ export const experienceSteps = [
   {
     id: 2,
     prompt: "Placeholder question 2",
-    image: "/images/experience/placeholder-2.jpg",
+    image: "/images/experience/lords.png",
     options: [
       { text: "Placeholder answer A2", project: "/projects/family-tradition" },
       { text: "Placeholder answer B2", project: "/projects/my-life-before-me" },
@@ -58,7 +58,7 @@ export const experienceSteps = [
     prompt: "Placeholder question 7",
     image: "/images/experience/placeholder-7.jpg",
     options: [
-      { text: "Placeholder answer A7", project: "/projects/pines" },
+      { text: "Placeholder answer A7", project: "/projects/the-white-raven" },
       { text: "Placeholder answer B7", project: "/projects/wilder" },
     ],
   },
@@ -85,7 +85,7 @@ export const experienceSteps = [
     prompt: "Placeholder question 10",
     image: "/images/experience/placeholder-10.jpg",
     options: [
-      { text: "Placeholder answer A10", project: "/projects/my-life-before-me" },
+      { text: "Placeholder answer A10", project: "/projects/pines" },
       { text: "Placeholder answer B10", project: "/projects/the-last-stop" },
     ],
   },

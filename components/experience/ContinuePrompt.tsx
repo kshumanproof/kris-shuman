@@ -19,16 +19,31 @@ export default function ContinuePrompt() {
     setActive(isActive && step > 0 && !isHome);
   };
 
+  // ✅ Run on route change
   useEffect(() => {
     check();
   }, [pathname]);
 
+  // ✅ Run on tab focus
   useEffect(() => {
     window.addEventListener("focus", check);
     return () => {
       window.removeEventListener("focus", check);
     };
   }, []);
+
+  // ✅ 🔥 Run when experience state changes (EXIT FIX)
+  useEffect(() => {
+    const handleChange = () => {
+      check();
+    };
+
+    window.addEventListener("experienceChanged", handleChange);
+
+    return () => {
+      window.removeEventListener("experienceChanged", handleChange);
+    };
+  }, [pathname]);
 
   if (!active) return null;
 
@@ -43,6 +58,9 @@ export default function ContinuePrompt() {
           localStorage.setItem("experienceActive", "false");
           localStorage.removeItem("experienceStep");
 
+          // also notify UI
+          window.dispatchEvent(new Event("experienceChanged"));
+
           router.push("/?ending=true");
           return;
         }
@@ -50,7 +68,7 @@ export default function ContinuePrompt() {
         // 🔁 NORMAL FLOW
         window.dispatchEvent(new Event("experienceStart"));
       }}
-      className="
+      className="cursor-pointer
         fixed right-6 top-1/2 -translate-y-1/2
         z-[9999]
 

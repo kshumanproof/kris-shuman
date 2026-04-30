@@ -101,11 +101,11 @@ export const projects: Project[] = [
     active: true,
   },
   {
-    slug: "project-14",
-    title: "Untitled Project",
+    slug: "the-white-raven",
+    title: "The White Raven",
     zinger: "Zinger goes here.",
     image: "/images/placeholder.jpg",
-    active: false,
+    active: true,
   },
   {
     slug: "project-15",
