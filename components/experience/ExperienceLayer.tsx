@@ -69,7 +69,7 @@ export default function ExperienceLayer() {
         text: current.options[1].text,
         project: current.options[1].project,
       }}
-      onSelect={(route) => {
+      onSelect={(route: string) => {
         const nextStep = step + 1;
 
         localStorage.setItem("experienceStep", nextStep.toString());
