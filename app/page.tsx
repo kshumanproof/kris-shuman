@@ -20,7 +20,7 @@ export default function Home() {
     return heroLines[index];
   });
 
-  const lead = projects.find(p => p.featured);
+  const lead = projects.find(p => p.featured) || projects[0];
 
   const [showCalendly, setShowCalendly] = useState(false);
   const [showTop, setShowTop] = useState(false);
