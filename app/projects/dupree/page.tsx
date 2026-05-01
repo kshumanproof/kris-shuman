@@ -19,8 +19,8 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/gas-boys/gas-boys.png";
-  const heroMobile = "/images/gas-boys/gas-boys.png";
+  const heroDesktop = "/images/dupree/dupree.png";
+  const heroMobile = "/images/dupree/dupree.png";
 
   const gallery: ImageItem[] = [
     { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },

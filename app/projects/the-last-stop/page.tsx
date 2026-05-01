@@ -19,18 +19,18 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/gas-boys/gas-boys.png";
-  const heroMobile = "/images/gas-boys/gas-boys.png";
+  const heroDesktop = "/images/last-stop/the-last-stop-bus-stop.webp";
+  const heroMobile = "/images/last-stop/the-last-stop-bus-stop.webp";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: false },
+    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: false },
+    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: false },
+    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: false },
+    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: false },
+    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: false },
+    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: false },
+    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: false },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);

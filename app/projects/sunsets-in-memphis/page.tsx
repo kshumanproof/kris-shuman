@@ -19,18 +19,18 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/gas-boys/gas-boys.png";
-  const heroMobile = "/images/gas-boys/gas-boys.png";
+  const heroDesktop = "/images/sunsets-in-memphis/death-comes-easy.png";
+  const heroMobile = "/images/sunsets-in-memphis/death-comes-easy.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/sunsets-in-memphis/ship.png", caption: "We're stranded!", enabled: true },
+    { src: "/images/sunsets-in-memphis/control-room.png", caption: "It's quiet out here.", enabled: true },
+    { src: "/images/sunsets-in-memphis/dead-creature.png", caption: "The bastard responsible.", enabled: true },
+    { src: "/images/sunsets-in-memphis/hopeless.png", caption: "Is there anyone out there?", enabled: true },
+    { src: "/images/sunsets-in-memphis/radio-busted.png", caption: "Damn thing's busted.", enabled: true },
+    { src: "/images/sunsets-in-memphis/somebody-help.png", caption: "It's no use...", enabled: true },
+    { src: "/images/sunsets-in-memphis/screwed.png", caption: "...I'm all alone.", enabled: true },
+    { src: "/images/sunsets-in-memphis/womans-best-friend.png", caption: "At least I still got you, Atlas.", enabled: true },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);

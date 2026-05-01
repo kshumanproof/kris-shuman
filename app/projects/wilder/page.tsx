@@ -19,18 +19,18 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/gas-boys/gas-boys.png";
-  const heroMobile = "/images/gas-boys/gas-boys.png";
+  const heroDesktop = "/images/wilder/wilder.png";
+  const heroMobile = "/images/wilder/wilder.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/wilder/courtroom.png", caption: "Like all good Southern stories...mine starts in a courtroom.", enabled: true },
+    { src: "/images/wilder/leaving.png", caption: "Only thing you ever do is run.", enabled: true },
+    { src: "/images/wilder/payphone.png", caption: "Last call home as Sophie Waters", enabled: true },
+    { src: "/images/wilder/retirement-speech.png", caption: "Only thing that ever made sense was racin'.", enabled: true },
+    { src: "/images/wilder/the-meeting.png", caption: "A fading legend meets a girl on the rise.", enabled: true },
+    { src: "/images/wilder/hotdogs.png", caption: "Trust bonding — Wilder style.", enabled: true },
+    { src: "/images/wilder/courtroom.png", caption: "Every room holds something.", enabled: false },
+    { src: "/images/wilder/courtroom.png", caption: "You can feel it watching.", enabled: false },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);
@@ -282,8 +282,11 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Character-driven. Gritty. Hopeful. Southern.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Comps
+        </p>
 
-        <p className="text-sm text-white/50">
+        <p className="text-lg text-white/80">
           Erin Brockovich meets Crazy Heart
         </p>
       </div>
