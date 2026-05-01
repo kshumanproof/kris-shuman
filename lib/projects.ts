@@ -93,9 +93,9 @@ overview: "When Gray Harris returns to his rural Georgia hometown after his estr
     logline:
       "A runaway son returns to his family’s crumbling timber empire after his father’s death.",
     themes: ["family", "legacy", "buried truth"],
-
+    slate: true,
     active: true,
-    featured: true,
+    featured: false,
   },
   {
     slug: "lords-of-franklin-county",
@@ -105,8 +105,9 @@ overview: "In Depression-era Franklin County, a war-scarred drifter returns home
     genre: "Pilot - Southern Crime / Drama / Period",
     image: "/images/lords/finch-marion.png",
     status: "In Development",
-slate: true,
+slate: false,
     active: true,
+featured: true,
   },
   {
     slug: "my-life-before-me",
