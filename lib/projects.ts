@@ -103,7 +103,7 @@ overview: "When Gray Harris returns to his rural Georgia hometown after his estr
     zinger: "When the law robs the poor, an outlaw gives it back.",
 overview: "In Depression-era Franklin County, a war-scarred drifter returns home to find his land stolen, his town controlled, and its people crushed under the thumb of a corrupt judge and ruthless sheriff. With nothing left to lose, he assembles a ragtag crew—a preacher with a moral code, a giant with a gentle heart, and a reckless young outlaw—and begins stealing from the wealthy elite who profit off the suffering of others. As their legend grows, so does the danger. The law closes in. Loyalties fracture. And the line between justice and revenge begins to blur. Because in a town where the system is broken, the question isn’t who’s right—it’s who’s willing to do something about it.",
     genre: "Pilot - Southern Crime / Drama / Period",
-    image: "/images/lords.jpg",
+    image: "/images/lords/finch-and-the-boys.png",
     status: "In Development",
 slate: true,
     active: true,
