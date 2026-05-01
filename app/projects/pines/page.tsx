@@ -19,18 +19,19 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/gas-boys/gas-boys.png";
-  const heroMobile = "/images/gas-boys/gas-boys.png";
+  const heroDesktop = "/images/pines/pines.png";
+  const heroMobile = "/images/pines/pines.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/pines/burial.png", caption: "We come together to lay to rest...", enabled: true },
+    { src: "/images/pines/harlans-truck.png", caption: "We've been here before.", enabled: true },
+    { src: "/images/pines/harris-timber.png", caption: "A dynasty near ruin.", enabled: true },
+    { src: "/images/pines/crime-scene.png", caption: "The puppetmaster at work.", enabled: true },
+    { src: "/images/pines/dutiful-daughter.png", caption: "The dutiful daughter, Sadie.", enabled: true },
+    { src: "/images/pines/prodigal-son.png", caption: "Gray has no idea what's coming.", enabled: true },
+    { src: "/images/pines/buddy.png", caption: "With the King off the throne...", enabled: true },
+    { src: "/images/pines/fire.png", caption: "...the subjects make their move.", enabled: true },
+    
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);
@@ -282,8 +283,11 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Slow-burn tension. Grounded. Intimate. Uneasy.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Comps
+        </p>
 
-        <p className="text-sm text-white/50">
+        <p className="text-lg text-white/80">
           Ozark meets Succession
         </p>
       </div>

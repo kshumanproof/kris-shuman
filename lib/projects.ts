@@ -86,7 +86,7 @@ slate: true,
     zinger: "Some families pass down land. His passed down bodies.",
 overview: "When Gray Harris returns to his rural Georgia hometown after his estranged father’s brutal death, he inherits a crumbling timber business and a legacy built on secrets. What looks like a suicide quickly unravels into something far darker, as missing evidence, local rumors, and quiet threats begin to close in around him. As pressure mounts to sell the land, Gray realizes powerful people are willing to hurt his family to get it. Forced back into a past he ran from, he and his siblings must confront the truth about their parents, their town, and the violence buried beneath it all. The deeper Gray digs, the clearer it becomes—this isn’t just history. It’s still alive.",
     genre: "Pilot - Southern Gothic / Crime / Drama",
-    image: "/images/pines.jpg",
+    image: "/images/pines/pines.png",
     status: "In Development",
 
     // 🔥 Example future-ready data

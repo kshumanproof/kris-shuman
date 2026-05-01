@@ -23,14 +23,14 @@ export default function PinesPage() {
   const heroMobile = "/images/dupree/dupree.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/dupree/headless.png", caption: "Greed'll cost you your head.", enabled: true },
+    { src: "/images/dupree/sly.png", caption: "The legend of Sly Ledbetter.", enabled: true },
+    { src: "/images/dupree/rimes.png", caption: "Wherever you see Rimes Davis...", enabled: true },
+    { src: "/images/dupree/rimes-being-rimes.png", caption: "...trouble ain't far behind.", enabled: true },
+    { src: "/images/dupree/mary-lou.png", caption: "No man lives to say he's seen The Widow.", enabled: true },
+    { src: "/images/dupree/the-taker.png", caption: "The Taker is always ready to make a deal.", enabled: true },
+    { src: "/images/dupree/three-limbed-tree.png", caption: "Every treasure comes with a map...", enabled: true },
+    { src: "/images/dupree/trouble.png", caption: "...this one comes with a curse.", enabled: true },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);
@@ -282,8 +282,11 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Violent. Darkly humorous. Mythic. Grit-soaked.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Comps
+        </p>
 
-        <p className="text-sm text-white/50">
+        <p className="text-lg text-white/80">
           No Country for Old Men meets The Hateful Eight
         </p>
       </div>
