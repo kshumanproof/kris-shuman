@@ -19,18 +19,18 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/gas-boys/gas-boys.png";
-  const heroMobile = "/images/gas-boys/gas-boys.png";
+  const heroDesktop = "/images/colibri/selfie.png";
+  const heroMobile = "/images/colibri/selfie.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/colibri/bankrupt.png", caption: "A town on the brink of ruin.", enabled: true },
+    { src: "/images/colibri/magda.png", caption: "A prophecy is spoken into truth.", enabled: true },
+    { src: "/images/colibri/fire.png", caption: "No one is safe.", enabled: true },
+    { src: "/images/colibri/thrashville.png", caption: "Time to find another way.", enabled: true },
+    { src: "/images/colibri/band.png", caption: "Some new friends.", enabled: true },
+    { src: "/images/colibri/awaits.png", caption: "A new fortune awaits in the hills.", enabled: true },
+    { src: "/images/colibri/selfie.png", caption: "Every room holds something.", enabled: false },
+    { src: "/images/colibri/selfie.png", caption: "You can feel it watching.", enabled: false },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);
@@ -282,8 +282,11 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Energetic. Musical. Irreverent. Heartfelt.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Tone
+        </p>
 
-        <p className="text-sm text-white/50">
+        <p className="text-lg text-white/80">
           Across the Spider-Verse meets Walk the Line
         </p>
       </div>

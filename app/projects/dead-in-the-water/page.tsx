@@ -19,18 +19,18 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/gas-boys/gas-boys.png";
-  const heroMobile = "/images/gas-boys/gas-boys.png";
+  const heroDesktop = "/images/dead-in-the-water/the-dump.png";
+  const heroMobile = "/images/dead-in-the-water/the-dump.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/dead-in-the-water/crime.png", caption: "The daylight always brings truth. But, this time...", enabled: true },
+    { src: "/images/dead-in-the-water/bracelet.png", caption: "...it's more tragic than most.", enabled: true },
+    { src: "/images/dead-in-the-water/messy.png", caption: "Our outsides reflect our insides.", enabled: true },
+    { src: "/images/dead-in-the-water/church.png", caption: "That's expecially true for Church Mitchell.", enabled: true },
+    { src: "/images/dead-in-the-water/evidence.png", caption: "Won't find much in there.", enabled: true },
+    { src: "/images/dead-in-the-water/cute-but-weird.png", caption: "That symbol. Church has seen it before.", enabled: true },
+    { src: "/images/dead-in-the-water/river.png", caption: "Meanwhile...four hours to the north...", enabled: true },
+    { src: "/images/dead-in-the-water/another-one.png", caption: "...another victim surfaces near the water's edge.", enabled: true },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);
@@ -282,8 +282,11 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Atmospheric. Slow-burn. Investigative. Unsettling.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Comps
+        </p>
 
-        <p className="text-sm text-white/50">
+        <p className="text-lg text-white/80">
           True Detective meets Mare of Easttown
         </p>
       </div>
