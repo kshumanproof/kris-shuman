@@ -19,18 +19,18 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/gas-boys/gas-boys.png";
-  const heroMobile = "/images/gas-boys/gas-boys.png";
+  const heroDesktop = "/images/my-life-before-me/slayton.png";
+  const heroMobile = "/images/my-life-before-me/slayton.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/my-life-before-me/a-time.png", caption: "There was a time before things got real bad.", enabled: true },
+    { src: "/images/my-life-before-me/hard-to-remember.png", caption: "But it's been so long...I can hardly remember.", enabled: true },
+    { src: "/images/my-life-before-me/david.png", caption: "Not long after, I met David.", enabled: true },
+    { src: "/images/my-life-before-me/afterlife.png", caption: "He told me about how the afterlife is beaurucratic...", enabled: true },
+    { src: "/images/my-life-before-me/council.png", caption: "...and how it's run by this council of a-holes.", enabled: true },
+    { src: "/images/my-life-before-me/rules.png", caption: "They decide everything. From the rules...", enabled: true },
+    { src: "/images/my-life-before-me/inhabit.png", caption: "...to the bodies we inhabit when we come back.", enabled: true },
+    { src: "/images/my-life-before-me/lumina-and-chronos.png", caption: "But Lumina and Chronos...they got a plan to change it all.", enabled: true },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);
@@ -282,8 +282,11 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Irreverent. Fast-paced. Existential. Darkly funny.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Comps
+        </p>
 
-        <p className="text-sm text-white/50">
+        <p className="text-lg text-white/80">
           The Good Place meets Quantum Leap
         </p>
       </div>
