@@ -38,9 +38,8 @@ export default function ExperiencePrompt({
     >
       <div
         className={`
-          relative w-full max-w-4xl
-          flex flex-col items-center
-          space-y-8
+          relative w-full max-w-4xl mx-auto
+          flex flex-col space-y-5
 
           transition-all duration-500
           ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}
@@ -52,10 +51,10 @@ export default function ExperiencePrompt({
           onClick={onExit}
           className="cursor-pointer absolute -top-8 right-0 text-white/40 hover:text-white text-[10px] uppercase tracking-[0.3em] transition"
         >
-          Exit Experience
+          Exit Adventure
         </button>
 
-        {/* 🎥 16:9 IMAGE FRAME */}
+        {/* 🎥 IMAGE */}
         <div className="w-full aspect-video overflow-hidden relative">
           {image && (
             <>
@@ -69,40 +68,46 @@ export default function ExperiencePrompt({
           )}
         </div>
 
-        {/* PROMPT */}
-        <p className="max-w-2xl text-xl md:text-3xl leading-relaxed text-center text-white/90 font-light">
-          {prompt}
-        </p>
+        {/* TEXT + OPTIONS SHARE WIDTH */}
+        <div className="w-full">
+          {/* PROMPT */}
+          <p className="text-left text-lg md:text-2xl leading-snug text-white/85 font-light">
+            {prompt}
+          </p>
 
-        {/* OPTIONS */}
-        <div className="flex flex-col items-center gap-4 pt-4">
-          <button
-            onClick={() => onSelect(optionA.project)}
-            className="
-              cursor-pointer
-              text-white/70 hover:text-white
-              text-sm md:text-base
-              tracking-[0.3em]
-              transition duration-300
-            "
-          >
-            {optionA.text}
-          </button>
+          {/* OPTIONS */}
+          <div className="flex flex-col items-start gap-3 w-full mt-4">
+            <button
+              onClick={() => onSelect(optionA.project)}
+              className="
+                cursor-pointer
+                text-left w-full
+                text-white/70 hover:text-white
+                text-sm md:text-base
+                tracking-[0.3em]
+                transition duration-300
+              "
+            >
+              {"A) " + optionA.text}
+            </button>
 
-          <div className="w-12 h-px bg-white/20" />
+            {/* FULL WIDTH DIVIDER */}
+            <div className="w-full h-px bg-white/20" />
 
-          <button
-            onClick={() => onSelect(optionB.project)}
-            className="
-              cursor-pointer
-              text-white/70 hover:text-white
-              text-sm md:text-base
-              tracking-[0.3em]
-              transition duration-300
-            "
-          >
-            {optionB.text}
-          </button>
+            <button
+              onClick={() => onSelect(optionB.project)}
+              className="
+                cursor-pointer
+                text-left w-full
+                text-white/70 hover:text-white
+                text-sm md:text-base
+                tracking-[0.3em]
+                transition duration-300
+              "
+            >
+              {"B) " + optionB.text}
+            </button>
+          </div>
         </div>
       </div>
     </div>

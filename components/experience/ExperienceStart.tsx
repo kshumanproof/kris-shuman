@@ -36,7 +36,7 @@ export default function ExperienceStart({ onBegin, onExit }: Props) {
           onClick={onExit}
           className="cursor-pointer absolute -top-8 right-0 text-white/60 hover:text-white text-[10px] uppercase tracking-[0.3em] transition"
         >
-          Exit
+          Nevermind...I don't like fun.
         </button>
 
         {/* IMAGE */}
@@ -55,39 +55,47 @@ export default function ExperienceStart({ onBegin, onExit }: Props) {
         {/* BEGIN */}
         <div className="flex flex-col items-center gap-4 pt-4">
           <button
-            onClick={() => {
-              // 🔥 THIS IS THE FIX
-              localStorage.setItem("experienceStarted", "true");
+  onClick={() => {
+    localStorage.setItem("experienceStarted", "true");
+    onBegin();
+  }}
+  className="
+    group relative
 
-              // keep your existing flow intact
-              onBegin();
-            }}
-            className="
-              relative
-              text-white/80 hover:text-white
+    text-white
+    text-xl md:text-3xl
+    font-light
 
-              text-sm md:text-base
-              tracking-[0.4em]
+    tracking-[0.15em]
 
-              transition duration-300
+    transition duration-300
+  "
+>
+  <span className="relative z-10">
+    START YOUR JOURNEY
+  </span>
 
-              animate-pulse-slow
-            "
-          >
-            <span className="relative z-10">
-              START YOUR JOURNEY
-            </span>
+  {/* underline grow */}
+  <span
+    className="
+      absolute left-0 -bottom-2 h-px w-0
+      bg-white/70
+      transition-all duration-300
+      group-hover:w-full
+    "
+  />
 
-            <span
-              className="
-                absolute inset-0
-                blur-xl
-                opacity-40
-                bg-white
-                animate-glow
-              "
-            />
-          </button>
+  {/* subtle glow */}
+  <span
+    className="
+      absolute inset-0
+      opacity-0 group-hover:opacity-100
+      blur-xl
+      bg-white/20
+      transition duration-300
+    "
+  />
+</button>
         </div>
       </div>
     </div>

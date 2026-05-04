@@ -1,7 +1,7 @@
 export const experienceSteps = [
   {
     id: 1,
-    prompt: "You’re at Sunday dinner. Fried pork chops, collard greens, mac n cheese. Plates clinking. Nobody’s saying much… until somebody does. What do you hear?",
+    prompt: "You’re at Sunday dinner. Fried pork chops, collard greens, mac-n-cheese. Plates clinking. Nobody’s saying much…until somebody does. What do you hear?",
     image: "/images/experience/prompt1.png",
     options: [
       { text: "Somebody leans in, lowers their voice, and finally says what really happened to your estranged uncle—and it ain’t rumor anymore.", project: "/projects/pines" },
