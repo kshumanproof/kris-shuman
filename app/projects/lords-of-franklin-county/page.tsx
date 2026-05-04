@@ -282,8 +282,11 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Gritty. Emotional. Character-first. Humor. Myth-building.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Comps
+        </p>
 
-        <p className="text-sm text-white/50">
+        <p className="text-sm text-white/80">
           Peaky Blinders meets Justified
         </p>
       </div>

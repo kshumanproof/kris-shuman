@@ -283,7 +283,7 @@ export default function PinesPage() {
           Energetic. Musical. Irreverent. Heartfelt.
         </p>
 <p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
-          Tone
+          Comps
         </p>
 
         <p className="text-lg text-white/80">

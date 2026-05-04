@@ -282,9 +282,12 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Offbeat. Character-driven. Sci-fi adventure with humor.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Comps
+        </p>
 
-        <p className="text-sm text-white/50">
-          WiGuardians of the Galaxy meets Firefly
+        <p className="text-sm text-white/80">
+          Guardians of the Galaxy meets Firefly
         </p>
       </div>
 
