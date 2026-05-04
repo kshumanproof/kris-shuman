@@ -34,7 +34,7 @@ export default function ExperienceStart({ onBegin, onExit }: Props) {
         {/* EXIT */}
         <button
           onClick={onExit}
-          className="cursor-pointer absolute -top-8 right-0 text-white/40 hover:text-white text-[10px] uppercase tracking-[0.3em] transition"
+          className="cursor-pointer absolute -top-8 right-0 text-white/60 hover:text-white text-[10px] uppercase tracking-[0.3em] transition"
         >
           Exit
         </button>
@@ -42,7 +42,7 @@ export default function ExperienceStart({ onBegin, onExit }: Props) {
         {/* IMAGE */}
         <div className="w-full aspect-video overflow-hidden relative">
           <img
-            src="/images/lords/lords.png"
+            src="/images/experience/start.png"
             alt="Experience Start"
             className="w-full h-full object-cover scale-105"
           />
@@ -50,9 +50,7 @@ export default function ExperienceStart({ onBegin, onExit }: Props) {
         </div>
 
         {/* TEXT */}
-        <p className="max-w-2xl text-xl md:text-3xl leading-relaxed text-center text-white/90 font-light">
-          Every story starts with a choice.
-        </p>
+        
 
         {/* BEGIN */}
         <div className="flex flex-col items-center gap-4 pt-4">
@@ -77,7 +75,7 @@ export default function ExperienceStart({ onBegin, onExit }: Props) {
             "
           >
             <span className="relative z-10">
-              START YOUR ADVENTURE
+              START YOUR JOURNEY
             </span>
 
             <span

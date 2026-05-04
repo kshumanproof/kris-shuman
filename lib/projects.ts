@@ -170,16 +170,13 @@ slate: false,
     slug: "gas-boys",
     title: "Gas Boyz",
     zinger: "They were just hustling snacks—until the future showed up and started taking people.",
-    image: "/images/gas-boys/gas-boys.png",
+    
 overview: "In a near-future small town, three teenage hustlers run analog scams out of a dying gas station, selling small pieces of control in a world run by machines. When a fully automated AI megastore opens across the street, their way of life disappears overnight. But things turn darker when one of their own is taken and returned… different—obedient, hollow, no longer herself. Desperate to get her back, they join forces with the station’s owner, a man who’s already lost everything to the system once before. As they push deeper into the store’s core, they uncover a truth far worse than competition—this isn’t about replacing people. It’s about rewriting them.",
     genre: "Animated Short - Sci-Fi / Coming-of-Age / Comedy",
+    image: "/images/gas-boys/gas-boys.png",
     status: "In Production",
 
-    // 🔥 Example of future video usage
-    mediaType: "video",
-    mediaSrc: "/videos/gas-boys.mp4",
-
-    active: true,
+   active: true,
 slate: false,
   },
   {
@@ -188,7 +185,7 @@ slate: false,
     zinger: "A teenage boy discovers he can alter time—just as a ruthless agency hunts him for it.",
 overview: "After a violent seizure fractures his reality, a teenage boy begins slipping between timelines—witnessing moments that shouldn’t be his and waking up to a life that keeps changing. When he learns he’s one of the rare few capable of altering history, he becomes the target of a covert government agency determined to control that power. Forced to run, he teams up with a group who understand the truth behind what he’s becoming—and the danger that comes with it. As timelines shift and identities unravel, he’s pushed to the edge of who he is and who he could become. Because changing the past doesn’t just rewrite history—it erases it.",
     genre: "Feature - Sci-Fi Adventure / Coming-of-Age / Thriller",
-    image: "/images/placeholder.jpg",
+    image: "/images/white-raven/white-raven.png",
     status: "Early Development",
 slate: false,
     active: true,

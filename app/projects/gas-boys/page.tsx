@@ -23,14 +23,14 @@ export default function PinesPage() {
   const heroMobile = "/images/gas-boys/gas-boys.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: true },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: true },
+    { src: "/images/gas-boys/khans.png", caption: "Khan's: a quaint country store that prioritizes experience.", enabled: true },
+    { src: "/images/gas-boys/wall-ees.png", caption: "WALL-EES: an AI Megastore tha does it all for you.", enabled: true },
+    { src: "/images/gas-boys/khan.jpg", caption: "Khan worries about the future of his company.", enabled: true },
+    { src: "/images/gas-boys/chillin.png", caption: "Another day in the life of the Gas Boyz.", enabled: true },
+    { src: "/images/gas-boys/nina.png", caption: "They took control of Nina.", enabled: true },
+    { src: "/images/gas-boys/wired.png", caption: "Dez has to do something.", enabled: true },
+    { src: "/images/gas-boys/destroyed.png", caption: "It's over...for now.", enabled: true },
+    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: false },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);
@@ -282,8 +282,11 @@ export default function PinesPage() {
         <p className="text-lg text-white/80 mb-4">
           Offbeat. Fast-paced. Gritty. Darkly funny.
         </p>
+<p className="text-xs tracking-[0.25em] uppercase text-white/40 mb-6">
+          Comps
+        </p>
 
-        <p className="text-sm text-white/50">
+        <p className="text-lg text-white/80">
           Spider-Man: Into the Spider-Verse meets The Mitchells vs. the Machines
         </p>
       </div>
