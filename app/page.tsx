@@ -14,6 +14,8 @@ const heroLines = [
 const heroImage = "/images/forest-road.png";
 
 export default function Home() {
+  const [query, setQuery] = useState(""); // ✅ search state (fixed placement)
+
   const [line] = useState(() => {
     const seed = Math.floor(Date.now() / 1000);
     const index = seed % heroLines.length;
@@ -71,7 +73,7 @@ export default function Home() {
             alt="Hero"
           />
 
-          <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+          <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
           
           <div className="absolute top-6 left-6 right-6 z-30 flex justify-between items-center">
@@ -150,7 +152,7 @@ export default function Home() {
           alt="Hero"
         />
 
-        <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
         <div className="absolute top-8 left-16 right-16 z-30 flex justify-between items-center">
           <p className="text-xl tracking-[0.2em] uppercase text-white/60">
@@ -218,7 +220,7 @@ export default function Home() {
       )}
     
       {/* ================= FEATURED PROJECT ================= */}
-      <section className="mt-10 px-6 md:px-16 pt-24 pb-10 border-t border-zinc-900">
+      <section className="mt-0 px-6 md:px-16 pt-24 pb-10">
         <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-6">
           Featured Project
         </p>
@@ -242,80 +244,127 @@ export default function Home() {
               {lead.title}
             </h2>
 
-            <p className="text-zinc-400 transition group-hover:text-zinc-300">
+            <p className="text-zinc-300 text-lg transition group-hover:text-zinc-200">
   {lead.zinger}
+</p>
+<p className="text-zinc-500 transition group-hover:text-zinc-400">
+  {lead.overview}
 </p>
           </div>
         </a>
       </section>
 
      {/* ================= PROJECT SLATE ================= */}
-      <section className="px-6 md:px-16 pt-6 pb-24 border-t border-zinc-900">
+<section className="relative z-10 px-6 md:px-16 pt-6 pb-24">
 
-        <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-8">
-          Stories in Development
-        </p>
+  <p className="text-xs uppercase tracking-[0.3em] text-zinc-400 mb-8">
+    Stories in Development
+  </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+  {/* 🔍 SEARCH (desktop only) */}
+<div className="hidden md:block mb-10 relative max-w-md">
 
-          {projects
-            .filter(p => p.slate)
-            .slice(0, 6)
-            .map((project) => (
-              <a
-                key={project.slug}
-                href={`/projects/${project.slug}`}
-                className="group block"
-              >
-                <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
-                  />
-                </div>
+  <input
+    type="text"
+    placeholder="Find a story..."
+    value={query}
+    onChange={(e) => setQuery(e.target.value)}
+    className="
+      w-full
+      bg-transparent
+      border-b border-white/30
+      text-white
+      text-base
+      placeholder:text-white/40
+      py-2 pr-10
+      outline-none
+    "
+  />
 
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
-                  {project.title}
-                </h3>
+  {/* 🔍 ICON */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="absolute right-0 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40 pointer-events-none"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M21 21l-4.35-4.35m1.85-5.65a7 7 0 11-14 0 7 7 0 0114 0z"
+    />
+  </svg>
 
-                <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-                  {project.status}
-                </p>
+</div>
 
-                <p className="text-sm text-zinc-400 mb-1">
-  {project.zinger}
-</p>
-              </a>
-            ))}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
 
-        </div>
+    {(query.trim()
+      ? projects
+      : projects.filter(p => p.slate)
+    )
+      .filter(p =>
+        p.title.toLowerCase().includes(query.trim().toLowerCase()) ||
+        p.zinger.toLowerCase().includes(query.trim().toLowerCase())
+      )
+      .slice(0, query.trim() ? 12 : 6)
+      .map((project) => (
+        <a
+          key={project.slug}
+          href={`/projects/${project.slug}`}
+          className="group block"
+        >
+          <div className="w-full aspect-[16/9] overflow-hidden bg-zinc-900 mb-4">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+            />
+          </div>
 
-        <div className="mt-16 flex justify-end">
-          <a
-            href="/work"
-            className="
-              group
-              text-xs uppercase tracking-[0.3em]
-              text-zinc-500 hover:text-white
-              transition
-            "
-          >
-            <span>More Projects</span>
+          <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
+            {project.title}
+          </h3>
 
-            <span
-              className="
-                inline-block ml-2
-                transform transition-transform duration-300
-                group-hover:translate-x-1
-              "
-            >
-              →
-            </span>
-          </a>
-        </div>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
+            {project.status}
+          </p>
 
-      </section>
+          <p className="text-sm text-zinc-400 mb-1">
+            {project.zinger}
+          </p>
+        </a>
+      ))}
+
+  </div>
+
+  <div className="mt-16 flex justify-end">
+    <a
+      href="/work"
+      className="
+        group
+        text-xs uppercase tracking-[0.3em]
+        text-zinc-400 hover:text-white
+        transition
+      "
+    >
+      <span>More Projects</span>
+
+      <span
+        className="
+          inline-block ml-2
+          transform transition-transform duration-300
+          group-hover:translate-x-1
+        "
+      >
+        →
+      </span>
+    </a>
+  </div>
+
+</section>
 
 
 {/* ================= THE WRITER ================= */}

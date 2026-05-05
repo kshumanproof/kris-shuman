@@ -174,7 +174,7 @@ export default function PinesPage() {
   {/* CONTENT */}
   <div className="relative z-10 flex flex-col justify-end h-full px-6 pb-16">
 
-    <h1 className="text-3xl font-bold mb-4">
+    <h1 className="text-3xl font-bold mb-0">
       FAMILY TRADITION
     </h1>
 
@@ -219,7 +219,7 @@ export default function PinesPage() {
       {/* CONTENT */}
       <div className="relative z-10 flex flex-col justify-end h-full px-16 pb-24 w-full">
 
-        <h1 className="text-[clamp(2.5rem,5vw,5rem)] font-bold leading-[1.05] mb-8 w-full">
+        <h1 className="text-[clamp(2.5rem,5vw,5rem)] font-bold leading-[1.05] mb-0 w-full">
           <span className="block">FAMILY TRADITION</span>
         </h1>
 
@@ -229,28 +229,60 @@ export default function PinesPage() {
 
       </div>
     </section>
+
 {/* ================= TEASER ================= */}
-<section className="py-24">
-  <div className={narrow}>
-    <p className="text-xl md:text-2xl italic text-gray-200 leading-relaxed">
-      “There’s things in this town much worse than murder.”
-    </p>
+<section className="pt-16 pb-12">
+  <div className="max-w-5xl mx-auto px-6 md:px-12">
+
+    <div className="text-center">
+
+      {/* TOP LINE */}
+      <div className="w-full h-px bg-white/20 mx-auto mb-8" />
+
+      {/* QUOTE BLOCK */}
+      <div className="inline-block text-left">
+
+        <p className="
+          text-lg md:text-2xl 
+          italic text-gray-200 
+          leading-snug 
+          md:whitespace-nowrap
+        ">
+          “There’s things in this town much worse than murder.”
+        </p>
+
+        <p className="
+          mt-3 
+          text-xs tracking-[0.2em] 
+          uppercase text-white/40 
+          text-right
+        ">
+          — Gray Harris
+        </p>
+
+      </div>
+
+      {/* BOTTOM LINE */}
+      <div className="w-full h-px bg-white/20 mx-auto mt-8" />
+
+    </div>
+
   </div>
 </section>
 
       {/* ================= PROJECT DETAILS ================= */}
-<section className="py-32">
+<section className="py-20">
 
   <div className="px-6 md:px-16 w-full">
 
     {/* OVERVIEW */}
-    <div className="max-w-2xl mb-20 space-y-8">
+    <div className="max-w-2xl mb-20 space-y-4">
 
       <p className="text-xs tracking-[0.25em] uppercase text-white/40">
         Overview
       </p>
 
-      <p className="text-lg md:text-xl text-zinc-300 leading-relaxed">
+      <p className="text-lg md:text-xl text-zinc-300 leading-normal">
   {project.overview}
 </p>
 
