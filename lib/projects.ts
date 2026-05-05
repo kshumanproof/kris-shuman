@@ -3,6 +3,7 @@ export type Project = {
   title: string;
   zinger: string;
   image: string;
+format?: string;
 
   status: string;
 
