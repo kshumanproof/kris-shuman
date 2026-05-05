@@ -10,117 +10,163 @@ export default function AboutPage() {
   return (
     <main className="bg-[#0B0B0C] text-white">
 
-      {/* ================= HERO ================= */}
-      <section className="relative w-full h-[80vh] md:h-screen overflow-hidden">
+      {/* ================= MOBILE HERO ================= */}
+<section className="md:hidden relative w-full min-h-screen overflow-hidden">
 
-        {/* TOP LEFT NAME */}
-        <div className="absolute top-6 left-6 md:left-10 z-20">
-          <a
-            href="/"
-            className="text-xl uppercase tracking-[0.2em] text-white/70 hover:text-white transition"
-          >
-            Kris Shuman
-          </a>
-        </div>
+  {/* BG */}
+  <img
+    src={heroImage}
+    className="absolute inset-0 w-full h-full object-cover"
+    alt="About"
+  />
 
-        {/* BG IMAGE */}
+  <div className="absolute inset-0 bg-black/70" />
+
+  {/* TOP NAME */}
+  <div className="absolute top-6 left-6 z-20">
+    <a
+      href="/"
+      className="text-sm uppercase tracking-[0.2em] text-white/70"
+    >
+      Kris Shuman
+    </a>
+  </div>
+
+  {/* CONTENT */}
+  <div className="relative z-10 px-6 pt-24 pb-16">
+
+    <div className="max-w-md mx-auto space-y-6 text-center">
+
+      <p className="text-sm text-white/80 leading-relaxed">
+        Being raised in the South, stories weren’t told. They were lived. Avoided. Buried. But that’s not just where I’m from. That’s how people are.
+      </p>
+
+      <p className="text-sm text-white/90 leading-relaxed">
+        Recovery didn’t give me answers. It just made it harder to ignore things. And once you start seeing the truth — you can’t unsee it.
+      </p>
+
+      <p className="text-sm text-white/90 leading-relaxed">
+        That’s what I write about: people at the breaking point and the moment where who they’ve been pretending to be stops working.
+      </p>
+
+      <p className="text-sm text-white/90 leading-relaxed">
+        I don’t build characters. I follow them. And eventually, the truth shows up.
+      </p>
+
+      <p className="pt-4 text-base font-semibold text-white leading-snug">
+        I didn’t come to storytelling to escape anything. I came to face it.
+      </p>
+
+      <p className="text-2xl font-semibold leading-tight text-white">
+        And I chose to write about it.
+      </p>
+
+      {/* SIGNATURE */}
+      <div className="flex justify-center pt-4">
         <img
-          src={heroImage}
-          className="absolute inset-0 w-full h-full object-cover"
-          alt="About"
+          src="/images/signature.png"
+          alt="Signature"
+          className="w-[120px] opacity-80"
         />
+      </div>
 
-        {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-black/60 pointer-events-none" />
-
-        {/* CENTER STATEMENT */}
-        <div className="relative z-10 flex items-center justify-center h-full px-6 text-center">
-          
-          <div className="max-w-2xl mx-auto space-y-5 md:space-y-6 text-white">
-
-            {/* BASE */}
-            <p className="text-base md:text-lg text-white/80 leading-snug">
-              Being raised in the South, stories weren’t told. They were lived. Avoided. Buried. But that’s not just where I’m from. That’s how people are.
-            </p>
-
-            {/* SHIFT */}
-            <p className="text-base md:text-lg text-white/90 leading-snug">
-              Recovery didn’t give me answers. It just made it harder to ignore things. And once you start seeing the truth — you can’t unsee it.
-            </p>
-
-            <p className="text-base md:text-lg text-white/90 leading-snug">
-              That’s what I write about: people at the breaking point and the moment where who they’ve been pretending to be stops working.
-            </p>
-
-            <p className="text-base md:text-lg text-white/90 leading-snug">
-              I don’t build characters. I follow them. And eventually, the truth shows up.
-            </p>
-
-            {/* TURN */}
-            <p className="pt-5 text-lg md:text-xl font-semibold text-white leading-snug">
-              I didn’t come to storytelling to escape anything. I came to face it.
-            </p>
-
-            {/* FINAL HIT */}
-            <p className="pt-2 text-3xl md:text-4xl font-semibold leading-tight text-white">
-              And I chose to write about it.
-            </p>
-
-            {/* SIGNATURE */}
-            <div className="flex justify-end pr-10 md:pr-16 -mt-2">
-              <img
-                src="/images/signature.png"
-                alt="Signature"
-                className="
-                  w-[140px] md:w-[180px]
-                  opacity-85
-                  rotate-[2deg]
-                "
-              />
-            </div>
-
-          </div>
-
-        </div>
-
-        {/* SCROLL INDICATOR */}
-<div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center text-white/50">
-
-  <span className="text-[10px] uppercase tracking-[0.3em] mb-3">
-    Scroll
-  </span>
-
-  <div className="w-5 h-9 border border-white/30 rounded-full flex items-start justify-center p-1 overflow-hidden">
-    
-    <div
-      className="w-1 h-2 bg-white rounded-full"
-      style={{
-        animation: "scrollDot 1.6s ease-in-out infinite"
-      }}
-    />
+    </div>
 
   </div>
 
-  {/* INLINE KEYFRAMES */}
-  <style jsx>{`
-    @keyframes scrollDot {
-      0% {
-        transform: translateY(0);
-        opacity: 0;
-      }
-      40% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(12px);
-        opacity: 0;
-      }
-    }
-  `}</style>
+</section>
 
-</div>
 
-      </section>
+{/* ================= DESKTOP HERO ================= */}
+<section className="hidden md:block relative w-full h-[80vh] md:h-screen overflow-hidden">
+
+  {/* TOP LEFT NAME */}
+  <div className="absolute top-6 left-10 z-20">
+    <a
+      href="/"
+      className="text-xl uppercase tracking-[0.2em] text-white/70 hover:text-white transition"
+    >
+      Kris Shuman
+    </a>
+  </div>
+
+  {/* BG IMAGE */}
+  <img
+    src={heroImage}
+    className="absolute inset-0 w-full h-full object-cover"
+    alt="About"
+  />
+
+  <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+
+  {/* CENTER STATEMENT */}
+  <div className="relative z-10 flex items-center justify-center h-full px-6 text-center">
+    
+    <div className="max-w-2xl mx-auto space-y-6 text-white">
+
+      <p className="text-lg text-white/80 leading-snug">
+        Being raised in the South, stories weren’t told. They were lived. Avoided. Buried. But that’s not just where I’m from. That’s how people are.
+      </p>
+
+      <p className="text-lg text-white/90 leading-snug">
+        Recovery didn’t give me answers. It just made it harder to ignore things. And once you start seeing the truth — you can’t unsee it.
+      </p>
+
+      <p className="text-lg text-white/90 leading-snug">
+        That’s what I write about: people at the breaking point and the moment where who they’ve been pretending to be stops working.
+      </p>
+
+      <p className="text-lg text-white/90 leading-snug">
+        I don’t build characters. I follow them. And eventually, the truth shows up.
+      </p>
+
+      <p className="pt-5 text-xl font-semibold text-white leading-snug">
+        I didn’t come to storytelling to escape anything. I came to face it.
+      </p>
+
+      <p className="pt-2 text-4xl font-semibold leading-tight text-white">
+        And I chose to write about it.
+      </p>
+
+      <div className="flex justify-end pr-16 -mt-2">
+        <img
+          src="/images/signature.png"
+          alt="Signature"
+          className="w-[180px] opacity-85 rotate-[2deg]"
+        />
+      </div>
+
+    </div>
+
+  </div>
+
+  {/* SCROLL (DESKTOP ONLY) */}
+  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center text-white/50">
+
+    <span className="text-[10px] uppercase tracking-[0.3em] mb-3">
+      Scroll
+    </span>
+
+    <div className="w-5 h-9 border border-white/30 rounded-full flex items-start justify-center p-1 overflow-hidden">
+      <div
+        className="w-1 h-2 bg-white rounded-full"
+        style={{
+          animation: "scrollDot 1.6s ease-in-out infinite"
+        }}
+      />
+    </div>
+
+    <style jsx>{`
+      @keyframes scrollDot {
+        0% { transform: translateY(0); opacity: 0; }
+        40% { opacity: 1; }
+        100% { transform: translateY(12px); opacity: 0; }
+      }
+    `}</style>
+
+  </div>
+
+</section>
 
       {/* ================= PROOF ================= */}
       <section className="px-6 md:px-16 py-32 border-t border-zinc-900 text-center">
