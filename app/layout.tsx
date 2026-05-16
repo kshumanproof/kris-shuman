@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://krisshuman.com"),
 
   title: {
-    default: "Kris Shuman",
+    default: "Kris Shuman | Screenwriter",
     template: "%s | Kris Shuman",
   },
 
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   creator: "Kris Shuman",
 
   openGraph: {
-    title: "Kris Shuman",
+    title: "Kris Shuman | Screenwriter",
 
     description:
       "Character-driven stories about identity, redemption, and the cost of becoming who you are.",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Kris Shuman",
+        alt: "Kris Shuman Screenwriter Portfolio",
       },
     ],
 
@@ -75,10 +75,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
 
-    title: "Kris Shuman",
+    title: "Kris Shuman | Screenwriter",
 
     description:
-      "Character-driven stories about identity, redemption, and consequence.",
+      "Character-driven stories about identity, redemption, and the cost of becoming who you are.",
 
     images: ["/og-image.jpg"],
   },
@@ -86,6 +86,10 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 
@@ -100,7 +104,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${hand.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-black text-white">
-
         {/* 🔥 PERSON SCHEMA */}
         <script
           type="application/ld+json"

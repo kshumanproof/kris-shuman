@@ -1,41 +1,21 @@
-export const metadata: Metadata = {
-  metadataBase: new URL("https://krisshuman.com"),
+import type { MetadataRoute } from "next";
 
-  title: {
-    default: "Kris Shuman | Screenwriter",
-    template: "%s | Kris Shuman",
-  },
-
-  description:
-    "Character-driven stories about identity, redemption, and the cost of becoming who you are.",
-
-  openGraph: {
-    title: "Kris Shuman | Screenwriter",
-    description:
-      "Character-driven stories about identity, redemption, and the cost of becoming who you are.",
-    url: "https://krisshuman.com",
-    siteName: "Kris Shuman",
-    images: [
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [
       {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Kris Shuman Screenwriter Portfolio",
+        userAgent: "*",
+        allow: "/",
+      },
+      {
+        userAgent: "facebookexternalhit",
+        allow: "/",
+      },
+      {
+        userAgent: "Twitterbot",
+        allow: "/",
       },
     ],
-    locale: "en_US",
-    type: "website",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Kris Shuman | Screenwriter",
-    description:
-      "Character-driven stories about identity, redemption, and the cost of becoming who you are.",
-    images: ["/og-image.jpg"],
-  },
-
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
+    sitemap: "https://krisshuman.com/sitemap.xml",
+  };
+}
