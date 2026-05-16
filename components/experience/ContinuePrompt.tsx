@@ -15,6 +15,12 @@ export default function ContinuePrompt() {
     const step = stepRaw ? parseInt(stepRaw, 10) : 0;
 
     const isHome = pathname === "/";
+    
+    // ✅ if user manually navigated away, kill experience
+if (isHome) {
+  localStorage.setItem("experienceActive", "false");
+  localStorage.removeItem("experienceStep");
+}
 
     setActive(isActive && step > 0 && !isHome);
   };

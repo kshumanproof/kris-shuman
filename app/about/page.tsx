@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import BackToTop from "@/components/BackToTop";
+import SiteNav from "@/components/SiteNav";
 
 export default function AboutPage() {
   const [showResume, setShowResume] = useState(false);
@@ -9,6 +10,8 @@ export default function AboutPage() {
   const heroImage = "/images/about/forest-road.png";
 
   return (
+    <>
+  <SiteNav />
     <main className="bg-[#0B0B0C] text-white">
 
       {/* ================= MOBILE HERO ================= */}
@@ -23,38 +26,31 @@ export default function AboutPage() {
 
   <div className="absolute inset-0 bg-black/70" />
 
-  {/* TOP NAME */}
-  <div className="absolute top-6 left-6 z-20">
-    <a
-      href="/"
-      className="text-sm uppercase tracking-[0.2em] text-white/70"
-    >
-      Kris Shuman
-    </a>
-  </div>
+  
+  
 
   {/* CONTENT */}
   <div className="relative z-10 px-6 pt-24 pb-16">
 
     <div className="max-w-md mx-auto space-y-6 text-center">
 
-      <p className="text-sm text-white/80 leading-relaxed">
+      <p className="text-[16px] text-white/90 leading-relaxed">
         Being raised in the South, stories weren’t told. They were lived. Avoided. Buried. But that’s not just where I’m from. That’s how people are.
       </p>
 
-      <p className="text-sm text-white/90 leading-relaxed">
+      <p className="text-[16px] text-white/90 leading-relaxed">
         Recovery didn’t give me answers. It just made it harder to ignore things. And once you start seeing the truth — you can’t unsee it.
       </p>
 
-      <p className="text-sm text-white/90 leading-relaxed">
+      <p className="text-[16px] text-white/90 leading-relaxed">
         That’s what I write about: people at the breaking point and the moment where who they’ve been pretending to be stops working.
       </p>
 
-      <p className="text-sm text-white/90 leading-relaxed">
+      <p className="text-[16px] text-white/90 leading-relaxed">
         I don’t build characters. I follow them. And eventually, the truth shows up.
       </p>
 
-      <p className="pt-4 text-base font-semibold text-white leading-snug">
+      <p className="pt-4 text-lg font-semibold text-white leading-relaxed">
         I didn’t come to storytelling to escape anything. I came to face it.
       </p>
 
@@ -272,5 +268,6 @@ export default function AboutPage() {
       )}
 <BackToTop />
     </main>
+</>
   );
 }

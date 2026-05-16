@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { projects } from "@/lib/projects";
 import BackToTop from "@/components/BackToTop";
+import SiteNav from "@/components/SiteNav";
 
 type ImageItem = {
   src: string;
@@ -20,18 +21,19 @@ export default function PinesPage() {
 
   const showHeroImage = true;
 
-  const heroDesktop = "/images/last-stop/the-last-stop-bus-stop.webp";
-  const heroMobile = "/images/last-stop/the-last-stop-bus-stop.webp";
+  const heroDesktop = "/images/last-stop/last-stop-station.png";
+  const heroMobile = "/images/last-stop/last-stop-station.png";
 
   const gallery: ImageItem[] = [
-    { src: "/images/gas-boys/gas-boys.png", caption: "A house that remembers.", enabled: false },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Nothing stays buried.", enabled: false },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Silence says everything.", enabled: false },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Old wounds, still open.", enabled: false },
-    { src: "/images/gas-boys/gas-boys.png", caption: "The past is patient.", enabled: false },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: false },
-    { src: "/images/gas-boys/gas-boys.png", caption: "Every room holds something.", enabled: false },
-    { src: "/images/gas-boys/gas-boys.png", caption: "You can feel it watching.", enabled: false },
+    { src: "/images/last-stop/last-stop-slugger.png", caption: "The Big Swinger stepping up.", enabled: true },
+    { src: "/images/last-stop/last-stop-ready.png", caption: "He's finally ready.", enabled: true },
+    { src: "/images/last-stop/last-stop-dogs.png", caption: "But, first...a walk.", enabled: true },
+    { src: "/images/last-stop/last-stop-phone.png", caption: "An important call.", enabled: true },
+    { src: "/images/last-stop/last-stop-boy.png", caption: "Finding common ground.", enabled: true },
+    { src: "/images/last-stop/last-stop-car.png", caption: "The good old days.", enabled: true },
+    { src: "/images/last-stop/last-stop-sitter.png", caption: "The Sitter's right on time.", enabled: true },
+    { src: "/images/last-stop/last-stop-david.png", caption: "We all have a choice.", enabled: true },
+    { src: "/images/last-stop/last-stop-ready.png", caption: "We all have a choice.", enabled: true },
   ];
 
   const enabledImages = gallery.filter((img) => img.enabled);
@@ -102,8 +104,11 @@ export default function PinesPage() {
   };
 
   const goToConversation = () => {
-    window.location.href = "/#contact";
-  };
+  window.open(
+    "https://calendly.com/kris-krisshuman/30min",
+    "_blank"
+  );
+};
 
   /* =========================
      🎨 SHARED SYSTEM
@@ -140,6 +145,8 @@ export default function PinesPage() {
      ========================= */
 
   return (
+    <>
+  <SiteNav />
     <main className="bg-black text-white min-h-screen">
 
     {/* ================= MOBILE HERO ================= */}
@@ -201,21 +208,7 @@ export default function PinesPage() {
         </>
       )}
 
-      {/* TOP BAR */}
-      <div className="absolute top-8 left-16 right-16 z-30 flex justify-between items-center">
-        <a
-  href="/"
-  className="text-xl tracking-[0.2em] uppercase text-white/60 hover:text-white transition duration-300"
->
-  Kris Shuman
-</a>
-        <a
-          href="/#writer"
-          className="text-xl tracking-[0.2em] uppercase text-white/60 hover:text-white transition duration-300"
-        >
-          The Writer
-        </a>
-      </div>
+      
 
       {/* CONTENT */}
       <div className="relative z-10 flex flex-col justify-end h-full px-16 pb-24 w-full">
@@ -332,11 +325,11 @@ export default function PinesPage() {
       {/* GALLERY */}
       {enabledImages.length > 0 && (
         <section className="pb-28">
-          <div className={`${container} grid grid-cols-1 md:grid-cols-2 gap-12`}>
+          <div className={`${container} grid grid-cols-1 md:grid-cols-3 gap-8`}>
             {enabledImages.map((img, i) => (
               <div key={i} className="space-y-3">
                 <div
-                  className="w-full h-[280px] md:h-[420px] bg-cover bg-center"
+                  className="w-full h-[260px] md:h-[260px] bg-cover bg-center"
                   style={{ backgroundImage: `url(${img.src})` }}
                 />
                 {img.caption && (
@@ -420,8 +413,8 @@ export default function PinesPage() {
   </p>
 
   <p>
-    © 2023–{new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
-  </p>
+          © {new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
+        </p>
 </footer>
 
 {/* ================= MODAL ================= */}
@@ -494,5 +487,6 @@ export default function PinesPage() {
 )}
 <BackToTop />
     </main>
+</>
   );
 }

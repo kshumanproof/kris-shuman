@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import ExperiencePrompt from "./ExperiencePrompt";
 import { experienceSteps } from "@/lib/experienceConfig";
 
 export default function ExperienceLayer() {
   const router = useRouter();
+  const pathname = usePathname();
 
   const [active, setActive] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
@@ -42,6 +43,11 @@ export default function ExperienceLayer() {
       window.removeEventListener("experienceStart", handleStart);
     };
   }, []);
+
+  // ✅ FORCE CLEANUP ON ROUTE CHANGE
+  useEffect(() => {
+    setShowPrompt(false);
+  }, [pathname]);
 
   // 👉 If not active or not showing, render nothing
   if (!active || !showPrompt) return null;
@@ -81,14 +87,15 @@ export default function ExperienceLayer() {
         router.push(route);
       }}
       onExit={() => {
-  localStorage.setItem("experienceActive", "false");
-  localStorage.removeItem("experienceStep");
+        localStorage.setItem("experienceActive", "false");
+        localStorage.removeItem("experienceStep");
 
-  setActive(false);
+        setActive(false);
+        setShowPrompt(false);
 
-  // 🔥 notify rest of app immediately
-  window.dispatchEvent(new Event("experienceChanged"));
-}}
+        // 🔥 notify rest of app immediately
+        window.dispatchEvent(new Event("experienceChanged"));
+      }}
     />
   );
 }

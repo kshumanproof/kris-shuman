@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import ExperienceStart from "@/components/experience/ExperienceStart";
 import { projects } from "@/lib/projects";
+import SiteNav from "@/components/SiteNav";
 
 const heroLines = [
   ["You don’t outrun who you are.", "You just get better at hiding it."],
@@ -63,6 +64,8 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+  <SiteNav />
     <main className="bg-[#0B0B0C] text-white">
       {/* ================= MOBILE HERO ================= */}
       <section className="block md:hidden relative pb-28">
@@ -76,17 +79,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
           
-          <div className="absolute top-6 left-6 right-6 z-30 flex justify-between items-center">
-            <p className="text-xs uppercase tracking-[0.2em] text-white/70">
-              Kris Shuman
-            </p>
-            <a
-              href="#writer"
-              className="text-xs md:text-xl tracking-[0.2em] uppercase text-white/60 hover:text-white transition duration-300"
-            >
-              The Writer
-            </a>
-          </div>
+          
 
           <div className="absolute left-0 right-0 bottom-0 z-50 px-6 translate-y-1/2">
             <div className="pointer-events-none">
@@ -484,8 +477,8 @@ export default function Home() {
   </p>
 
   <p>
-    © 2023–{new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
-  </p>
+          © {new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
+        </p>
 </footer>
 
 {/* ================= CALENDLY MODAL ================= */}
@@ -563,5 +556,6 @@ export default function Home() {
   </div>
 )}
 </main>
+</>
   );
 }

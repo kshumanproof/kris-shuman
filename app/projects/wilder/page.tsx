@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { projects } from "@/lib/projects";
 import BackToTop from "@/components/BackToTop";
+import SiteNav from "@/components/SiteNav";
 
 type ImageItem = {
   src: string;
@@ -102,8 +103,11 @@ export default function PinesPage() {
   };
 
   const goToConversation = () => {
-    window.location.href = "/#contact";
-  };
+  window.open(
+    "https://calendly.com/kris-krisshuman/30min",
+    "_blank"
+  );
+};
 
   /* =========================
      🎨 SHARED SYSTEM
@@ -140,10 +144,12 @@ export default function PinesPage() {
      ========================= */
 
   return (
+    <>
+  <SiteNav />
     <main className="bg-black text-white min-h-screen">
 
     {/* ================= MOBILE HERO ================= */}
-<section className="md:hidden relative w-full h-[70vh] overflow-hidden">
+<section className="md:hidden relative w-full h-[78vh] overflow-hidden">
 
   {showHeroImage && (
     <>
@@ -173,13 +179,13 @@ export default function PinesPage() {
   </div>
 
   {/* CONTENT */}
-  <div className="relative z-10 flex flex-col justify-end h-full px-6 pb-16">
+  <div className="relative z-10 flex flex-col justify-end h-full px-6 pb-10">
 
-    <h1 className="text-3xl font-bold mb-0">
+    <h1 className="text-[2.4rem] font-bold leading-[1.02] mb-2">
       WILDER
     </h1>
 
-    <p className="text-sm text-zinc-300 leading-relaxed">
+    <p className="text-base text-zinc-100 leading-relaxed max-w-[95%]">
       To become who she’s meant to be, she has to risk losing everything she’s pretending to be.
     </p>
 
@@ -201,21 +207,7 @@ export default function PinesPage() {
         </>
       )}
 
-      {/* TOP BAR */}
-      <div className="absolute top-8 left-16 right-16 z-30 flex justify-between items-center">
-        <a
-  href="/"
-  className="text-xl tracking-[0.2em] uppercase text-white/60 hover:text-white transition duration-300"
->
-  Kris Shuman
-</a>
-        <a
-          href="/#writer"
-          className="text-xl tracking-[0.2em] uppercase text-white/60 hover:text-white transition duration-300"
-        >
-          The Writer
-        </a>
-      </div>
+      
 
       {/* CONTENT */}
       <div className="relative z-10 flex flex-col justify-end h-full px-16 pb-24 w-full">
@@ -332,11 +324,11 @@ export default function PinesPage() {
       {/* GALLERY */}
       {enabledImages.length > 0 && (
         <section className="pb-28">
-          <div className={`${container} grid grid-cols-1 md:grid-cols-2 gap-12`}>
+          <div className={`${container} grid grid-cols-1 md:grid-cols-3 gap-8`}>
             {enabledImages.map((img, i) => (
               <div key={i} className="space-y-3">
                 <div
-                  className="w-full h-[280px] md:h-[420px] bg-cover bg-center"
+                  className="w-full h-[260px] md:h-[260px] bg-cover bg-center"
                   style={{ backgroundImage: `url(${img.src})` }}
                 />
                 {img.caption && (
@@ -420,8 +412,8 @@ export default function PinesPage() {
   </p>
 
   <p>
-    © 2023–{new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
-  </p>
+          © {new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
+        </p>
 </footer>
 
 {/* ================= MODAL ================= */}
@@ -494,5 +486,6 @@ export default function PinesPage() {
 )}
 <BackToTop />
     </main>
+</>
   );
 }

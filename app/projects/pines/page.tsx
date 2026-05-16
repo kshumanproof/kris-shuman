@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { projects } from "@/lib/projects";
 import BackToTop from "@/components/BackToTop";
+import SiteNav from "@/components/SiteNav";
 
 type ImageItem = {
   src: string;
@@ -103,8 +104,11 @@ export default function PinesPage() {
   };
 
   const goToConversation = () => {
-    window.location.href = "/#contact";
-  };
+  window.open(
+    "https://calendly.com/kris-krisshuman/30min",
+    "_blank"
+  );
+};
 
   /* =========================
      🎨 SHARED SYSTEM
@@ -141,6 +145,8 @@ export default function PinesPage() {
      ========================= */
 
   return (
+    <>
+  <SiteNav />
     <main className="bg-black text-white min-h-screen">
 
     {/* ================= MOBILE HERO ================= */}
@@ -202,21 +208,7 @@ export default function PinesPage() {
         </>
       )}
 
-      {/* TOP BAR */}
-      <div className="absolute top-8 left-16 right-16 z-30 flex justify-between items-center">
-        <a
-  href="/"
-  className="text-xl tracking-[0.2em] uppercase text-white/60 hover:text-white transition duration-300"
->
-  Kris Shuman
-</a>
-        <a
-          href="/#writer"
-          className="text-xl tracking-[0.2em] uppercase text-white/60 hover:text-white transition duration-300"
-        >
-          The Writer
-        </a>
-      </div>
+      
 
       {/* CONTENT */}
       <div className="relative z-10 flex flex-col justify-end h-full px-16 pb-24 w-full">
@@ -333,11 +325,11 @@ export default function PinesPage() {
       {/* GALLERY */}
       {enabledImages.length > 0 && (
         <section className="pb-28">
-          <div className={`${container} grid grid-cols-1 md:grid-cols-2 gap-12`}>
+          <div className={`${container} grid grid-cols-1 md:grid-cols-3 gap-8`}>
             {enabledImages.map((img, i) => (
               <div key={i} className="space-y-3">
                 <div
-                  className="w-full h-[280px] md:h-[420px] bg-cover bg-center"
+                  className="w-full h-[260px] md:h-[260px] bg-cover bg-center"
                   style={{ backgroundImage: `url(${img.src})` }}
                 />
                 {img.caption && (
@@ -421,8 +413,8 @@ export default function PinesPage() {
   </p>
 
   <p>
-    © 2023–{new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
-  </p>
+          © {new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
+        </p>
 </footer>
 
 {/* ================= MODAL ================= */}
@@ -495,5 +487,6 @@ export default function PinesPage() {
 )}
 <BackToTop />
     </main>
+</>
   );
 }

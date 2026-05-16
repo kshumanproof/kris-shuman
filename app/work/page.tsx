@@ -2,6 +2,7 @@
 
 import { projects } from "@/lib/projects";
 import BackToTop from "@/components/BackToTop";
+import SiteNav from "@/components/SiteNav";
 
 export default function WorkPage() {
   const activeProjects = projects.filter((p) => p.active);
@@ -47,7 +48,7 @@ export default function WorkPage() {
                 <a
                   key={project.slug}
                   href={`/projects/${project.slug}`}
-                  className="group block"
+                  className="group block transition duration-500 hover:-translate-y-1"
                 >
                   <div className="grid md:grid-cols-2 gap-10 items-center">
 
@@ -70,13 +71,13 @@ export default function WorkPage() {
                           muted
                           loop
                           playsInline
-                          className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                          className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03] group-hover:brightness-110 group-hover:saturate-125"
                         />
                       ) : (
                         <img
                           src={project.image}
                           alt={project.title}
-                          className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                          className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03] group-hover:brightness-110 group-hover:saturate-125"
                         />
                       )}
                     </div>
@@ -112,34 +113,50 @@ export default function WorkPage() {
   };
 
   return (
-    <main className="bg-[#0B0B0C] text-white px-6 md:px-16 py-24 space-y-32">
-{/* 🔥 TOP NAV (matches homepage) */}
-<div className="absolute top-6 left-6 right-6 z-50 flex justify-between items-center">
-  <a
-    href="/"
-    className="text-xl uppercase tracking-[0.2em] text-white/70 hover:text-white transition"
-  >
-    Kris Shuman
-  </a>
+    <>
+  <SiteNav />
+    <main className="bg-[#0B0B0C] text-white px-6 md:px-16 pt-24 pb-32">
 
-  <a
-    href="/#writer"
-    className="text-xl uppercase tracking-[0.2em] text-white/60 hover:text-white transition"
-  >
-    The Writer
-  </a>
-</div>
+  
+
 
       {/* HEADER */}
-      <div className="max-w-3xl">
-        <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-4">
-          All Projects
-        </p>
+<div className="max-w-3xl mt-20 mb-20">
+        
 
         <h1 className="text-3xl md:text-5xl font-bold leading-tight">
           Stories about identity, consequence, and what refuses to stay buried.
         </h1>
       </div>
+      {/* ================= SECTION NAV ================= */}
+<div className="sticky top-0 z-40 bg-[#0B0B0C]/90 backdrop-blur-md border-y border-white/10 py-4 mb-20">
+
+  <div className="flex flex-wrap justify-center gap-8 text-xs uppercase tracking-[0.25em] text-white/60">
+
+    <a
+      href="#produced"
+      className="hover:text-white transition"
+    >
+      Produced
+    </a>
+
+    <a
+      href="#development"
+      className="hover:text-white transition"
+    >
+      In Development
+    </a>
+
+    <a
+      href="#early"
+      className="hover:text-white transition"
+    >
+      Early / Concept
+    </a>
+
+  </div>
+
+</div>
 
       {/* PROJECT LIST */}
 <div className="space-y-32">
@@ -148,9 +165,9 @@ export default function WorkPage() {
 {activeProjects.filter(p =>
   ["Post-Production", "In Production"].includes(p.status)
 ).length > 0 && (
-  <section>
+  <section id="produced">
     <h2 className="text-lg uppercase tracking-[0.3em] text-zinc-200 mb-12">
-      Produced / In Production
+      Produced & In Production
     </h2>
 
     {["feature", "tv", "short"].map((format) => {
@@ -181,7 +198,7 @@ export default function WorkPage() {
               <a
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                className="group block"
+                className="group block transition duration-500 hover:-translate-y-1"
               >
                 <div className="grid md:grid-cols-2 gap-10 items-center">
 
@@ -204,13 +221,13 @@ export default function WorkPage() {
                         muted
                         loop
                         playsInline
-                        className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03] group-hover:brightness-110 group-hover:saturate-125"
                       />
                     ) : (
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03] group-hover:brightness-110 group-hover:saturate-125"
                       />
                     )}
                   </div>
@@ -221,17 +238,17 @@ export default function WorkPage() {
                       {project.title}
                     </h2>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.genre}
-                    </p>
+                    <p className="text-sm uppercase tracking-[0.18em] text-zinc-500 mb-5 max-w-md">
+  {project.genre}
+</p>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.zinger}
-                    </p>
+<p className="text-lg text-zinc-100 leading-relaxed mb-5 max-w-md">
+  {project.zinger}
+</p>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.overview}
-                    </p>
+<p className="text-[15px] leading-relaxed text-zinc-400 mb-6 max-w-md">
+  {project.overview}
+</p>
 
                     <span className="text-xs uppercase tracking-[0.3em] text-zinc-500 group-hover:text-white transition">
                       View Project →
@@ -253,7 +270,7 @@ export default function WorkPage() {
 {activeProjects.filter(p =>
   ["In Development"].includes(p.status)
 ).length > 0 && (
-  <section>
+  <section id="development">
     <h2 className="text-lg uppercase tracking-[0.3em] text-zinc-200 mb-12">
       In Development
     </h2>
@@ -284,7 +301,7 @@ export default function WorkPage() {
               <a
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                className="group block"
+                className="group block transition duration-500 hover:-translate-y-1"
               >
                 <div className="grid md:grid-cols-2 gap-10 items-center">
 
@@ -307,13 +324,13 @@ export default function WorkPage() {
                         muted
                         loop
                         playsInline
-                        className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03] group-hover:brightness-110 group-hover:saturate-125"
                       />
                     ) : (
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03] group-hover:brightness-110 group-hover:saturate-125"
                       />
                     )}
                   </div>
@@ -324,17 +341,17 @@ export default function WorkPage() {
                       {project.title}
                     </h2>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.genre}
-                    </p>
+                    <p className="text-sm uppercase tracking-[0.18em] text-zinc-500 mb-5 max-w-md">
+  {project.genre}
+</p>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.zinger}
-                    </p>
+<p className="text-lg text-zinc-100 leading-relaxed mb-5 max-w-md">
+  {project.zinger}
+</p>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.overview}
-                    </p>
+<p className="text-[15px] leading-relaxed text-zinc-400 mb-6 max-w-md">
+  {project.overview}
+</p>
 
                     <span className="text-xs uppercase tracking-[0.3em] text-zinc-500 group-hover:text-white transition">
                       View Project →
@@ -356,7 +373,7 @@ export default function WorkPage() {
 {activeProjects.filter(p =>
   ["Early Development", "Concept"].includes(p.status)
 ).length > 0 && (
-  <section>
+  <section id="early">
     <h2 className="text-lg uppercase tracking-[0.3em] text-zinc-200 mb-12">
       Early / Concept
     </h2>
@@ -389,7 +406,7 @@ export default function WorkPage() {
               <a
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                className="group block"
+                className="group block transition duration-500 hover:-translate-y-1"
               >
                 <div className="grid md:grid-cols-2 gap-10 items-center">
 
@@ -412,13 +429,13 @@ export default function WorkPage() {
                         muted
                         loop
                         playsInline
-                        className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03] group-hover:brightness-110 group-hover:saturate-125"
                       />
                     ) : (
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03] group-hover:brightness-110 group-hover:saturate-125"
                       />
                     )}
                   </div>
@@ -429,17 +446,17 @@ export default function WorkPage() {
                       {project.title}
                     </h2>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.genre}
-                    </p>
+                    <p className="text-sm uppercase tracking-[0.18em] text-zinc-500 mb-5 max-w-md">
+  {project.genre}
+</p>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.zinger}
-                    </p>
+<p className="text-lg text-zinc-100 leading-relaxed mb-5 max-w-md">
+  {project.zinger}
+</p>
 
-                    <p className="text-zinc-400 mb-6 max-w-md">
-                      {project.overview}
-                    </p>
+<p className="text-[15px] leading-relaxed text-zinc-400 mb-6 max-w-md">
+  {project.overview}
+</p>
 
                     <span className="text-xs uppercase tracking-[0.3em] text-zinc-500 group-hover:text-white transition">
                       View Project →
@@ -464,10 +481,11 @@ export default function WorkPage() {
   </p>
 
   <p>
-    © 2023–{new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
-  </p>
+          © {new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
+        </p>
 </footer>
 <BackToTop />
     </main>
+</>
   );
 }

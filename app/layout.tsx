@@ -21,8 +21,72 @@ const hand = Reenie_Beanie({
 });
 
 export const metadata: Metadata = {
-  title: "Kris Shuman",
-  description: "Screenwriter portfolio",
+  metadataBase: new URL("https://krisshuman.com"),
+
+  title: {
+    default: "Kris Shuman",
+    template: "%s | Kris Shuman",
+  },
+
+  description:
+    "Screenwriter and storyteller crafting character-driven films about identity, redemption, consequence, and the cost of becoming who you are.",
+
+  keywords: [
+    "Kris Shuman",
+    "screenwriter",
+    "screenplay writer",
+    "film writer",
+    "television writer",
+    "writer portfolio",
+    "Austin Film Festival",
+    "Final Draft Big Break",
+    "Script Pipeline",
+    "southern gothic",
+    "cinematic storytelling",
+  ],
+
+  authors: [{ name: "Kris Shuman" }],
+
+  creator: "Kris Shuman",
+
+  openGraph: {
+    title: "Kris Shuman",
+
+    description:
+      "Character-driven stories about identity, redemption, and the cost of becoming who you are.",
+
+    url: "https://krisshuman.com",
+
+    siteName: "Kris Shuman",
+
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Kris Shuman",
+      },
+    ],
+
+    locale: "en_US",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+
+    title: "Kris Shuman",
+
+    description:
+      "Character-driven stories about identity, redemption, and consequence.",
+
+    images: ["/og-image.jpg"],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -36,6 +100,32 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${hand.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-black text-white">
+
+        {/* 🔥 PERSON SCHEMA */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+
+              name: "Kris Shuman",
+
+              url: "https://krisshuman.com",
+
+              jobTitle: "Screenwriter",
+
+              description:
+                "Screenwriter and storyteller crafting character-driven films about identity, redemption, consequence, and the cost of becoming who you are.",
+
+              sameAs: [
+                "https://www.instagram.com/",
+                "https://www.imdb.com/",
+              ],
+            }),
+          }}
+        />
+
         {children}
 
         {/* 🔥 GLOBAL EXPERIENCE SYSTEM */}
