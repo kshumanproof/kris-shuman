@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { projects } from "@/lib/projects";
+import BackToTop from "@/components/BackToTop";
 
 type ImageItem = {
   src: string;
@@ -492,7 +493,7 @@ export default function PinesPage() {
     </div>
   </div>
 )}
-
+<BackToTop />
     </main>
   );
 }

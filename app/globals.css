@@ -57,3 +57,16 @@ a {
 .animate-scrollDot {
   animation: scrollDot 1.6s ease-in-out infinite;
 }
+/* ================= MOBILE READABILITY ================= */
+
+@media (max-width: 768px) {
+
+  .text-zinc-400 {
+    color: rgb(190 190 190) !important;
+  }
+
+  .text-zinc-500 {
+    color: rgb(160 160 160) !important;
+  }
+
+}

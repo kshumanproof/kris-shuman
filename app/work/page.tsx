@@ -1,6 +1,7 @@
 "use client";
 
 import { projects } from "@/lib/projects";
+import BackToTop from "@/components/BackToTop";
 
 export default function WorkPage() {
   const activeProjects = projects.filter((p) => p.active);
@@ -466,6 +467,7 @@ export default function WorkPage() {
     © 2023–{new Date().getFullYear()} krisshuman.com · Bad Bella Productions. All rights reserved.
   </p>
 </footer>
+<BackToTop />
     </main>
   );
 }

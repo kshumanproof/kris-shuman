@@ -90,16 +90,17 @@ export default function Home() {
 
           <div className="absolute left-0 right-0 bottom-0 z-50 px-6 translate-y-1/2">
             <div className="pointer-events-none">
-              <h1 className="text-[clamp(1.8rem,6vw,2.8rem)] font-bold leading-[1.1] mb-6">
+              <h1 className="text-[clamp(2.1rem,7vw,3rem)] font-bold leading-[1.05] mb-6 max-w-[95%]">
                 {(line || heroLines[0]).join(" ")}
               </h1>
 
-              <p className="text-sm text-zinc-200">
-                Character-driven stories about identity, redemption, and the cost of becoming who you are.
-              </p>
+              <p className="text-base leading-relaxed mt-20 text-zinc-100 max-w-[95%]">
+  Character-driven stories about identity, redemption, and the cost of becoming who you are.
+</p>
 
-              <p className="text-[10px] uppercase tracking-[0.25em] text-white/50 mt-3 mb-6">
-                Austin Film Festival • Script Pipeline • Final Draft Big Break • PAGE Awards              </p>
+<p className="text-xs uppercase tracking-[0.22em] text-white/70 mt-4 mb-6 leading-relaxed">
+  Austin Film Festival • Script Pipeline • Final Draft Big Break • PAGE Awards
+</p>
             </div>
 
             <a
@@ -240,14 +241,15 @@ export default function Home() {
           </div>
 
           <div>
-            <h2 className="text-4xl font-bold mb-4 transition group-hover:text-white">
-              {lead.title}
-            </h2>
+            <h2 className="text-4xl font-bold mb-3 transition group-hover:text-white">
+  {lead.title}
+</h2>
 
-            <p className="text-zinc-300 text-lg transition group-hover:text-zinc-200">
+<p className="text-zinc-100 text-xl leading-relaxed mb-4 transition group-hover:text-white">
   {lead.zinger}
 </p>
-<p className="text-zinc-500 transition group-hover:text-zinc-400">
+
+<p className="text-[15px] leading-relaxed text-zinc-300 transition group-hover:text-zinc-200">
   {lead.overview}
 </p>
           </div>
@@ -328,13 +330,13 @@ export default function Home() {
             {project.title}
           </h3>
 
-          <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-            {project.status}
-          </p>
+          <p className="text-xs uppercase tracking-[0.25em] text-zinc-400 mb-2">
+  {project.status}
+</p>
 
-          <p className="text-sm text-zinc-400 mb-1">
-            {project.zinger}
-          </p>
+<p className="text-[15px] leading-relaxed text-zinc-200 mb-1">
+  {project.zinger}
+</p>
         </a>
       ))}
 
@@ -466,7 +468,7 @@ export default function Home() {
     <p className="mt-8 text-xs text-white/40">
       Or{" "}
       <a
-        href="mailto:you@email.com"
+        href="kris@krisshuman.com"
         className="relative z-[60] underline hover:text-white/70 transition"
       >
         email Kris

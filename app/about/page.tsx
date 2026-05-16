@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import BackToTop from "@/components/BackToTop";
 
 export default function AboutPage() {
   const [showResume, setShowResume] = useState(false);
@@ -269,7 +270,7 @@ export default function AboutPage() {
           </div>
         </div>
       )}
-
+<BackToTop />
     </main>
   );
 }
