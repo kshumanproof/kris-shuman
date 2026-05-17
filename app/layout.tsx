@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://krisshuman.com"),
 
   title: {
-    default: "Kris Shuman | Screenwriter",
+    default: "Kris Shuman",
     template: "%s | Kris Shuman",
   },
 
