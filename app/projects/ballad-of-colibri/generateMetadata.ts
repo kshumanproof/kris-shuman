@@ -5,9 +5,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "The Ballad Of Colibri",
     
     description:
-      "A character-driven Southern drama about identity, reinvention, redemption, and the cost of becoming who you are.",
+  "A character-driven Southern drama about identity, reinvention, redemption, and the cost of becoming who you are.",
 
-    openGraph: {
+alternates: {
+  canonical: "https://krisshuman.com/projects/ballad-of-colibri",
+},
+
+openGraph: {
       title: "The Ballad Of Colibri | Kris Shuman",
 
       description:

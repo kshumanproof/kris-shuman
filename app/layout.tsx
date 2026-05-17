@@ -61,7 +61,7 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: "https://kris-shuman.vercel.app/og-image.jpg",
+        url: "/og-image.jpg"
         width: 1200,
         height: 630,
         alt: "Kris Shuman Screenwriter Portfolio",
@@ -80,17 +80,21 @@ export const metadata: Metadata = {
     description:
       "Character-driven stories about identity, redemption, and the cost of becoming who you are.",
 
-    images: ["https://kris-shuman.vercel.app/og-image.jpg"],
+    images: ["/og-image.jpg"]
   },
 
   robots: {
-    index: true,
-    follow: true,
-  },
+  index: true,
+  follow: true,
+},
 
-  icons: {
-    icon: "/favicon.ico",
-  },
+alternates: {
+  canonical: "https://krisshuman.com",
+},
+
+icons: {
+  icon: "/favicon.ico",
+},
 };
 
 export default function RootLayout({

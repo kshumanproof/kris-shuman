@@ -7,6 +7,10 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       "A character-driven Southern drama about identity, reinvention, redemption, and the cost of becoming who you are.",
 
+alternates: {
+  canonical: "https://krisshuman.com/projects/nowhere-kings",
+},
+
     openGraph: {
       title: "The Nowhere Kings | Kris Shuman",
 

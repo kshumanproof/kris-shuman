@@ -461,7 +461,7 @@ export default function Home() {
     <p className="mt-8 text-xs text-white/40">
       Or{" "}
       <a
-        href="kris@krisshuman.com"
+        href="mailto:kris@krisshuman.com"
         className="relative z-[60] underline hover:text-white/70 transition"
       >
         email Kris

@@ -27,6 +27,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // PROJECTS
     {
+      url: `${baseUrl}/projects/ballad-of-colibri`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+
+    {
       url: `${baseUrl}/projects/nothing-changes`,
       lastModified: new Date(),
       changeFrequency: "monthly",
