@@ -61,7 +61,7 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: "/og-image.jpg"
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Kris Shuman Screenwriter Portfolio",
