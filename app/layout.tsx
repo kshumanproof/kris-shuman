@@ -1,6 +1,7 @@
 import ExperienceLayer from "@/components/experience/ExperienceLayer";
 import ContinuePrompt from "@/components/experience/ContinuePrompt";
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { Geist, Geist_Mono, Reenie_Beanie } from "next/font/google";
 
@@ -64,7 +65,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Kris Shuman Screenwriter Portfolio",
+        alt: "Kris Shuman | Screenwriter",
       },
     ],
 
@@ -80,21 +81,21 @@ export const metadata: Metadata = {
     description:
       "Character-driven stories about identity, redemption, and the cost of becoming who you are.",
 
-    images: ["/og-image.jpg"]
+    images: ["/og-image.jpg"],
   },
 
   robots: {
-  index: true,
-  follow: true,
-},
+    index: true,
+    follow: true,
+  },
 
-alternates: {
-  canonical: "https://krisshuman.com",
-},
+  alternates: {
+    canonical: "https://krisshuman.com",
+  },
 
-icons: {
-  icon: "/favicon.ico",
-},
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -107,6 +108,24 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${hand.variable} h-full antialiased`}
     >
+      <head>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-7LMZHXYYBF"
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-7LMZHXYYBF');
+          `}
+        </Script>
+      </head>
+
       <body className="min-h-full bg-black text-white">
         {/* 🔥 PERSON SCHEMA */}
         <script
