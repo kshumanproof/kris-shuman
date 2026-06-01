@@ -3,90 +3,95 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://krisshuman.com";
 
-  return [
+  const routes = [
     {
-      url: baseUrl,
-      lastModified: new Date(),
+      path: "",
       changeFrequency: "weekly",
       priority: 1,
     },
-
     {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      path: "/about",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/work`,
-      lastModified: new Date(),
+      path: "/work",
       changeFrequency: "weekly",
       priority: 0.9,
     },
 
     // PROJECTS
     {
-      url: `${baseUrl}/projects/ballad-of-colibri`,
-      lastModified: new Date(),
+      path: "/projects/ballad-of-colibri",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/projects/nothing-changes`,
-      lastModified: new Date(),
+      path: "/projects/dupree",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/projects/wilder`,
-      lastModified: new Date(),
+      path: "/projects/family-tradition",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/projects/the-last-stop`,
-      lastModified: new Date(),
+      path: "/projects/gas-boys",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/projects/nowhere-kings`,
-      lastModified: new Date(),
+      path: "/projects/lords-of-franklin-county",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/projects/my-life-before-me`,
-      lastModified: new Date(),
+      path: "/projects/my-life-before-me",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/projects/sunsets-in-memphis`,
-      lastModified: new Date(),
+      path: "/projects/nothing-changes",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/projects/the-white-raven`,
-      lastModified: new Date(),
+      path: "/projects/nowhere-kings",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
     {
-      url: `${baseUrl}/projects/pines`,
-      lastModified: new Date(),
+      path: "/projects/pines",
       changeFrequency: "monthly",
       priority: 0.8,
     },
-  ];
+    {
+      path: "/projects/sunsets-in-memphis",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      path: "/projects/the-last-stop",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      path: "/projects/the-white-raven",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      path: "/projects/wilder",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+  ] as const;
+
+  return routes.map((route) => ({
+    url: `${baseUrl}${route.path}`,
+    lastModified: new Date(),
+    changeFrequency: route.changeFrequency,
+    priority: route.priority,
+  }));
 }
