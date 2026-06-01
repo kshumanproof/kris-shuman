@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["10.0.0.10"],
 
+  trailingSlash: false,
+
   images: {
     formats: ["image/avif", "image/webp"],
   },
@@ -131,7 +133,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/who-stole-the-head-of-bobbi-dupree",
-        destination: "/projects/nothing-changes",
+        destination: "/projects/dupree",
         permanent: true,
       },
     ];
