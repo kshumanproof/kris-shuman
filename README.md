@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# krisshuman.com
 
-## Getting Started
+Plain HTML, CSS, and vanilla JavaScript. No build step, no framework, no `npm install` required to edit or preview.
 
-First, run the development server:
+## Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- `index.html`, `about.html`, `work.html` — top-level pages
+- `projects/` — the 14 individual project pages
+- `images/` — all site images (including `images/laurels/` for festival/recognition logos)
+- `css/styles.css` — custom styles layered on top of Tailwind's CDN script
+- `js/main.js` — nav, modals, search, back-to-top
+- `_build/` — optional generator script. Not needed to edit existing pages; only useful if you want to add a brand-new project page without hand-building one. See `_build/README.txt`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Editing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open any `.html` file directly and edit the text/markup. No rebuild needed — just save and refresh the page in a browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploying
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project deploys to Vercel via GitHub. Push to the connected branch and Vercel auto-deploys. Since there's no `package.json` anymore, make sure the Vercel project's Framework Preset is set to "Other" (not Next.js) so it serves the files as a static site instead of trying to run a Next.js build.

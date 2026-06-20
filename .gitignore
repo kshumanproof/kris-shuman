@@ -36,6 +36,14 @@ yarn-error.log*
 # vercel
 .vercel
 
+# leftover Next.js source -- couldn't be deleted from this session (likely
+# file locks from VS Code/the dev server); safe to delete by hand later,
+# gitignored here so they never get committed either way
+/app
+/components
+/html-site
+/_archive_delete_me
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,0 +1,651 @@
+#!/usr/bin/env python3
+import json
+import os
+import sys
+sys.path.insert(0, ".")
+from data import PROJECTS, FORMAT_LABEL, STATUS_GROUPS, RECOGNITION, PRESS_QUOTE
+
+OUT = "/sessions/admiring-youthful-keller/mnt/kris-shuman-site/html-site"
+
+SITE_URL = "https://krisshuman.com"
+GA_ID = "G-7LMZHXYYBF"
+CALENDLY = "https://calendly.com/kris-krisshuman/30min"
+FORMSPREE = "https://formspree.io/f/mgorgjgb"
+
+ACTIVE_PROJECTS = [p for p in PROJECTS if p["active"]]
+
+RECOGNITION_SLUGS = {
+    "The Black List": "the-black-list",
+    "Austin Film Festival": "austin-film-festival",
+    "Script Pipeline": "script-pipeline",
+    "Final Draft Big Break": "final-draft-big-break",
+    "PAGE Awards": "page-awards",
+    "Nashville Film Festival": "nashville-film-festival",
+}
+
+
+def logo_exists(slug):
+    for ext in ("webp", "png", "svg", "jpg"):
+        if os.path.exists(f"{OUT}/images/laurels/{slug}.{ext}"):
+            return f"images/laurels/{slug}.{ext}"
+    return None
+
+
+def related(slug, n=3):
+    pool = [p for p in ACTIVE_PROJECTS if p["slug"] != slug]
+    slugs = [pr["slug"] for pr in ACTIVE_PROJECTS]
+    idx = slugs.index(slug) if slug in slugs else 0
+    rotated = pool[idx:] + pool[:idx]
+    return rotated[:n]
+
+
+def esc(s):
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+LAUREL_SVG = """<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="laurel">
+  <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M30 8c-7 4-11 11-11 20s4 16 11 24"/>
+    <path d="M22 14c-3 1-6 3-7 5M19 22c-3 0-6 1-8 3M18 31c-3 -1 -6 0 -8 1M19 40c-3 -1 -6 -3 -7 -5M22 48c-2 -2 -4 -4 -5 -6"/>
+    <path d="M34 8c7 4 11 11 11 20s-4 16-11 24"/>
+    <path d="M42 14c3 1 6 3 7 5M45 22c3 0 6 1 8 3M46 31c3 -1 6 0 8 1M45 40c3 -1 6 -3 7 -5M42 48c2 -2 4 -4 5 -6"/>
+  </g>
+</svg>"""
+
+
+def recognition_badge(name):
+    slug = RECOGNITION_SLUGS.get(name, name.lower().replace(" ", "-"))
+    logo = logo_exists(slug)
+    if logo:
+        inner = f'<img src="{logo}" alt="{esc(name)}" loading="lazy" class="h-14 md:h-16 w-auto object-contain mx-auto">'
+    else:
+        inner = f'<span class="text-ember/80">{LAUREL_SVG}</span><span class="text-[11px] md:text-xs uppercase tracking-[0.18em] text-zinc-300 leading-tight">{esc(name)}</span>'
+    return f'<div class="flex flex-col items-center gap-2 px-8 md:px-12 shrink-0">{inner}</div>'
+
+
+def pull_quote(text, speaker=None, size="text-2xl md:text-4xl"):
+    speaker_html = f'<p class="mt-5 text-xs tracking-[0.25em] uppercase text-zinc-500">&mdash; {esc(speaker)}</p>' if speaker else ""
+    return f"""
+        <div class="relative max-w-3xl mx-auto text-center px-2">
+          <span aria-hidden="true" class="font-display text-ember/30 text-6xl md:text-8xl leading-none select-none">&ldquo;</span>
+          <p class="font-display italic {size} text-zinc-100 leading-[1.25] -mt-6 md:-mt-10">{esc(text)}</p>
+          {speaker_html}
+        </div>
+"""
+
+
+# ---------- shared chrome ----------
+
+def nav(prefix, current=""):
+    home = prefix + "index.html"
+    work = prefix + "work.html"
+    about = prefix + "about.html"
+    contact = prefix + "index.html#contact"
+    return f"""
+  <header class="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <a href="{home}" class="font-display text-base md:text-lg tracking-[0.1em] text-white/85 hover:text-white transition">Kris Shuman</a>
+      <nav class="hidden md:flex items-center gap-10">
+        <a href="{work}" class="text-xs uppercase tracking-[0.25em] text-white/60 hover:text-ember transition">The Slate</a>
+        <a href="{about}" class="text-xs uppercase tracking-[0.25em] text-white/60 hover:text-ember transition">About</a>
+        <a href="{contact}" class="text-xs uppercase tracking-[0.25em] text-white/60 hover:text-ember transition">Contact</a>
+      </nav>
+      <button id="navToggle" class="tap-target md:hidden text-xs uppercase tracking-[0.3em] text-white/70 hover:text-white transition -mr-2 px-3">Menu</button>
+    </div>
+  </header>
+
+  <div id="navOverlay" class="hidden fixed inset-0 z-[999] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center">
+    <button id="navClose" class="tap-target absolute top-6 right-6 text-xs uppercase tracking-[0.3em] text-white/50 hover:text-white transition px-3">Close</button>
+    <nav class="flex flex-col items-center gap-10">
+      <a href="{home}" class="text-2xl uppercase tracking-[0.2em] text-white/80 hover:text-ember transition">Home</a>
+      <a href="{work}" class="text-2xl uppercase tracking-[0.2em] text-white/80 hover:text-ember transition">The Slate</a>
+      <a href="{about}" class="text-2xl uppercase tracking-[0.2em] text-white/80 hover:text-ember transition">About</a>
+      <a href="{contact}" class="text-2xl uppercase tracking-[0.2em] text-white/80 hover:text-ember transition">Contact</a>
+    </nav>
+  </div>
+"""
+
+
+def footer(prefix):
+    return f"""
+  <footer class="px-6 md:px-16 py-16 border-t border-white/5 text-center text-xs text-white/35">
+    <p class="mb-4">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws.</p>
+    <p>&copy; <span id="year"></span> krisshuman.com &middot; Bad Bella Productions. All rights reserved.</p>
+  </footer>
+"""
+
+
+def back_to_top():
+    return """
+  <button id="backToTop" type="button" aria-label="Back to top"
+    class="hidden fixed bottom-6 right-6 z-[90] w-11 h-11 items-center justify-center border border-white/30 text-white text-sm bg-black/60 backdrop-blur-sm hover:border-ember hover:text-ember transition shadow-[0_0_20px_rgba(0,0,0,0.4)]">
+    &uarr;
+  </button>
+"""
+
+
+def calendly_modal():
+    return f"""
+  <div id="calendlyModal" class="hidden fixed inset-0 z-[100] bg-black/85 flex items-center justify-center p-4">
+    <button type="button" data-close-calendly class="tap-target absolute top-6 right-6 z-[110] text-white text-sm uppercase tracking-[0.2em] hover:text-ember transition px-3">Close</button>
+    <div class="w-full max-w-4xl h-[80vh] bg-white rounded-md overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.6)]">
+      <iframe src="{CALENDLY}" class="w-full h-full" title="Schedule a call with Kris Shuman"></iframe>
+    </div>
+  </div>
+"""
+
+
+def request_modal():
+    return f"""
+  <div id="requestModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4">
+    <div class="bg-[#0f0c0a] border border-white/15 p-8 w-full max-w-md relative">
+      <button type="button" data-close-request class="tap-target absolute top-2 right-2 text-white/50 hover:text-white">&#10005;</button>
+      <h2 class="font-display text-2xl mb-2">Request Materials</h2>
+      <p id="requestProjectLabel" class="text-sm text-white/50 mb-6"></p>
+      <form id="requestForm" action="{FORMSPREE}" method="POST" class="space-y-4">
+        <input type="email" name="email" placeholder="Your email" required class="w-full px-4 py-3 bg-black border border-white/20 text-white focus:border-ember outline-none">
+        <textarea name="message" placeholder="What caught your interest? (optional)" class="w-full px-4 py-3 bg-black border border-white/20 text-white focus:border-ember outline-none"></textarea>
+        <input type="hidden" name="project" id="requestProjectField" value="">
+        <button type="submit" class="w-full px-6 py-3 text-xs uppercase tracking-[0.3em] border border-ember text-white bg-ember/15 hover:bg-ember/30 transition">Request Materials</button>
+      </form>
+      <div id="requestSuccess" class="hidden text-center space-y-4">
+        <p class="text-lg">Got it.</p>
+        <p class="text-sm text-white/60">I&rsquo;ll send it over shortly.</p>
+        <button type="button" data-close-request class="mt-2 text-sm underline text-white/60 hover:text-white">Close</button>
+      </div>
+    </div>
+  </div>
+"""
+
+
+PERSON_JSONLD = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Kris Shuman",
+    "url": SITE_URL,
+    "jobTitle": "Screenwriter",
+    "description": "Screenwriter crafting character-driven Southern stories about identity, redemption, consequence, and the cost of becoming who you are.",
+    "sameAs": [
+        "https://www.imdb.com/name/nm15546725/",
+        "https://www.linkedin.com/in/krisshuman/",
+        "https://x.com/thekrisshuman",
+    ],
+}
+
+TAILWIND_CONFIG = """
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Fraunces', 'Georgia', 'serif'] },
+          colors: { ember: { DEFAULT: '#C9824A', light: '#E2A571', dark: '#7A3B2E' } },
+        }
+      }
+    }
+  </script>
+"""
+
+
+def head(title, description, canonical_path, og_image, prefix, jsonld_objs=None):
+    canonical = SITE_URL + canonical_path
+    og_image_url = SITE_URL + og_image
+    jsonld_objs = jsonld_objs or []
+    jsonld_html = "\n".join(
+        f'  <script type="application/ld+json">{json.dumps(o)}</script>' for o in jsonld_objs
+    )
+    return f"""<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{esc(title)}</title>
+  <meta name="description" content="{esc(description)}">
+  <link rel="canonical" href="{canonical}">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="{prefix}favicon.ico">
+
+  <meta property="og:title" content="{esc(title)}">
+  <meta property="og:description" content="{esc(description)}">
+  <meta property="og:url" content="{canonical}">
+  <meta property="og:site_name" content="Kris Shuman">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="{og_image_url}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{esc(title)}">
+  <meta name="twitter:description" content="{esc(description)}">
+  <meta name="twitter:image" content="{og_image_url}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+{TAILWIND_CONFIG}
+  <link rel="stylesheet" href="{prefix}css/styles.css">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', '{GA_ID}');
+  </script>
+{jsonld_html}
+</head>
+<body class="min-h-full bg-[#0a0908] text-white font-sans antialiased">
+"""
+
+
+HTML_FOOT = """
+  <script src="{prefix}js/main.js"></script>
+</body>
+</html>
+"""
+
+# ---------- recognized-by section ----------
+
+def recognized_by(extra_classes=""):
+    badges = "".join(recognition_badge(r) for r in RECOGNITION)
+    return f"""
+    <section class="py-12 md:py-16 bg-[#0a0908] border-y border-white/5 overflow-hidden {extra_classes}">
+      <p class="text-xs uppercase tracking-[0.35em] text-zinc-500 mb-8 text-center px-6">Recognized By</p>
+      <div class="marquee-mask md:max-w-4xl md:mx-auto">
+        <div class="marquee-track items-center">
+          {badges}
+          {badges}
+        </div>
+      </div>
+    </section>
+"""
+
+
+def press_quote_section():
+    return f"""
+    <section class="px-6 md:px-16 py-20 md:py-28 bg-[#0d0a08]">
+      {pull_quote(PRESS_QUOTE['text'], PRESS_QUOTE['source'], size="text-xl md:text-3xl")}
+    </section>
+"""
+
+
+# ---------- page builders ----------
+
+def project_card(p, prefix):
+    href = f"{prefix}projects/{p['slug']}.html"
+    return f"""
+        <a href="{href}" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="{esc(p['title'].lower())}" data-zinger="{esc(p['zinger'].lower())}">
+          <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
+            <span class="absolute top-2 left-2 z-10 text-[9px] uppercase tracking-[0.25em] bg-black/70 px-2 py-1 text-white/70">{esc(p['status'])}</span>
+            <img src="{prefix.replace('projects/', '')}{p['image'][1:]}" alt="{esc(p['title'])}" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+          </div>
+          <div class="flex-1 min-w-0 py-1">
+            <p class="text-[11px] uppercase tracking-[0.18em] text-zinc-500 mb-1.5">{esc(p['genre'])}</p>
+            <h3 class="font-display text-lg md:text-xl font-medium mb-1.5 group-hover:text-ember transition">{esc(p['title'])}</h3>
+            <p class="text-sm md:text-[15px] leading-relaxed text-zinc-300 mb-1.5 line-clamp-3 md:line-clamp-none">{esc(p['zinger'])}</p>
+            <p class="text-[11px] uppercase tracking-[0.16em] text-ember/70 italic">{esc(p['comps'])}</p>
+          </div>
+        </a>
+"""
+
+
+def build_index():
+    prefix = ""
+    title = "Kris Shuman | Screenwriter — Southern Gothic Film & TV"
+    description = "Kris Shuman writes character-driven Southern stories for film and television. Browse an active slate of features, limited series, and shorts in development and production."
+    featured = next((p for p in ACTIVE_PROJECTS if p.get("featured")), ACTIVE_PROJECTS[0])
+    slate_preview = [p for p in ACTIVE_PROJECTS if p.get("slate")][:6]
+    cards = "".join(project_card(p, prefix) for p in slate_preview)
+
+    body = f"""
+{nav(prefix)}
+  <main class="bg-[#0a0908] text-white">
+
+    <section class="relative w-full min-h-[78vh] md:min-h-[94vh] flex flex-col justify-end overflow-hidden">
+      <img src="{prefix}images/forest-road.webp" alt="A lone forest road at dusk, evoking the rural Southern settings of Kris Shuman's stories" class="absolute inset-0 w-full h-full object-cover" width="2200" height="1467">
+      <div class="absolute inset-0 overlay-cinematic"></div>
+      <div class="absolute inset-0 overlay-vignette"></div>
+      <div class="relative z-10 px-6 md:px-16 pb-12 md:pb-20 w-full max-w-4xl">
+        <h1 class="font-display font-medium text-[clamp(2.1rem,7vw,4.3rem)] leading-[1.1] mb-4 max-w-[95%]">People Don&rsquo;t Change. <em class="italic text-ember">They Reveal.</em></h1>
+        <p class="font-display italic text-xl md:text-2xl text-white/85 tracking-wide mb-7 md:mb-8">Kris Shuman <span class="text-ember/70 not-italic text-[11px] md:text-xs uppercase tracking-[0.35em] align-middle ml-2">Screenwriter</span></p>
+        <p class="text-base md:text-lg text-zinc-200 max-w-xl mb-7">Character-driven Southern stories for film and television &mdash; features, limited series, and shorts, in active development and production.</p>
+        <button type="button" data-open-calendly class="tap-target inline-block px-8 py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/15 hover:bg-ember/30 transition">Schedule a Call</button>
+      </div>
+    </section>
+
+{recognized_by()}
+{press_quote_section()}
+
+    <section class="px-6 md:px-16 pt-16 md:pt-20 pb-10 border-t border-white/5">
+      <p class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-6">Featured Project</p>
+      <a href="{prefix}projects/{featured['slug']}.html" class="grid md:grid-cols-2 gap-8 md:gap-10 items-center group">
+        <div class="relative w-full overflow-hidden rounded-md">
+          <div class="w-full aspect-[16/9] overflow-hidden">
+            <img src="{prefix}{featured['image'][1:]}" alt="{esc(featured['title'])}" loading="lazy" width="800" height="450" class="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03]">
+          </div>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.25em] text-zinc-500 mb-3">{esc(featured['genre'])} &middot; {esc(featured['status'])}</p>
+          <h2 class="font-display text-3xl md:text-4xl font-medium mb-3 transition group-hover:text-ember">{esc(featured['title'])}</h2>
+          <p class="text-zinc-100 text-lg md:text-xl leading-relaxed mb-4 transition group-hover:text-white">{esc(featured['zinger'])}</p>
+          <p class="text-[15px] leading-relaxed text-zinc-400 mb-4">{esc(featured['overview'][:260])}&hellip;</p>
+          <p class="text-xs uppercase tracking-[0.25em] text-ember/80 italic">{esc(featured['comps'])}</p>
+        </div>
+      </a>
+    </section>
+
+    <section class="relative z-10 px-6 md:px-16 pt-10 pb-24 bg-[#0d0a08] mt-16">
+      <div class="flex items-center justify-between mb-8 gap-6 flex-wrap">
+        <p class="text-xs uppercase tracking-[0.3em] text-zinc-400">The Slate</p>
+        <div class="relative max-w-xs w-full">
+          <input id="slateSearch" type="text" placeholder="Search the slate&hellip;" class="w-full bg-transparent border-b border-white/30 text-white text-sm placeholder:text-white/40 py-2 pr-8 outline-none focus:border-ember">
+        </div>
+      </div>
+      <div id="slateGrid" class="flex flex-col gap-6 md:grid md:grid-cols-3 md:gap-10">
+        {cards}
+      </div>
+      <div class="mt-16 flex justify-end">
+        <a href="{prefix}work.html" class="group text-xs uppercase tracking-[0.3em] text-zinc-400 hover:text-ember transition">
+          <span>View Full Slate</span>
+          <span class="inline-block ml-2 transform transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="writer" class="px-6 md:px-16 py-28 md:py-36 text-center">
+      <div class="max-w-2xl mx-auto">
+        <p class="font-display text-2xl md:text-3xl leading-relaxed">I write about people at the breaking point.<br>The ones trying to outrun who they&rsquo;ve been&mdash;<br>and learning the hard way that you don&rsquo;t get to.</p>
+        <p class="mt-6 text-sm uppercase tracking-[0.2em] text-ember/80 text-right">&mdash; Kris</p>
+        <div class="mt-12 text-sm uppercase tracking-[0.25em]">
+          <a href="{prefix}about.html" class="text-white/60 hover:text-ember transition">View Full Bio</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="px-6 md:px-16 py-32 md:py-44 border-t border-white/5 text-center bg-[#0d0a08]">
+      <div class="max-w-xl mx-auto">
+        <p class="font-display text-xl md:text-2xl leading-relaxed mb-12">If something here fits what you&rsquo;re building&mdash;<br class="hidden md:block">let&rsquo;s talk.</p>
+        <button type="button" data-open-calendly class="tap-target inline-block px-12 py-5 text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/20 hover:bg-ember/35 transition">Schedule a Call</button>
+        <p class="mt-8 text-xs text-white/40">Or <a href="mailto:kris@krisshuman.com" class="underline hover:text-ember transition">email Kris</a></p>
+      </div>
+    </section>
+
+{footer(prefix)}
+  </main>
+{back_to_top()}
+{calendly_modal()}
+"""
+    html = head(title, description, "/", "/og-image.jpg", prefix, [PERSON_JSONLD]) + body + HTML_FOOT.format(prefix=prefix)
+    return html
+
+
+def build_about():
+    prefix = ""
+    title = "About Kris Shuman | Southern Screenwriter"
+    description = "Kris Shuman is a Southern screenwriter writing character-driven film and television about identity, recovery, and the cost of becoming who you are."
+    body = f"""
+{nav(prefix)}
+  <main class="bg-[#0a0908] text-white">
+    <section class="relative w-full min-h-[70vh] md:min-h-[88vh] flex flex-col justify-end overflow-hidden">
+      <img src="{prefix}images/about/forest-road.webp" alt="A quiet Southern forest road" class="absolute inset-0 w-full h-full object-cover" width="2200" height="1467">
+      <div class="absolute inset-0 overlay-cinematic"></div>
+      <div class="relative z-10 px-6 md:px-16 pb-14 md:pb-20 w-full">
+        <div class="max-w-2xl mx-auto md:mx-0 space-y-5 text-center md:text-left text-white">
+          <p class="text-base md:text-lg text-white/90 leading-snug">Being raised in the South, stories weren&rsquo;t told. They were lived. Avoided. Buried. But that&rsquo;s not just where I&rsquo;m from. That&rsquo;s how people are.</p>
+          <p class="text-base md:text-lg text-white/90 leading-snug">Recovery didn&rsquo;t give me answers. It just made it harder to ignore things. And once you start seeing the truth &mdash; you can&rsquo;t unsee it.</p>
+          <p class="text-base md:text-lg text-white/90 leading-snug">That&rsquo;s what I write about: people at the breaking point, and the moment where who they&rsquo;ve been pretending to be stops working.</p>
+          <p class="text-base md:text-lg text-white/90 leading-snug">I don&rsquo;t build characters. I follow them. And eventually, the truth shows up.</p>
+          <p class="font-display pt-3 text-xl md:text-2xl font-medium text-white leading-snug">I didn&rsquo;t come to storytelling to escape anything. I came to face it. And I chose to write about it.</p>
+          <div class="flex justify-center md:justify-end pt-2">
+            <img src="{prefix}images/signature.webp" alt="Kris Shuman signature" class="w-[130px] opacity-85" width="130" height="56">
+          </div>
+        </div>
+      </div>
+    </section>
+
+{recognized_by()}
+{press_quote_section()}
+
+    <section class="px-6 md:px-16 py-24 md:py-32 text-center">
+      <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-6">
+        <button type="button" id="openResume" class="tap-target px-8 py-4 text-sm uppercase tracking-[0.3em] border border-white/40 text-white hover:border-ember hover:text-ember transition">View R&eacute;sum&eacute;</button>
+        <a href="{prefix}work.html" class="tap-target px-8 py-4 text-sm uppercase tracking-[0.3em] border border-ember bg-ember/15 text-white hover:bg-ember/30 transition">View the Slate</a>
+      </div>
+    </section>
+
+{footer(prefix)}
+  </main>
+
+  <div id="resumeModal" class="hidden fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-6">
+    <div class="relative w-full max-w-4xl h-[80vh] bg-black border border-white/10">
+      <iframe src="{prefix}resume.pdf" class="w-full h-full" title="Kris Shuman r&eacute;sum&eacute;"></iframe>
+      <button type="button" id="closeResume" class="tap-target absolute top-2 right-2 text-white/60 hover:text-white text-xs uppercase tracking-[0.3em]">Close</button>
+    </div>
+  </div>
+{back_to_top()}
+{calendly_modal()}
+"""
+    html = head(title, description, "/about.html", "/og-image.jpg", prefix, [PERSON_JSONLD]) + body + HTML_FOOT.format(prefix=prefix)
+    return html
+
+
+def build_work():
+    prefix = ""
+    title = "The Slate | Kris Shuman"
+    description = "The full slate of Kris Shuman projects in film and television: features, limited series, and shorts, from early development through production."
+
+    sections_html = ""
+    anchors = []
+    row_count = 0
+    for label, statuses in STATUS_GROUPS:
+        group = [p for p in ACTIVE_PROJECTS if p["status"] in statuses]
+        if not group:
+            continue
+        anchor_id = label.split(" ")[0].lower().replace("&", "and")
+        anchors.append((anchor_id, label))
+        rows = ""
+        for fmt in ("feature", "tv", "short"):
+            filtered = [p for p in group if p["format"] == fmt]
+            if not filtered:
+                continue
+            rows += f'<h3 class="text-sm uppercase tracking-[0.25em] text-white/50 mb-10">{FORMAT_LABEL[fmt]}</h3>\n<div class="space-y-6 md:space-y-24 mb-24">\n'
+            for i, p in enumerate(filtered):
+                order = "" if i % 2 == 0 else "md:order-2"
+                text_order = "" if i % 2 == 0 else "md:order-1"
+                tint = "bg-[#0d0a08]" if row_count % 2 else ""
+                row_count += 1
+                rows += f"""
+              <a href="{prefix}projects/{p['slug']}.html" class="group block transition duration-500 hover:-translate-y-1 {tint} md:bg-transparent p-4 md:p-0 -mx-4 md:mx-0 rounded">
+                <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
+                  <div class="relative w-full aspect-video overflow-hidden bg-zinc-900 {order}">
+                    <span class="absolute top-3 left-3 z-10 text-[10px] uppercase tracking-[0.3em] bg-black/70 px-3 py-1 text-white/70">{esc(p['status'])}</span>
+                    <img src="{prefix}{p['image'][1:]}" alt="{esc(p['title'])}" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03]">
+                  </div>
+                  <div class="{text_order}">
+                    <p class="text-sm uppercase tracking-[0.18em] text-zinc-500 mb-3">{esc(p['genre'])}</p>
+                    <h2 class="font-display text-2xl md:text-3xl font-medium mb-3 group-hover:text-ember transition">{esc(p['title'])}</h2>
+                    <p class="text-lg text-zinc-100 leading-relaxed mb-3 max-w-md">{esc(p['zinger'])}</p>
+                    <p class="text-xs uppercase tracking-[0.2em] text-ember/80 italic mb-5">{esc(p['comps'])}</p>
+                    <span class="text-xs uppercase tracking-[0.3em] text-zinc-500 group-hover:text-ember transition">View Project &rarr;</span>
+                  </div>
+                </div>
+              </a>
+"""
+            rows += "</div>\n"
+        sections_html += f'<section id="{anchor_id}" class="mb-20"><h2 class="font-display text-lg uppercase tracking-[0.3em] text-zinc-200 mb-12">{label}</h2>{rows}</section>\n'
+
+    nav_links = "".join(f'<a href="#{aid}" class="hover:text-ember transition">{lbl}</a>' for aid, lbl in anchors)
+
+    body = f"""
+{nav(prefix)}
+  <main class="bg-[#0a0908] text-white px-6 md:px-16 pt-32 pb-32">
+    <div class="max-w-3xl mb-16">
+      <p class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-4">The Slate</p>
+      <h1 class="font-display text-3xl md:text-5xl font-medium leading-tight">Stories about identity, consequence, and what refuses to stay buried.</h1>
+    </div>
+    <div class="sticky top-20 z-40 bg-[#0a0908]/95 backdrop-blur-md border-y border-white/10 py-4 mb-20 -mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto">
+      <div class="flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-6 md:gap-8 text-xs uppercase tracking-[0.25em] text-white/60 whitespace-nowrap">
+        {nav_links}
+      </div>
+    </div>
+    {sections_html}
+{footer(prefix)}
+  </main>
+{back_to_top()}
+{calendly_modal()}
+"""
+    html = head(title, description, "/work.html", "/og-image.jpg", prefix, []) + body + HTML_FOOT.format(prefix=prefix)
+    return html
+
+
+def build_project(p):
+    prefix = "../"
+    title = f"{p['title']} | Kris Shuman"
+    description = p["zinger"]
+    canonical_path = f"/projects/{p['slug']}.html"
+
+    gallery_html = ""
+    if p["gallery"]:
+        items = "".join(
+            f"""<div class="space-y-3 w-[78vw] md:w-auto">
+              <img src="{prefix}{g['src'][1:]}" alt="{esc(g.get('caption', p['title']))}" loading="lazy" width="500" height="280" class="w-full h-[230px] md:h-[260px] object-cover bg-zinc-900">
+              <p class="text-sm text-zinc-500">{esc(g.get('caption',''))}</p>
+            </div>"""
+            for g in p["gallery"]
+        )
+        gallery_html = f"""
+    <section class="pb-24 md:pb-28 bg-[#0d0a08] pt-16">
+      <p class="text-xs tracking-[0.25em] uppercase text-white/40 mb-8 px-6 md:px-12 max-w-6xl mx-auto">Stills</p>
+      <div class="md:hidden snap-row px-6 -mx-0">{items}</div>
+      <div class="hidden md:grid max-w-6xl mx-auto px-12 grid-cols-3 gap-8">{items}</div>
+    </section>
+"""
+
+    themes_html = "".join(f"<li>{esc(t)}</li>" for t in p["themes"])
+
+    rel = related(p["slug"])
+    rel_html = "".join(f"""
+        <a href="{prefix}projects/{r['slug']}.html" class="group block">
+          <img src="{prefix}{r['image'][1:]}" alt="{esc(r['title'])}" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 mb-4 transition group-hover:opacity-80">
+          <p class="text-sm text-white/50 mb-2">{esc(r['title'])}</p>
+          <p class="font-display text-lg text-white">{esc(r['zinger'])}</p>
+        </a>""" for r in rel)
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": p["title"],
+        "description": p["overview"][:300],
+        "genre": p["genre"],
+        "creator": {"@type": "Person", "name": "Kris Shuman"},
+        "image": SITE_URL + p["image"],
+        "url": SITE_URL + canonical_path,
+    }
+
+    body = f"""
+{nav(prefix)}
+  <main class="bg-[#0a0908] text-white min-h-screen">
+    <section class="relative w-full h-[62vh] md:h-screen overflow-hidden">
+      <img src="{prefix}{p['image'][1:]}" alt="{esc(p['title'])}" class="absolute inset-0 w-full h-full object-cover object-top" width="2200" height="1238">
+      <div class="absolute inset-0 overlay-cinematic"></div>
+      <div class="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 pb-12 md:pb-20 w-full">
+        <h1 class="font-display font-medium text-[clamp(1.9rem,5.5vw,4.6rem)] leading-[1.08] mb-3 max-w-[92%] md:max-w-[80%]">{esc(p['title'])}</h1>
+        <p class="text-base md:text-lg text-zinc-200 max-w-[90%] md:max-w-[65%]">{esc(p['subtitle'])}</p>
+      </div>
+    </section>
+
+    <section class="border-b border-white/10 bg-[#0d0a08]">
+      <div class="max-w-5xl mx-auto px-6 md:px-12 py-5 md:py-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-xs md:text-sm">
+        <div class="flex sm:flex-col gap-2 sm:gap-1">
+          <span class="text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs">Format</span>
+          <span class="text-white/80 uppercase tracking-[0.1em]">{esc(p['genre'])}</span>
+        </div>
+        <div class="flex sm:flex-col gap-2 sm:gap-1">
+          <span class="text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs">Status</span>
+          <span class="text-ember uppercase tracking-[0.1em]">{esc(p['status'])}</span>
+        </div>
+        <div class="flex sm:flex-col gap-2 sm:gap-1">
+          <span class="text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs">Comps</span>
+          <span class="text-white/80 italic">{esc(p['comps'])}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="pt-16 md:pt-20 pb-4 px-6">
+      {pull_quote(p['teaser'], p['teaser_speaker'])}
+    </section>
+
+    <section class="py-16">
+      <div class="px-6 md:px-16 w-full">
+        <div class="max-w-2xl mb-14 space-y-4">
+          <p class="text-xs tracking-[0.25em] uppercase text-white/40">Overview</p>
+          <p class="text-lg md:text-xl text-zinc-300 leading-normal">{esc(p['overview'])}</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-10 md:gap-16 max-w-4xl">
+          <div>
+            <p class="text-xs tracking-[0.25em] uppercase text-white/40 mb-5">Themes</p>
+            <ul class="space-y-3 text-lg text-white/80 list-none">{themes_html}</ul>
+          </div>
+          <div>
+            <p class="text-xs tracking-[0.25em] uppercase text-white/40 mb-5">Tone</p>
+            <p class="text-lg text-white/80">{esc(p['tone'])}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {gallery_html}
+
+    <section class="pb-24 pt-16">
+      <div class="max-w-3xl mx-auto px-6 md:px-12 space-y-8">
+        <p class="font-display text-2xl">If this kind of story fits what you&rsquo;re building&mdash;let&rsquo;s talk.</p>
+        <div class="flex flex-col md:flex-row gap-4">
+          <button type="button" data-open-request data-project="{esc(p['title'])}" class="tap-target px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-white/30 text-white/70 hover:text-white hover:border-white/50 transition">Request Materials</button>
+          <button type="button" data-open-calendly class="tap-target px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/15 hover:bg-ember/30 transition">Schedule a Call</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-white/5 pt-16 pb-24 bg-[#0d0a08]">
+      <div class="max-w-6xl mx-auto px-6 md:px-12">
+        <p class="text-xs tracking-[0.25em] uppercase text-white/40 mb-10">More Stories</p>
+        <div class="grid md:grid-cols-3 gap-8">{rel_html}</div>
+      </div>
+    </section>
+
+{footer(prefix)}
+  </main>
+{back_to_top()}
+{calendly_modal()}
+{request_modal()}
+"""
+    html = head(title, description, canonical_path, p["image"], prefix, [jsonld]) + body + HTML_FOOT.format(prefix=prefix)
+    return html
+
+
+def write(path, content):
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+
+def build_sitemap():
+    urls = ["/", "/about.html", "/work.html"] + [f"/projects/{p['slug']}.html" for p in ACTIVE_PROJECTS]
+    items = "\n".join(f"  <url><loc>{SITE_URL}{u}</loc></url>" for u in urls)
+    return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>\n'
+
+
+def build_robots():
+    return f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n"
+
+
+if __name__ == "__main__":
+    os.makedirs(f"{OUT}/images/laurels", exist_ok=True)
+    write(f"{OUT}/index.html", build_index())
+    write(f"{OUT}/about.html", build_about())
+    write(f"{OUT}/work.html", build_work())
+    for p in ACTIVE_PROJECTS:
+        write(f"{OUT}/projects/{p['slug']}.html", build_project(p))
+    write(f"{OUT}/sitemap.xml", build_sitemap())
+    write(f"{OUT}/robots.txt", build_robots())
+    print(f"Built {3 + len(ACTIVE_PROJECTS)} HTML pages + sitemap.xml + robots.txt")

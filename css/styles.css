@@ -1,0 +1,130 @@
+/* Custom rules layered on top of Tailwind's CDN utilities. */
+
+html {
+  scroll-behavior: smooth;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+body {
+  background-color: #0a0908;
+}
+
+/* ---------- type ---------- */
+
+.font-display {
+  font-family: 'Fraunces', 'Georgia', serif;
+}
+
+/* ---------- cinematic image overlays ----------
+   Flat black overlays read flat. These gradients give heroes a vignette + a
+   faint warm (ember) cast at the base, which is what makes a still image
+   feel graded rather than just dimmed. */
+
+.overlay-cinematic {
+  background: linear-gradient(
+    to top,
+    rgba(8, 6, 5, 0.92) 0%,
+    rgba(10, 8, 7, 0.55) 38%,
+    rgba(10, 8, 7, 0.18) 65%,
+    rgba(10, 8, 7, 0.35) 100%
+  );
+}
+
+.overlay-cinematic-soft {
+  background: linear-gradient(
+    to top,
+    rgba(8, 6, 5, 0.85) 0%,
+    rgba(10, 8, 7, 0.35) 45%,
+    rgba(10, 8, 7, 0.05) 75%
+  );
+}
+
+.overlay-vignette {
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%);
+}
+
+/* ---------- recognized-by marquee ----------
+   Same markup/animation on mobile and desktop -- it just scales with the
+   container, so there's no separate mobile treatment to keep in sync. */
+
+.marquee-mask {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 36s linear infinite;
+  will-change: transform;
+}
+.marquee-mask:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* ---------- laurel badge (used until real festival logo art is supplied) ---------- */
+
+.laurel {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+/* ---------- horizontal scroll-snap rows (mobile galleries, recognition strip) ---------- */
+
+.snap-row {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 1rem;
+}
+.snap-row::-webkit-scrollbar { display: none; }
+.snap-row > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ---------- texture: a faint grain so flat dark sections don't look like a SaaS template ---------- */
+
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+
+@keyframes scrollDot {
+  0% { transform: translateY(0); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translateY(12px); opacity: 0; }
+}
+.animate-scrollDot {
+  animation: scrollDot 1.6s ease-in-out infinite;
+}
+
+/* ---------- mobile touch targets ---------- */
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
