@@ -125,19 +125,66 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Homepage slate search
+  // Homepage slate search — live dropdown over all 14 projects
   var slateSearch = document.getElementById("slateSearch");
-  var slateGrid = document.getElementById("slateGrid");
-  if (slateSearch && slateGrid) {
-    var cards = Array.prototype.slice.call(slateGrid.children);
-    slateSearch.addEventListener("input", function () {
-      var q = slateSearch.value.trim().toLowerCase();
-      cards.forEach(function (card) {
+  var slateResults = document.getElementById("slateResults");
+  if (slateSearch && slateResults && typeof ALL_PROJECTS !== "undefined") {
+    function renderResults(q) {
+      q = q.trim();
+      if (q.length < 3) { slateResults.classList.add("hidden"); slateResults.innerHTML = ""; return; }
+      var re = new RegExp("\\b" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+      var hits = ALL_PROJECTS.filter(function (p) {
+        return re.test(p.title);
+      });
+      if (hits.length === 0) {
+        slateResults.innerHTML = '<p class="px-4 py-3 text-xs text-zinc-500">No projects found.</p>';
+      } else {
+        slateResults.innerHTML = hits.map(function (p) {
+          return '<a href="' + p.url + '" class="flex flex-col px-4 py-3 border-b border-white/10 last:border-0 hover:bg-white/5 transition">' +
+            '<span class="text-sm text-white">' + p.title + '</span>' +
+            '<span class="text-[11px] uppercase tracking-[0.15em] text-zinc-500 mt-0.5">' + p.genre + '</span>' +
+            '</a>';
+        }).join("");
+      }
+      slateResults.classList.remove("hidden");
+    }
+    slateSearch.addEventListener("input", function () { renderResults(slateSearch.value); });
+    slateSearch.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { slateResults.classList.add("hidden"); slateSearch.value = ""; }
+      if (e.key === "Enter") { var first = slateResults.querySelector("a"); if (first) first.click(); }
+    });
+    document.addEventListener("click", function (e) {
+      if (!slateSearch.contains(e.target) && !slateResults.contains(e.target)) {
+        slateResults.classList.add("hidden");
+      }
+    });
+  }
+
+  // Full slate page search (work.html) — filters all 14 project cards
+  var workSearch = document.getElementById("workSearch");
+  if (workSearch) {
+    var allCards = Array.prototype.slice.call(document.querySelectorAll("[data-title]"));
+
+    function filterCards(q) {
+      q = q.trim().toLowerCase();
+      allCards.forEach(function (card) {
         var title = card.getAttribute("data-title") || "";
         var zinger = card.getAttribute("data-zinger") || "";
         var match = !q || title.indexOf(q) !== -1 || zinger.indexOf(q) !== -1;
-        card.classList.toggle("hidden", !match);
+        card.style.display = match ? "" : "none";
       });
+    }
+
+    // Pre-populate from URL param (e.g. work.html?q=ballad)
+    var params = new URLSearchParams(window.location.search);
+    var initialQ = params.get("q") || "";
+    if (initialQ) {
+      workSearch.value = initialQ;
+      filterCards(initialQ);
+    }
+
+    workSearch.addEventListener("input", function () {
+      filterCards(workSearch.value);
     });
   }
 });
