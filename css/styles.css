@@ -61,9 +61,6 @@ body {
   animation: marquee-scroll 36s linear infinite;
   will-change: transform;
 }
-.marquee-mask:hover .marquee-track {
-  animation-play-state: paused;
-}
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
