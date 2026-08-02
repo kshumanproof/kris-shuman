@@ -125,6 +125,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Representation — Contact Rep button (obfuscated email, never in HTML)
+  var contactRepBtn = document.getElementById("contactRepBtn");
+  if (contactRepBtn) {
+    contactRepBtn.addEventListener("click", function () {
+      var e = ["info", "middlerockmanagement.com"].join("@");
+      window.location.href = "mailto:" + e;
+    });
+  }
+
   // Homepage slate search — live dropdown over all 14 projects
   var slateSearch = document.getElementById("slateSearch");
   var slateResults = document.getElementById("slateResults");
