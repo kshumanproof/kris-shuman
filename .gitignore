@@ -44,6 +44,15 @@ yarn-error.log*
 /html-site
 /_archive_delete_me
 
+# python (build_site.py leaves this behind)
+__pycache__/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# full-resolution source photos: kept on disk so heroes can be re-cut,
+# never committed (they're ~45 MB and the graded .webp is what the site serves)
+images/**/*.jpeg
+images/**/*.jpg
+images/laurels/HollyShorts+Logo.png

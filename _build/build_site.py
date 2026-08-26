@@ -5,7 +5,8 @@ import sys
 sys.path.insert(0, ".")
 from data import PROJECTS, FORMAT_LABEL, STATUS_GROUPS, RECOGNITION, PRESS_QUOTE
 
-OUT = "/sessions/admiring-youthful-keller/mnt/kris-shuman-site/html-site"
+# Site root = the folder above this one, so the builder works from any checkout.
+OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE_URL = "https://krisshuman.com"
 GA_ID = "G-7LMZHXYYBF"
@@ -21,6 +22,7 @@ RECOGNITION_SLUGS = {
     "Final Draft Big Break": "final-draft-big-break",
     "PAGE Awards": "page-awards",
     "Nashville Film Festival": "nashville-film-festival",
+    "HollyShorts Film Festival": "hollyshorts",
 }
 
 
@@ -272,6 +274,40 @@ def press_quote_section():
 
 # ---------- page builders ----------
 
+def work_order():
+    """Active projects in the order the work page lists them (status group, then format)."""
+    ordered = []
+    for _label, statuses in STATUS_GROUPS:
+        group = [p for p in ACTIVE_PROJECTS if p["status"] in statuses]
+        for fmt in ("feature", "tv", "short"):
+            ordered += [p for p in group if p["format"] == fmt]
+    return ordered
+
+
+def straight(s):
+    """Curly apostrophes -> straight, for JS string literals and data- attributes."""
+    return s.replace("\u2019", "'")
+
+
+def all_projects_script():
+    """Inline index of the active slate that powers the search box in js/main.js."""
+    rows = ",\n".join(
+        "    {{ title: {t}, url: {u}, genre: {g}, zinger: {z} }}".format(
+            t=json.dumps(straight(p["title"]), ensure_ascii=False),
+            u=json.dumps(f"projects/{p['slug']}.html"),
+            g=json.dumps(straight(p["genre"]), ensure_ascii=False),
+            z=json.dumps(straight(p["zinger"]), ensure_ascii=False),
+        )
+        for p in work_order()
+    )
+    return f"""
+  <script>
+  var ALL_PROJECTS = [
+{rows}
+  ];
+  </script>"""
+
+
 def project_card(p, prefix):
     href = f"{prefix}projects/{p['slug']}.html"
     return f"""
@@ -338,8 +374,9 @@ def build_index():
     <section class="relative z-10 px-6 md:px-16 pt-10 pb-24 bg-[#0d0a08] mt-16">
       <div class="flex items-center justify-between mb-8 gap-6 flex-wrap">
         <p class="text-xs uppercase tracking-[0.3em] text-zinc-400">The Slate</p>
-        <div class="relative max-w-xs w-full">
-          <input id="slateSearch" type="text" placeholder="Search the slate&hellip;" class="w-full bg-transparent border-b border-white/30 text-white text-sm placeholder:text-white/40 py-2 pr-8 outline-none focus:border-ember">
+        <div class="hidden md:block relative max-w-xs w-full">
+          <input id="slateSearch" type="text" placeholder="Search all projects&hellip;" autocomplete="off" class="w-full bg-transparent border-b border-white/30 text-white text-sm placeholder:text-white/40 py-2 pr-8 outline-none focus:border-ember">
+          <div id="slateResults" class="hidden absolute top-full left-0 right-0 mt-1 bg-[#0f0c0a] border border-white/15 z-50 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"></div>
         </div>
       </div>
       <div id="slateGrid" class="flex flex-col gap-6 md:grid md:grid-cols-3 md:gap-10">
@@ -368,6 +405,13 @@ def build_index():
         <p class="font-display text-xl md:text-2xl leading-relaxed mb-12">If something here fits what you&rsquo;re building&mdash;<br class="hidden md:block">let&rsquo;s talk.</p>
         <button type="button" data-open-calendly class="tap-target inline-block px-12 py-5 text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/20 hover:bg-ember/35 transition">Schedule a Call</button>
         <p class="mt-8 text-xs text-white/40">Or <a href="mailto:kris@krisshuman.com" class="underline hover:text-ember transition">email Kris</a></p>
+
+        <div class="mt-16 pt-16 border-t border-white/10">
+          <p class="text-xs uppercase tracking-[0.35em] text-zinc-500 mb-6">Representation</p>
+          <p class="text-white/85 font-medium mb-1">Amanda Robles</p>
+          <p class="text-sm text-zinc-400 mb-8">Middle Rock Management</p>
+          <button type="button" id="contactRepBtn" class="tap-target text-xs uppercase tracking-[0.3em] text-zinc-400 hover:text-ember transition border-b border-zinc-600 hover:border-ember pb-0.5">Contact Rep &rarr;</button>
+        </div>
       </div>
     </section>
 
@@ -375,7 +419,7 @@ def build_index():
   </main>
 {back_to_top()}
 {calendly_modal()}
-"""
+{all_projects_script()}"""
     html = head(title, description, "/", "/og-image.jpg", prefix, [PERSON_JSONLD]) + body + HTML_FOOT.format(prefix=prefix)
     return html
 
@@ -387,18 +431,18 @@ def build_about():
     body = f"""
 {nav(prefix)}
   <main class="bg-[#0a0908] text-white">
-    <section class="relative w-full min-h-[70vh] md:min-h-[88vh] flex flex-col justify-end overflow-hidden">
-      <img src="{prefix}images/about/forest-road.webp" alt="A quiet Southern forest road" class="absolute inset-0 w-full h-full object-cover" width="2200" height="1467">
+    <section class="relative w-full min-h-[100vh] flex flex-col justify-center">
+      <img src="{prefix}images/about/forest-road.webp" alt="A quiet Southern forest road" class="absolute inset-0 w-full h-full object-cover overflow-hidden" width="2200" height="1467">
       <div class="absolute inset-0 overlay-cinematic"></div>
-      <div class="relative z-10 px-6 md:px-16 pb-14 md:pb-20 w-full">
-        <div class="max-w-2xl mx-auto md:mx-0 space-y-5 text-center md:text-left text-white">
+      <div class="relative z-10 px-6 md:px-16 pt-32 pb-14 md:pb-20 w-full">
+        <div class="max-w-2xl mx-auto space-y-5 text-center text-white">
           <p class="text-base md:text-lg text-white/90 leading-snug">Being raised in the South, stories weren&rsquo;t told. They were lived. Avoided. Buried. But that&rsquo;s not just where I&rsquo;m from. That&rsquo;s how people are.</p>
           <p class="text-base md:text-lg text-white/90 leading-snug">Recovery didn&rsquo;t give me answers. It just made it harder to ignore things. And once you start seeing the truth &mdash; you can&rsquo;t unsee it.</p>
           <p class="text-base md:text-lg text-white/90 leading-snug">That&rsquo;s what I write about: people at the breaking point, and the moment where who they&rsquo;ve been pretending to be stops working.</p>
           <p class="text-base md:text-lg text-white/90 leading-snug">I don&rsquo;t build characters. I follow them. And eventually, the truth shows up.</p>
           <p class="font-display pt-3 text-xl md:text-2xl font-medium text-white leading-snug">I didn&rsquo;t come to storytelling to escape anything. I came to face it. And I chose to write about it.</p>
           <div class="flex justify-center md:justify-end pt-2">
-            <img src="{prefix}images/signature.webp" alt="Kris Shuman signature" class="w-[130px] opacity-85" width="130" height="56">
+            <img src="{prefix}images/signature.webp" alt="Kris Shuman signature" class="w-[160px] opacity-85" width="160" height="69">
           </div>
         </div>
       </div>
@@ -412,6 +456,7 @@ def build_about():
         <button type="button" id="openResume" class="tap-target px-8 py-4 text-sm uppercase tracking-[0.3em] border border-white/40 text-white hover:border-ember hover:text-ember transition">View R&eacute;sum&eacute;</button>
         <a href="{prefix}work.html" class="tap-target px-8 py-4 text-sm uppercase tracking-[0.3em] border border-ember bg-ember/15 text-white hover:bg-ember/30 transition">View the Slate</a>
       </div>
+      <p class="mt-10 text-xs text-zinc-500">Represented by <span class="text-zinc-300">Amanda Robles</span> &middot; Middle Rock Management</p>
     </section>
 
 {footer(prefix)}
@@ -456,7 +501,7 @@ def build_work():
                 tint = "bg-[#0d0a08]" if row_count % 2 else ""
                 row_count += 1
                 rows += f"""
-              <a href="{prefix}projects/{p['slug']}.html" class="group block transition duration-500 hover:-translate-y-1 {tint} md:bg-transparent p-4 md:p-0 -mx-4 md:mx-0 rounded">
+              <a href="{prefix}projects/{p['slug']}.html" class="group block transition duration-500 hover:-translate-y-1 {tint} md:bg-transparent p-4 md:p-0 -mx-4 md:mx-0 rounded" data-title="{esc(straight(p['title'].lower()))}" data-zinger="{esc(straight(p['zinger'].lower()))}">
                 <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
                   <div class="relative w-full aspect-video overflow-hidden bg-zinc-900 {order}">
                     <span class="absolute top-3 left-3 z-10 text-[10px] uppercase tracking-[0.3em] bg-black/70 px-3 py-1 text-white/70">{esc(p['status'])}</span>
@@ -489,6 +534,10 @@ def build_work():
         {nav_links}
       </div>
     </div>
+    <div class="mb-12 relative max-w-md">
+      <input id="workSearch" type="text" placeholder="Search all projects&hellip;" class="w-full bg-transparent border-b border-white/30 text-white text-sm placeholder:text-white/40 py-2 pr-8 outline-none focus:border-ember">
+    </div>
+
     {sections_html}
 {footer(prefix)}
   </main>
@@ -506,7 +555,7 @@ def build_project(p):
     canonical_path = f"/projects/{p['slug']}.html"
 
     gallery_html = ""
-    if p["gallery"]:
+    if p["gallery"] and p.get("show_gallery", False):
         items = "".join(
             f"""<div class="space-y-3 w-[78vw] md:w-auto">
               <img src="{prefix}{g['src'][1:]}" alt="{esc(g.get('caption', p['title']))}" loading="lazy" width="500" height="280" class="w-full h-[230px] md:h-[260px] object-cover bg-zinc-900">
