@@ -73,16 +73,7 @@ PROJECTS = [
         "comps": "Guardians of the Galaxy meets Firefly",
         "nominations": [],
         "show_gallery": False,
-        "gallery": [
-            {"src": "/images/sunsets-in-memphis/ship.webp", "caption": "We’re stranded!"},
-            {"src": "/images/sunsets-in-memphis/control-room.webp", "caption": "It’s quiet out here."},
-            {"src": "/images/sunsets-in-memphis/dead-creature.webp", "caption": "The bastard responsible."},
-            {"src": "/images/sunsets-in-memphis/hopeless.webp", "caption": "Is there anyone out there?"},
-            {"src": "/images/sunsets-in-memphis/radio-busted.webp", "caption": "Damn thing’s busted."},
-            {"src": "/images/sunsets-in-memphis/somebody-help.webp", "caption": "It’s no use…"},
-            {"src": "/images/sunsets-in-memphis/screwed.webp", "caption": "…I’m all alone."},
-            {"src": "/images/sunsets-in-memphis/womans-best-friend.webp", "caption": "At least I still got you, Atlas."},
-        ],
+        "gallery": [],
         "active": True, "slate": True, "featured": False,
     },
     {

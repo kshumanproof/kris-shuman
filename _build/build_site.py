@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
+import datetime
 import json
 import os
 import sys
+
+from PIL import Image
 sys.path.insert(0, ".")
 from data import PROJECTS, FORMAT_LABEL, STATUS_GROUPS, RECOGNITION, TIER1_ORGS, ORG_SHORT, PRESS_QUOTE
 
@@ -12,6 +15,28 @@ SITE_URL = "https://krisshuman.com"
 GA_ID = "G-7LMZHXYYBF"
 CALENDLY = "https://calendly.com/kris-krisshuman/30min"
 FORMSPREE = "https://formspree.io/f/mgorgjgb"
+
+# Site-wide share card. A real photograph - the homepage hero, which is also the
+# grade reference for every project hero - cut to the 1.91:1 shape social cards
+# actually render. Filename is deliberately new so Facebook, LinkedIn and X fetch
+# it fresh instead of serving whatever they cached for the old one.
+SITE_COVER = "/og-cover.jpg"
+SITE_COVER_ALT = "A dirt road running into dense Southern pine woods under a flat grey sky"
+
+_DIMS = {}
+
+
+def image_dims(rel_path):
+    """Real pixel size of an image, read once per build. Social platforms use the
+    declared width/height to lay a card out before the file arrives, so guessing
+    them - as this file did with a hardcoded 1200x630 - gets the card cropped."""
+    if rel_path not in _DIMS:
+        try:
+            with Image.open(os.path.join(OUT, rel_path.lstrip("/"))) as im:
+                _DIMS[rel_path] = im.size
+        except Exception:
+            _DIMS[rel_path] = (1200, 630)
+    return _DIMS[rel_path]
 
 ACTIVE_PROJECTS = [p for p in PROJECTS if p["active"]]
 
@@ -188,9 +213,12 @@ TAILWIND_CONFIG = """
 """
 
 
-def head(title, description, canonical_path, og_image, prefix, jsonld_objs=None):
+def head(title, description, canonical_path, og_image, prefix, jsonld_objs=None,
+         og_type="website", og_image_alt=None):
     canonical = SITE_URL + canonical_path
     og_image_url = SITE_URL + og_image
+    og_w, og_h = image_dims(og_image)
+    og_image_alt = og_image_alt or title
     jsonld_objs = jsonld_objs or []
     jsonld_html = "\n".join(
         f'  <script type="application/ld+json">{json.dumps(o)}</script>' for o in jsonld_objs
@@ -210,15 +238,20 @@ def head(title, description, canonical_path, og_image, prefix, jsonld_objs=None)
   <meta property="og:description" content="{esc(description)}">
   <meta property="og:url" content="{canonical}">
   <meta property="og:site_name" content="Kris Shuman">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{og_type}">
+  <meta property="og:locale" content="en_US">
   <meta property="og:image" content="{og_image_url}">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="{og_w}">
+  <meta property="og:image:height" content="{og_h}">
+  <meta property="og:image:alt" content="{esc(og_image_alt)}">
 
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thekrisshuman">
+  <meta name="twitter:creator" content="@thekrisshuman">
   <meta name="twitter:title" content="{esc(title)}">
   <meta name="twitter:description" content="{esc(description)}">
   <meta name="twitter:image" content="{og_image_url}">
+  <meta name="twitter:image:alt" content="{esc(og_image_alt)}">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -362,15 +395,106 @@ def nomination_lines(p):
     return out
 
 
+def project_description(p):
+    """Search snippet. The zinger earns the click; the placements say why it is
+    worth one. Full festival names, because that is what people type. The genre
+    tail is only added when it fits inside the ~160 characters Google displays -
+    a truncated credit reads worse than no credit."""
+    out = p["zinger"].rstrip()
+    if show_nominations(p):
+        orgs = [n["org"] for n in listed_nominations(p)]
+        total = nomination_count(p)
+        word = "nomination" if total == 1 else "nominations"
+        if len(orgs) == 1:
+            listed = f"at {orgs[0]}"
+        elif len(orgs) == 2:
+            listed = f"at {orgs[0]} and {orgs[1]}"
+        else:
+            listed = f"at {orgs[0]}, {orgs[1]} and {len(orgs) - 2} more"
+        out += f" {total} screenplay {word} {listed}."
+    else:
+        tail = f" {p['genre']} by screenwriter Kris Shuman."
+        if len(out) + len(tail) <= 160:
+            out += tail
+    return out
+
+
+def all_awards():
+    """Every placement the site displays, as a flat record for the Person entity -
+    the thing that ties 'Kris Shuman' to these festivals in a knowledge graph."""
+    out = []
+    for p in ACTIVE_PROJECTS:
+        if not show_nominations(p):
+            continue
+        for n in listed_nominations(p):
+            years = ", ".join(str(y) for y in n.get("years", []))
+            out.append(f'{n["org"]} - {p["title"]}' + (f" ({years})" if years else ""))
+    return out
+
+
+WEBSITE_JSONLD = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Kris Shuman",
+    "url": SITE_URL,
+    "inLanguage": "en-US",
+}
+
+
+def slate_jsonld():
+    """The slate index had no structured data at all. This states, in order, that
+    the page is a list of these eleven works."""
+    return {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "The Kris Shuman slate",
+        "itemListOrder": "https://schema.org/ItemListOrderAscending",
+        "numberOfItems": len(work_order()),
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": p["title"],
+             "url": f"{SITE_URL}/projects/{p['slug']}.html"}
+            for i, p in enumerate(work_order())
+        ],
+    }
+
+
+def breadcrumb_jsonld(p):
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "The Slate", "item": SITE_URL + "/work.html"},
+            {"@type": "ListItem", "position": 3, "name": p["title"],
+             "item": f"{SITE_URL}/projects/{p['slug']}.html"},
+        ],
+    }
+
+
+def person_jsonld():
+    """PERSON_JSONLD plus the parts that need the project data: a stable @id every
+    CreativeWork points at, and the award list."""
+    d = dict(PERSON_JSONLD)
+    d["@id"] = SITE_URL + "/#kris-shuman"
+    d["knowsAbout"] = ["Screenwriting", "Southern Gothic fiction",
+                       "Television drama", "Feature film development"]
+    awards = all_awards()
+    if awards:
+        d["award"] = awards
+    return d
+
+
 def recognition_chip(n):
     """One festival mark: common name, then the year(s) it placed, in ember."""
     name = ORG_SHORT.get(n["org"], n["org"])
+    shown = (esc(name) if name == n["org"] else
+             f'<abbr title="{esc(n["org"])}" class="no-underline">{esc(name)}</abbr>')
     years = ", ".join(str(y) for y in n.get("years", []))
     yr = (f'<span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">{esc(years)}</span>'
           if years else "")
     return (f'<span class="inline-flex items-baseline gap-2 border border-white/10 '
             f'bg-white/[0.02] px-3 py-1.5 whitespace-nowrap">'
-            f'<span class="text-white/80 text-xs sm:text-[13px]">{esc(name)}</span>{yr}</span>')
+            f'<span class="text-white/80 text-xs sm:text-[13px]">{shown}</span>{yr}</span>')
 
 
 def recognition_row(p):
@@ -517,7 +641,8 @@ def build_index():
 {back_to_top()}
 {calendly_modal()}
 {all_projects_script()}"""
-    html = head(title, description, "/", "/og-image.jpg", prefix, [PERSON_JSONLD]) + body + HTML_FOOT.format(prefix=prefix)
+    html = head(title, description, "/", SITE_COVER, prefix, [person_jsonld(), WEBSITE_JSONLD],
+                og_image_alt=SITE_COVER_ALT) + body + HTML_FOOT.format(prefix=prefix)
     return html
 
 
@@ -528,6 +653,7 @@ def build_about():
     body = f"""
 {nav(prefix)}
   <main class="bg-[#0a0908] text-white">
+    <h1 class="sr-only">Kris Shuman &mdash; Southern screenwriter for film and television</h1>
     <section class="relative w-full min-h-[100vh] flex flex-col justify-center">
       <img src="{prefix}images/about/forest-road.webp" alt="A quiet Southern forest road" class="absolute inset-0 w-full h-full object-cover overflow-hidden" width="2200" height="1467">
       <div class="absolute inset-0 overlay-cinematic"></div>
@@ -568,7 +694,8 @@ def build_about():
 {back_to_top()}
 {calendly_modal()}
 """
-    html = head(title, description, "/about.html", "/og-image.jpg", prefix, [PERSON_JSONLD]) + body + HTML_FOOT.format(prefix=prefix)
+    html = head(title, description, "/about.html", SITE_COVER, prefix, [person_jsonld()],
+                og_type="profile", og_image_alt=SITE_COVER_ALT) + body + HTML_FOOT.format(prefix=prefix)
     return html
 
 
@@ -641,14 +768,15 @@ def build_work():
 {back_to_top()}
 {calendly_modal()}
 """
-    html = head(title, description, "/work.html", "/og-image.jpg", prefix, []) + body + HTML_FOOT.format(prefix=prefix)
+    html = head(title, description, "/work.html", SITE_COVER, prefix, [slate_jsonld()],
+                og_image_alt=SITE_COVER_ALT) + body + HTML_FOOT.format(prefix=prefix)
     return html
 
 
 def build_project(p):
     prefix = "../"
     title = f"{p['title']} | Kris Shuman"
-    description = p["zinger"]
+    description = project_description(p)
     canonical_path = f"/projects/{p['slug']}.html"
 
     gallery_html = ""
@@ -687,7 +815,8 @@ def build_project(p):
         "name": p["title"],
         "description": p["overview"][:300],
         "genre": p["genre"],
-        "creator": {"@type": "Person", "name": "Kris Shuman"},
+        "creator": {"@type": "Person", "@id": SITE_URL + "/#kris-shuman", "name": "Kris Shuman"},
+        "inLanguage": "en-US",
         "image": SITE_URL + p["image"],
         "url": SITE_URL + canonical_path,
     }
@@ -773,7 +902,9 @@ def build_project(p):
 {calendly_modal()}
 {request_modal()}
 """
-    html = head(title, description, canonical_path, p["image"], prefix, [jsonld]) + body + HTML_FOOT.format(prefix=prefix)
+    html = head(title, description, canonical_path, p["image"], prefix,
+                [jsonld, breadcrumb_jsonld(p)], og_type="article",
+                og_image_alt=f"Key image for {p['title']}, {p['genre']} by Kris Shuman") + body + HTML_FOOT.format(prefix=prefix)
     return html
 
 
@@ -784,7 +915,15 @@ def write(path, content):
 
 def build_sitemap():
     urls = ["/", "/about.html", "/work.html"] + [f"/projects/{p['slug']}.html" for p in ACTIVE_PROJECTS]
-    items = "\n".join(f"  <url><loc>{SITE_URL}{u}</loc></url>" for u in urls)
+    rows = []
+    for u in urls:
+        rel = "index.html" if u == "/" else u.lstrip("/")
+        try:
+            stamp = datetime.date.fromtimestamp(os.path.getmtime(os.path.join(OUT, rel))).isoformat()
+            rows.append(f"  <url><loc>{SITE_URL}{u}</loc><lastmod>{stamp}</lastmod></url>")
+        except OSError:
+            rows.append(f"  <url><loc>{SITE_URL}{u}</loc></url>")
+    items = "\n".join(rows)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>\n'
 
 
