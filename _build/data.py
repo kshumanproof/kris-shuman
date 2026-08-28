@@ -16,6 +16,7 @@ PROJECTS = [
         "themes": ["Identity", "Family Legacy", "Inherited Violence", "Truth vs Denial"],
         "tone": "Contained tension. Intimate. Volatile. Darkly human.",
         "comps": "The Hateful Eight meets August: Osage County",
+        "nominations": [],
         "show_gallery": True,
         "gallery": [
             {"src": "/images/family-tradition/ft-gray-knife.webp", "caption": "Another name is carved."},
@@ -41,6 +42,7 @@ PROJECTS = [
         "themes": ["Grief", "Purpose", "Choice", "Letting Go"],
         "tone": "Bittersweet. Reflective. Magical realism. Quietly hopeful.",
         "comps": "Soul meets The Sixth Sense",
+        "nominations": [],
         "show_gallery": True,
         "gallery": [
             {"src": "/images/last-stop/last-stop-slugger.webp", "caption": "The Big Swinger stepping up."},
@@ -69,6 +71,7 @@ PROJECTS = [
         "themes": ["Trust", "Perception Vs. Reality", "Connection", "Purpose"],
         "tone": "Offbeat. Character-driven. Sci-fi adventure with humor.",
         "comps": "Guardians of the Galaxy meets Firefly",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/sunsets-in-memphis/ship.webp", "caption": "We’re stranded!"},
@@ -97,6 +100,11 @@ PROJECTS = [
         "themes": ["Identity", "Reinvention", "Truth Vs. Performance", "Redemption"],
         "tone": "Character-driven. Gritty. Hopeful. Southern.",
         "comps": "Erin Brockovich meets Crazy Heart",
+        "nominations": [
+            {"org": "Austin Film Festival", "years": [2025]},
+            {"org": "Los Angeles International Screenplay Awards", "years": [2025]},
+            {"org": "Filmmatic Filmmaker Awards", "years": [2025]},
+        ],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/wilder/courtroom.webp", "caption": "Like all good Southern stories…mine starts in a courtroom."},
@@ -123,6 +131,10 @@ PROJECTS = [
         "themes": ["Greed", "Myth Vs. Reality", "Survival", "Fate Vs. Choice"],
         "tone": "Violent. Darkly humorous. Mythic. Grit-soaked.",
         "comps": "No Country for Old Men meets The Hateful Eight",
+        "nominations": [
+            {"org": "HollyShorts Film Festival", "years": [2026]},
+            {"org": "Nashville Film Festival", "years": [2026]},
+        ],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/dupree/headless.webp", "caption": "Greed’ll cost you your head."},
@@ -152,6 +164,15 @@ PROJECTS = [
         "themes": ["Identity", "Family Legacy", "Buried Truth", "Moral Consequence"],
         "tone": "Slow-burn tension. Grounded. Intimate. Uneasy.",
         "comps": "Ozark meets Succession",
+        "nominations": [
+            {"org": "HollyShorts Film Festival", "years": [2026]},
+            {"org": "Nashville Film Festival", "years": [2025, 2026]},
+            {"org": "Final Draft Big Break", "years": [2025]},
+            {"org": "Austin Film Festival", "years": [2025]},
+            {"org": "PAGE International Screenwriting Awards", "years": [2025]},
+            {"org": "Los Angeles International Screenplay Awards", "years": [2025]},
+            {"org": "Filmmatic Filmmaker Awards", "years": [2025]},
+        ],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/pines/burial.webp", "caption": "We come together to lay to rest…"},
@@ -181,6 +202,9 @@ PROJECTS = [
         "themes": ["Justice Vs. Revenge", "Faith Vs. Action", "Power and Corruption", "Found Family"],
         "tone": "Gritty. Emotional. Character-first. Humor. Myth-building.",
         "comps": "Peaky Blinders meets Justified",
+        "nominations": [
+            {"org": "Nashville Film Festival", "years": [2026]},
+        ],
         "show_gallery": False,
         "gallery": [],
         "active": True, "slate": True, "featured": False,
@@ -200,6 +224,7 @@ PROJECTS = [
         "themes": ["Redemption", "Consequences", "Identity", "Second Chances"],
         "tone": "Irreverent. Fast-paced. Existential. Darkly funny.",
         "comps": "The Good Place meets Quantum Leap",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/my-life-before-me/a-time.webp", "caption": "There was a time before things got real bad."},
@@ -227,6 +252,7 @@ PROJECTS = [
         "themes": ["Identity", "Addiction", "Shame", "Acceptance"],
         "tone": "Raw. Intimate. Unflinching. Grounded.",
         "comps": "Requiem for a Dream meets Sound of Metal",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [],
         "active": False, "slate": False, "featured": False,
@@ -246,6 +272,7 @@ PROJECTS = [
         "themes": ["Redemption", "Faith Vs. Corruption", "Truth Beneath Community", "Control"],
         "tone": "Atmospheric. Slow-burn. Investigative. Unsettling.",
         "comps": "True Detective meets Mare of Easttown",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/dead-in-the-water/crime.webp", "caption": "The daylight always brings truth. But, this time…"},
@@ -273,6 +300,7 @@ PROJECTS = [
         "themes": ["Identity", "Belonging", "Ambition Vs. Responsibility", "Self-Worth"],
         "tone": "Energetic. Musical. Irreverent. Heartfelt.",
         "comps": "Across the Spider-Verse meets Walk the Line",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/colibri/bankrupt.webp", "caption": "A town on the brink of ruin."},
@@ -299,6 +327,7 @@ PROJECTS = [
         "themes": ["Loneliness", "Connection", "The Stories We Leave Behind", "Who Actually Survives"],
         "tone": "Darkly funny. Genuinely frightening. Unexpectedly tender.",
         "comps": "The Last of Us meets Zombieland",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [],
         "active": True, "slate": False, "featured": False,
@@ -318,6 +347,7 @@ PROJECTS = [
         "themes": ["Identity", "Friendship", "Escape", "Loss"],
         "tone": "Nostalgic. Gritty. Funny until it’s not.",
         "comps": "Stand by Me meets No Country for Old Men",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/nowhere/daily.webp", "caption": "A prank or an omen?"},
@@ -339,6 +369,7 @@ PROJECTS = [
         "themes": ["Identity", "Control Vs. Convenience", "Friendship", "Humanity"],
         "tone": "Offbeat. Fast-paced. Gritty. Darkly funny.",
         "comps": "Spider-Man: Into the Spider-Verse meets The Mitchells vs. the Machines",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [
             {"src": "/images/gas-boys/khans.webp", "caption": "Khan’s: a quaint country store that prioritizes experience."},
@@ -365,6 +396,7 @@ PROJECTS = [
         "themes": ["Identity", "Control", "Fate Vs. Free Will", "Altered Reality"],
         "tone": "Fast-paced. Suspenseful. Emotional. High-concept.",
         "comps": "Chronicle meets Stranger Things",
+        "nominations": [],
         "show_gallery": False,
         "gallery": [],
         "active": False, "slate": False, "featured": False,
@@ -388,6 +420,33 @@ RECOGNITION = [
     "Nashville Film Festival",
     "HollyShorts Film Festival",
 ]
+
+# Festivals listed by name in the Recognition block on a project page. Every
+# placement still counts toward the nomination badge on thumbnails - this list
+# only controls what is spelled out. Edit freely.
+TIER1_ORGS = [
+    "The Black List",
+    "Austin Film Festival",
+    "Script Pipeline",
+    "Final Draft Big Break",
+    "PAGE International Screenwriting Awards",
+    "Nashville Film Festival",
+    "HollyShorts Film Festival",
+]
+
+# Chips show the festival's common name; the full name in "org" is what goes
+# into the page's structured data. Anything missing here falls back to the full
+# name, so a new festival needs an entry only if its full name runs long.
+ORG_SHORT = {
+    "HollyShorts Film Festival": "HollyShorts",
+    "Nashville Film Festival": "Nashville",
+    "Austin Film Festival": "Austin",
+    "Final Draft Big Break": "Big Break",
+    "PAGE International Screenwriting Awards": "PAGE",
+    "Los Angeles International Screenplay Awards": "LA Screenplay Awards",
+    "Filmmatic Filmmaker Awards": "Filmmatic",
+    "The Black List": "Black List",
+}
 
 PRESS_QUOTE = {
     "text": "An existential grittiness… that could satisfy the same audience drawn to Nic Pizzolatto’s work.",

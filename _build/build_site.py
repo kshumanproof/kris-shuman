@@ -3,7 +3,7 @@ import json
 import os
 import sys
 sys.path.insert(0, ".")
-from data import PROJECTS, FORMAT_LABEL, STATUS_GROUPS, RECOGNITION, PRESS_QUOTE
+from data import PROJECTS, FORMAT_LABEL, STATUS_GROUPS, RECOGNITION, TIER1_ORGS, ORG_SHORT, PRESS_QUOTE
 
 # Site root = the folder above this one, so the builder works from any checkout.
 OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -180,7 +180,7 @@ TAILWIND_CONFIG = """
       theme: {
         extend: {
           fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Fraunces', 'Georgia', 'serif'] },
-          colors: { ember: { DEFAULT: '#C9824A', light: '#E2A571', dark: '#7A3B2E' } },
+          colors: { ember: { DEFAULT: '#C9824A', light: '#E2A571', dark: '#7A3B2E' }, gold: '#D8B25C' },
         }
       }
     }
@@ -308,12 +308,108 @@ def all_projects_script():
   </script>"""
 
 
+def nomination_count(p):
+    """A placement in two years is two nominations, not one."""
+    return sum(max(len(n.get("years", [])), 1) for n in p.get("nominations", []))
+
+
+def listed_nominations(p):
+    """Placements spelled out on the project page - the majors only. The
+    thumbnail badge still counts every placement, listed or not."""
+    return [n for n in p.get("nominations", []) if n["org"] in TIER1_ORGS]
+
+
+def show_nominations(p):
+    """On by default for every project, present and future. Set
+    "show_nominations": False to suppress the badge even when there are entries."""
+    return nomination_count(p) > 0 and p.get("show_nominations", True)
+
+
+# Award rosette. Inline so there is no asset to ship and nothing to 404, sized in
+# em so it holds proportion at both badge sizes, and drawn in currentColor so it
+# follows the badge's own colour.
+NOMINATION_MARK = (
+    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" '
+    'class="w-[1.7em] h-[1.7em] shrink-0">'
+    '<circle cx="12" cy="8" r="6"/>'
+    '<path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/>'
+    '</svg>'
+)
+
+
+def nomination_badge(p, size="sm"):
+    """Count badge for a thumbnail. Empty string when there is nothing to show."""
+    if not show_nominations(p):
+        return ""
+    n = nomination_count(p)
+    txt = f"{n} Nomination" + ("" if n == 1 else "s")
+    cls = ("text-[9px] px-2 py-1" if size == "sm" else "text-[10px] px-3 py-1")
+    tracking = "tracking-[0.25em]" if size == "sm" else "tracking-[0.3em]"
+    return (f'<span class="inline-flex items-center gap-1.5 {cls} uppercase {tracking} '
+            f'bg-black/70 text-gold whitespace-nowrap">{NOMINATION_MARK}{txt}</span>')
+
+
+def nomination_lines(p):
+    """One line per festival: org, tier, then every year it placed."""
+    out = []
+    for n in listed_nominations(p):
+        bits = [n["org"]]
+        if n.get("tier"):
+            bits.append(n["tier"])
+        if n.get("years"):
+            bits.append(", ".join(str(y) for y in n["years"]))
+        out.append(bits)
+    return out
+
+
+def recognition_chip(n):
+    """One festival mark: common name, then the year(s) it placed, in ember."""
+    name = ORG_SHORT.get(n["org"], n["org"])
+    years = ", ".join(str(y) for y in n.get("years", []))
+    yr = (f'<span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">{esc(years)}</span>'
+          if years else "")
+    return (f'<span class="inline-flex items-baseline gap-2 border border-white/10 '
+            f'bg-white/[0.02] px-3 py-1.5 whitespace-nowrap">'
+            f'<span class="text-white/80 text-xs sm:text-[13px]">{esc(name)}</span>{yr}</span>')
+
+
+def recognition_row(p):
+    """Eyebrow label over a horizontal run of chips. Wraps to a second line only
+    when the credits don't fit on one. Empty when there is nothing to list."""
+    if not show_nominations(p):
+        return ""
+    noms = listed_nominations(p)
+    if not noms:
+        return ""
+    chips = "".join(recognition_chip(n) for n in noms)
+    return f"""<div class="mb-5 md:mb-6 pb-5 md:pb-6 border-b border-white/10">
+          <span class="block text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs mb-3">Recognition</span>
+          <div class="flex flex-wrap gap-2">{chips}</div>
+        </div>
+        """
+
+
+def status_badge(p, size="sm"):
+    cls = ("text-[9px] px-2 py-1" if size == "sm" else "text-[10px] px-3 py-1")
+    tracking = "tracking-[0.25em]" if size == "sm" else "tracking-[0.3em]"
+    return (f'<span class="{cls} uppercase {tracking} bg-black/70 '
+            f'text-white/70 whitespace-nowrap">{esc(p["status"])}</span>')
+
+
+def thumb_badges(p, size="sm"):
+    """Status left, nominations right. Stacked top-left on mobile, split at md."""
+    inset = "top-2 left-2 right-2" if size == "sm" else "top-3 left-3 right-3"
+    return (f'<div class="absolute {inset} z-10 flex flex-col items-start gap-1 '
+            f'md:flex-row md:justify-between md:items-center">'
+            f'{status_badge(p, size)}{nomination_badge(p, size)}</div>')
+
+
 def project_card(p, prefix):
     href = f"{prefix}projects/{p['slug']}.html"
     return f"""
         <a href="{href}" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="{esc(p['title'].lower())}" data-zinger="{esc(p['zinger'].lower())}">
           <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
-            <span class="absolute top-2 left-2 z-10 text-[9px] uppercase tracking-[0.25em] bg-black/70 px-2 py-1 text-white/70">{esc(p['status'])}</span>
+            {thumb_badges(p, "sm")}
             <img src="{prefix.replace('projects/', '')}{p['image'][1:]}" alt="{esc(p['title'])}" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
           </div>
           <div class="flex-1 min-w-0 py-1">
@@ -357,7 +453,8 @@ def build_index():
       <p class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-6">Featured Project</p>
       <a href="{prefix}projects/{featured['slug']}.html" class="grid md:grid-cols-2 gap-8 md:gap-10 items-center group">
         <div class="relative w-full overflow-hidden rounded-md">
-          <div class="w-full aspect-[16/9] overflow-hidden">
+          <div class="w-full aspect-[16/9] overflow-hidden relative">
+            {thumb_badges(featured, "lg")}
             <img src="{prefix}{featured['image'][1:]}" alt="{esc(featured['title'])}" loading="lazy" width="800" height="450" class="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03]">
           </div>
         </div>
@@ -504,7 +601,7 @@ def build_work():
               <a href="{prefix}projects/{p['slug']}.html" class="group block transition duration-500 hover:-translate-y-1 {tint} md:bg-transparent p-4 md:p-0 -mx-4 md:mx-0 rounded" data-title="{esc(straight(p['title'].lower()))}" data-zinger="{esc(straight(p['zinger'].lower()))}">
                 <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
                   <div class="relative w-full aspect-video overflow-hidden bg-zinc-900 {order}">
-                    <span class="absolute top-3 left-3 z-10 text-[10px] uppercase tracking-[0.3em] bg-black/70 px-3 py-1 text-white/70">{esc(p['status'])}</span>
+                    {thumb_badges(p, "lg")}
                     <img src="{prefix}{p['image'][1:]}" alt="{esc(p['title'])}" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03]">
                   </div>
                   <div class="{text_order}">
@@ -576,7 +673,10 @@ def build_project(p):
     rel = related(p["slug"])
     rel_html = "".join(f"""
         <a href="{prefix}projects/{r['slug']}.html" class="group block">
-          <img src="{prefix}{r['image'][1:]}" alt="{esc(r['title'])}" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 mb-4 transition group-hover:opacity-80">
+          <div class="relative mb-4">
+            {thumb_badges(r, "sm")}
+            <img src="{prefix}{r['image'][1:]}" alt="{esc(r['title'])}" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 transition group-hover:opacity-80">
+          </div>
           <p class="text-sm text-white/50 mb-2">{esc(r['title'])}</p>
           <p class="font-display text-lg text-white">{esc(r['zinger'])}</p>
         </a>""" for r in rel)
@@ -591,6 +691,8 @@ def build_project(p):
         "image": SITE_URL + p["image"],
         "url": SITE_URL + canonical_path,
     }
+    if show_nominations(p):
+        jsonld["award"] = [" \u2014 ".join(bits) for bits in nomination_lines(p)]
 
     body = f"""
 {nav(prefix)}
@@ -605,7 +707,8 @@ def build_project(p):
     </section>
 
     <section class="border-b border-white/10 bg-[#0d0a08]">
-      <div class="max-w-5xl mx-auto px-6 md:px-12 py-5 md:py-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-xs md:text-sm">
+      <div class="max-w-5xl mx-auto px-6 md:px-12 py-5 md:py-6">
+        {recognition_row(p)}<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-xs md:text-sm">
         <div class="flex sm:flex-col gap-2 sm:gap-1">
           <span class="text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs">Format</span>
           <span class="text-white/80 uppercase tracking-[0.1em]">{esc(p['genre'])}</span>
@@ -617,6 +720,7 @@ def build_project(p):
         <div class="flex sm:flex-col gap-2 sm:gap-1">
           <span class="text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs">Comps</span>
           <span class="text-white/80 italic">{esc(p['comps'])}</span>
+        </div>
         </div>
       </div>
     </section>

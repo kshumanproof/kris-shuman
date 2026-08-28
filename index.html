@@ -34,7 +34,7 @@
       theme: {
         extend: {
           fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Fraunces', 'Georgia', 'serif'] },
-          colors: { ember: { DEFAULT: '#C9824A', light: '#E2A571', dark: '#7A3B2E' } },
+          colors: { ember: { DEFAULT: '#C9824A', light: '#E2A571', dark: '#7A3B2E' }, gold: '#D8B25C' },
         }
       }
     }
@@ -117,7 +117,8 @@
       <p class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-6">Featured Project</p>
       <a href="projects/family-tradition.html" class="grid md:grid-cols-2 gap-8 md:gap-10 items-center group">
         <div class="relative w-full overflow-hidden rounded-md">
-          <div class="w-full aspect-[16/9] overflow-hidden">
+          <div class="w-full aspect-[16/9] overflow-hidden relative">
+            <div class="absolute top-3 left-3 right-3 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[10px] px-3 py-1 uppercase tracking-[0.3em] bg-black/70 text-white/70 whitespace-nowrap">Post-Production</span></div>
             <img src="images/family-tradition/ft-gray-diner.webp" alt="Family Tradition" loading="lazy" width="800" height="450" class="w-full h-full object-cover transition duration-700 group-hover:scale-[1.03]">
           </div>
         </div>
@@ -143,7 +144,7 @@
         
         <a href="projects/the-last-stop.html" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="the last stop" data-zinger="he thought he was ready to die—until life gave him one more reason to stay.">
           <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
-            <span class="absolute top-2 left-2 z-10 text-[9px] uppercase tracking-[0.25em] bg-black/70 px-2 py-1 text-white/70">Post-Production</span>
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">Post-Production</span></div>
             <img src="images/last-stop/last-stop-station.webp" alt="The Last Stop" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
           </div>
           <div class="flex-1 min-w-0 py-1">
@@ -156,7 +157,7 @@
 
         <a href="projects/sunsets-in-memphis.html" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="sunsets in memphis" data-zinger="a lone gunslinger in space is forced to trust the one man too useless to survive—until he saves everything.">
           <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
-            <span class="absolute top-2 left-2 z-10 text-[9px] uppercase tracking-[0.25em] bg-black/70 px-2 py-1 text-white/70">In Development</span>
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">In Development</span></div>
             <img src="images/sunsets-in-memphis/sunsets-hero.webp" alt="Sunsets In Memphis" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
           </div>
           <div class="flex-1 min-w-0 py-1">
@@ -169,7 +170,7 @@
 
         <a href="projects/wilder.html" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="wilder" data-zinger="she lied her way into his story—now it’s the only thing that can save her life.">
           <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
-            <span class="absolute top-2 left-2 z-10 text-[9px] uppercase tracking-[0.25em] bg-black/70 px-2 py-1 text-white/70">In Development</span>
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">In Development</span><span class="inline-flex items-center gap-1.5 text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-gold whitespace-nowrap"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="w-[1.7em] h-[1.7em] shrink-0"><circle cx="12" cy="8" r="6"/><path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/></svg>3 Nominations</span></div>
             <img src="images/wilder/wilder-hero.webp" alt="Wilder" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
           </div>
           <div class="flex-1 min-w-0 py-1">
@@ -182,7 +183,7 @@
 
         <a href="projects/dupree.html" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="who stole the head of bobbi dupree" data-zinger="a severed head holds the map to a fortune—now every killer in the territory wants it.">
           <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
-            <span class="absolute top-2 left-2 z-10 text-[9px] uppercase tracking-[0.25em] bg-black/70 px-2 py-1 text-white/70">In Development</span>
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">In Development</span><span class="inline-flex items-center gap-1.5 text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-gold whitespace-nowrap"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="w-[1.7em] h-[1.7em] shrink-0"><circle cx="12" cy="8" r="6"/><path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/></svg>2 Nominations</span></div>
             <img src="images/dupree/dupree-hero.webp" alt="Who Stole the Head of Bobbi DuPree" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
           </div>
           <div class="flex-1 min-w-0 py-1">
@@ -195,7 +196,7 @@
 
         <a href="projects/pines.html" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="what’s buried beneath the pines" data-zinger="some families pass down land. his passed down bodies.">
           <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
-            <span class="absolute top-2 left-2 z-10 text-[9px] uppercase tracking-[0.25em] bg-black/70 px-2 py-1 text-white/70">In Development</span>
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">In Development</span><span class="inline-flex items-center gap-1.5 text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-gold whitespace-nowrap"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="w-[1.7em] h-[1.7em] shrink-0"><circle cx="12" cy="8" r="6"/><path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/></svg>8 Nominations</span></div>
             <img src="images/pines/pines-hero.webp" alt="What’s Buried Beneath the Pines" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
           </div>
           <div class="flex-1 min-w-0 py-1">
@@ -208,7 +209,7 @@
 
         <a href="projects/lords-of-franklin-county.html" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="lords of franklin county" data-zinger="when the law robs the poor, an outlaw gives it back.">
           <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
-            <span class="absolute top-2 left-2 z-10 text-[9px] uppercase tracking-[0.25em] bg-black/70 px-2 py-1 text-white/70">In Development</span>
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">In Development</span><span class="inline-flex items-center gap-1.5 text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-gold whitespace-nowrap"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="w-[1.7em] h-[1.7em] shrink-0"><circle cx="12" cy="8" r="6"/><path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/></svg>1 Nomination</span></div>
             <img src="images/lords/lords-hero.webp" alt="Lords of Franklin County" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
           </div>
           <div class="flex-1 min-w-0 py-1">

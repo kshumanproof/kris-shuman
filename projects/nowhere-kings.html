@@ -34,7 +34,7 @@
       theme: {
         extend: {
           fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Fraunces', 'Georgia', 'serif'] },
-          colors: { ember: { DEFAULT: '#C9824A', light: '#E2A571', dark: '#7A3B2E' } },
+          colors: { ember: { DEFAULT: '#C9824A', light: '#E2A571', dark: '#7A3B2E' }, gold: '#D8B25C' },
         }
       }
     }
@@ -87,7 +87,8 @@
     </section>
 
     <section class="border-b border-white/10 bg-[#0d0a08]">
-      <div class="max-w-5xl mx-auto px-6 md:px-12 py-5 md:py-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-xs md:text-sm">
+      <div class="max-w-5xl mx-auto px-6 md:px-12 py-5 md:py-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-xs md:text-sm">
         <div class="flex sm:flex-col gap-2 sm:gap-1">
           <span class="text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs">Format</span>
           <span class="text-white/80 uppercase tracking-[0.1em]">Feature — Coming-of-Age / Crime / Adventure</span>
@@ -99,6 +100,7 @@
         <div class="flex sm:flex-col gap-2 sm:gap-1">
           <span class="text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs">Comps</span>
           <span class="text-white/80 italic">Stand by Me meets No Country for Old Men</span>
+        </div>
         </div>
       </div>
     </section>
@@ -149,17 +151,26 @@
         <p class="text-xs tracking-[0.25em] uppercase text-white/40 mb-10">More Stories</p>
         <div class="grid md:grid-cols-3 gap-8">
         <a href="../projects/family-tradition.html" class="group block">
-          <img src="../images/family-tradition/ft-gray-diner.webp" alt="Family Tradition" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 mb-4 transition group-hover:opacity-80">
+          <div class="relative mb-4">
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">Post-Production</span></div>
+            <img src="../images/family-tradition/ft-gray-diner.webp" alt="Family Tradition" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 transition group-hover:opacity-80">
+          </div>
           <p class="text-sm text-white/50 mb-2">Family Tradition</p>
           <p class="font-display text-lg text-white">Family ain’t what you inherit—it’s what you survive.</p>
         </a>
         <a href="../projects/the-last-stop.html" class="group block">
-          <img src="../images/last-stop/last-stop-station.webp" alt="The Last Stop" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 mb-4 transition group-hover:opacity-80">
+          <div class="relative mb-4">
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">Post-Production</span></div>
+            <img src="../images/last-stop/last-stop-station.webp" alt="The Last Stop" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 transition group-hover:opacity-80">
+          </div>
           <p class="text-sm text-white/50 mb-2">The Last Stop</p>
           <p class="font-display text-lg text-white">He thought he was ready to die—until life gave him one more reason to stay.</p>
         </a>
         <a href="../projects/sunsets-in-memphis.html" class="group block">
-          <img src="../images/sunsets-in-memphis/sunsets-hero.webp" alt="Sunsets In Memphis" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 mb-4 transition group-hover:opacity-80">
+          <div class="relative mb-4">
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">In Development</span></div>
+            <img src="../images/sunsets-in-memphis/sunsets-hero.webp" alt="Sunsets In Memphis" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 transition group-hover:opacity-80">
+          </div>
           <p class="text-sm text-white/50 mb-2">Sunsets In Memphis</p>
           <p class="font-display text-lg text-white">A lone gunslinger in space is forced to trust the one man too useless to survive—until he saves everything.</p>
         </a></div>
