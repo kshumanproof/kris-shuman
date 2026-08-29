@@ -361,25 +361,46 @@ def show_nominations(p):
 # Award rosette. Inline so there is no asset to ship and nothing to 404, sized in
 # em so it holds proportion at both badge sizes, and drawn in currentColor so it
 # follows the badge's own colour.
-NOMINATION_MARK = (
-    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" '
-    'class="w-[1.7em] h-[1.7em] shrink-0">'
-    '<circle cx="12" cy="8" r="6"/>'
-    '<path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/>'
-    '</svg>'
-)
+def nomination_mark(tight=False):
+    """Award rosette. Inline so there is no asset to ship and nothing to 404, sized
+    in em so it tracks the badge, and drawn in currentColor so it follows the
+    badge's colour. Slightly smaller on a tight badge."""
+    em = "w-[1.5em] h-[1.5em] md:w-[1.7em] md:h-[1.7em]" if tight else "w-[1.7em] h-[1.7em]"
+    return ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" '
+            f'focusable="false" class="{em} shrink-0">'
+            '<circle cx="12" cy="8" r="6"/>'
+            '<path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/>'
+            '</svg>')
 
 
-def nomination_badge(p, size="sm"):
+def badge_metrics(size, tight):
+    """Type, tracking and padding for a thumbnail badge.
+
+    tight is for the homepage slate card, whose thumbnail is only w-32 (128px)
+    on mobile. At the normal 9px with 0.25em tracking, "Post-Production" wants
+    ~131px and "8 Nominations" ~136px against 112px of usable width, so both
+    were being clipped by the image's overflow-hidden. Below md the badge drops
+    to 8px with almost no tracking, which brings the longest label - "Early
+    Development" - to about 106px. From md up every value returns to what it
+    was, so the desktop rendering is byte-identical."""
+    if tight:
+        return ("text-[8px] md:text-[9px] px-1.5 md:px-2 py-0.5 md:py-1",
+                "tracking-[0.04em] md:tracking-[0.25em]",
+                "gap-1 md:gap-1.5")
+    cls = "text-[9px] px-2 py-1" if size == "sm" else "text-[10px] px-3 py-1"
+    tracking = "tracking-[0.25em]" if size == "sm" else "tracking-[0.3em]"
+    return cls, tracking, "gap-1.5"
+
+
+def nomination_badge(p, size="sm", tight=False):
     """Count badge for a thumbnail. Empty string when there is nothing to show."""
     if not show_nominations(p):
         return ""
     n = nomination_count(p)
     txt = f"{n} Nomination" + ("" if n == 1 else "s")
-    cls = ("text-[9px] px-2 py-1" if size == "sm" else "text-[10px] px-3 py-1")
-    tracking = "tracking-[0.25em]" if size == "sm" else "tracking-[0.3em]"
-    return (f'<span class="inline-flex items-center gap-1.5 {cls} uppercase {tracking} '
-            f'bg-black/70 text-gold whitespace-nowrap">{NOMINATION_MARK}{txt}</span>')
+    cls, tracking, gap = badge_metrics(size, tight)
+    return (f'<span class="inline-flex items-center {gap} {cls} uppercase {tracking} '
+            f'bg-black/70 text-gold whitespace-nowrap">{nomination_mark(tight)}{txt}</span>')
 
 
 def nomination_lines(p):
@@ -513,19 +534,24 @@ def recognition_row(p):
         """
 
 
-def status_badge(p, size="sm"):
-    cls = ("text-[9px] px-2 py-1" if size == "sm" else "text-[10px] px-3 py-1")
-    tracking = "tracking-[0.25em]" if size == "sm" else "tracking-[0.3em]"
+def status_badge(p, size="sm", tight=False):
+    cls, tracking, _ = badge_metrics(size, tight)
     return (f'<span class="{cls} uppercase {tracking} bg-black/70 '
             f'text-white/70 whitespace-nowrap">{esc(p["status"])}</span>')
 
 
-def thumb_badges(p, size="sm"):
-    """Status left, nominations right. Stacked top-left on mobile, split at md."""
-    inset = "top-2 left-2 right-2" if size == "sm" else "top-3 left-3 right-3"
+def thumb_badges(p, size="sm", tight=False):
+    """Status left, nominations right. Stacked top-left on mobile, split at md.
+
+    tight also pulls the inset in by 2px a side on mobile, which buys the labels
+    another 4px inside a 128px thumbnail."""
+    if tight:
+        inset = "top-1.5 left-1.5 right-1.5 md:top-2 md:left-2 md:right-2"
+    else:
+        inset = "top-2 left-2 right-2" if size == "sm" else "top-3 left-3 right-3"
     return (f'<div class="absolute {inset} z-10 flex flex-col items-start gap-1 '
             f'md:flex-row md:justify-between md:items-center">'
-            f'{status_badge(p, size)}{nomination_badge(p, size)}</div>')
+            f'{status_badge(p, size, tight)}{nomination_badge(p, size, tight)}</div>')
 
 
 def project_card(p, prefix):
@@ -533,7 +559,7 @@ def project_card(p, prefix):
     return f"""
         <a href="{href}" class="group flex md:block gap-4 md:gap-0 items-stretch" data-title="{esc(p['title'].lower())}" data-zinger="{esc(p['zinger'].lower())}">
           <div class="w-32 md:w-full aspect-[3/4] md:aspect-video overflow-hidden bg-zinc-900 md:mb-4 relative shrink-0">
-            {thumb_badges(p, "sm")}
+            {thumb_badges(p, "sm", tight=True)}
             <img src="{prefix.replace('projects/', '')}{p['image'][1:]}" alt="{esc(p['title'])}" loading="lazy" width="640" height="360" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
           </div>
           <div class="flex-1 min-w-0 py-1">
