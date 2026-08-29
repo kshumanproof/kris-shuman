@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>What’s Buried Beneath the Pines | Kris Shuman</title>
-  <meta name="description" content="Some families pass down land. His passed down bodies. 8 screenplay nominations at HollyShorts Film Festival, Nashville Film Festival and 3 more.">
+  <meta name="description" content="Some families pass down land. His passed down bodies. 15 screenplay nominations at HollyShorts Film Festival, Nashville Film Festival and 4 more.">
   <link rel="canonical" href="https://krisshuman.com/projects/pines.html">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.ico">
 
   <meta property="og:title" content="What’s Buried Beneath the Pines | Kris Shuman">
-  <meta property="og:description" content="Some families pass down land. His passed down bodies. 8 screenplay nominations at HollyShorts Film Festival, Nashville Film Festival and 3 more.">
+  <meta property="og:description" content="Some families pass down land. His passed down bodies. 15 screenplay nominations at HollyShorts Film Festival, Nashville Film Festival and 4 more.">
   <meta property="og:url" content="https://krisshuman.com/projects/pines.html">
   <meta property="og:site_name" content="Kris Shuman">
   <meta property="og:type" content="article">
@@ -24,7 +24,7 @@
   <meta name="twitter:site" content="@thekrisshuman">
   <meta name="twitter:creator" content="@thekrisshuman">
   <meta name="twitter:title" content="What’s Buried Beneath the Pines | Kris Shuman">
-  <meta name="twitter:description" content="Some families pass down land. His passed down bodies. 8 screenplay nominations at HollyShorts Film Festival, Nashville Film Festival and 3 more.">
+  <meta name="twitter:description" content="Some families pass down land. His passed down bodies. 15 screenplay nominations at HollyShorts Film Festival, Nashville Film Festival and 4 more.">
   <meta name="twitter:image" content="https://krisshuman.com/images/pines/pines-hero.webp">
   <meta name="twitter:image:alt" content="Key image for What’s Buried Beneath the Pines, Pilot — Southern Gothic / Crime / Drama by Kris Shuman">
 
@@ -54,7 +54,7 @@
     gtag('js', new Date());
     gtag('config', 'G-7LMZHXYYBF');
   </script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "name": "What\u2019s Buried Beneath the Pines", "description": "When Gray Harris returns to his rural Georgia hometown after his estranged father\u2019s brutal death, he inherits a crumbling timber business and a legacy built on secrets. What looks like a suicide quickly unravels into something far darker, as missing evidence, local rumors, and quiet threats begin to", "genre": "Pilot \u2014 Southern Gothic / Crime / Drama", "creator": {"@type": "Person", "@id": "https://krisshuman.com/#kris-shuman", "name": "Kris Shuman"}, "inLanguage": "en-US", "image": "https://krisshuman.com/images/pines/pines-hero.webp", "url": "https://krisshuman.com/projects/pines.html", "award": ["HollyShorts Film Festival \u2014 2026", "Nashville Film Festival \u2014 2025, 2026", "Final Draft Big Break \u2014 2025", "Austin Film Festival \u2014 2025", "PAGE International Screenwriting Awards \u2014 2025"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "name": "What\u2019s Buried Beneath the Pines", "description": "When Gray Harris returns to his rural Georgia hometown after his estranged father\u2019s brutal death, he inherits a crumbling timber business and a legacy built on secrets. What looks like a suicide quickly unravels into something far darker, as missing evidence, local rumors, and quiet threats begin to", "genre": "Pilot \u2014 Southern Gothic / Crime / Drama", "creator": {"@type": "Person", "@id": "https://krisshuman.com/#kris-shuman", "name": "Kris Shuman"}, "inLanguage": "en-US", "image": "https://krisshuman.com/images/pines/pines-hero.webp", "url": "https://krisshuman.com/projects/pines.html", "award": ["HollyShorts Film Festival \u2014 2026", "Nashville Film Festival \u2014 2025, 2026", "Script Pipeline \u2014 2025", "Austin Film Festival \u2014 2025", "PAGE International Screenwriting Awards \u2014 2025", "Final Draft Big Break \u2014 2025"]}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://krisshuman.com/"}, {"@type": "ListItem", "position": 2, "name": "The Slate", "item": "https://krisshuman.com/work.html"}, {"@type": "ListItem", "position": 3, "name": "What\u2019s Buried Beneath the Pines", "item": "https://krisshuman.com/projects/pines.html"}]}</script>
 </head>
 <body class="min-h-full bg-[#0a0908] text-white font-sans antialiased">
@@ -83,10 +83,20 @@
   </div>
 
   <main class="bg-[#0a0908] text-white min-h-screen">
-    <section class="relative w-full h-[62vh] md:h-screen overflow-hidden">
-      <img src="../images/pines/pines-hero.webp" alt="What’s Buried Beneath the Pines" class="absolute inset-0 w-full h-full object-cover object-top" width="2200" height="1238">
-      <div class="absolute inset-0 overlay-cinematic"></div>
-      <div class="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 pb-12 md:pb-20 w-full">
+    <section class="relative w-full pt-20">
+      <!-- On a phone the title block sits BELOW the picture, not on it. Anchoring
+           it to the bottom of the hero meant every pixel taken off the section
+           height came out of the photograph while the type stayed put. From md up
+           it goes back to an overlay, where a full-screen hero has room for both.
+
+           pt-20 clears the fixed 80px header, which is only 40% opaque and was
+           veiling the top of the frame. The desktop height subtracts the same 5rem
+           so the hero still ends exactly at the fold rather than overshooting. -->
+      <div class="relative w-full h-[44vh] md:h-[calc(100vh-5rem)] overflow-hidden">
+        <img src="../images/pines/pines-hero.webp" alt="What’s Buried Beneath the Pines" class="absolute inset-0 w-full h-full object-cover object-top" width="2000" height="1125">
+        <div class="absolute inset-0 overlay-cinematic"></div>
+      </div>
+      <div class="relative z-10 w-full px-6 md:px-16 pt-6 pb-1 md:pt-0 md:pb-20 md:absolute md:inset-x-0 md:bottom-0">
         <h1 class="font-display font-medium text-[clamp(1.9rem,5.5vw,4.6rem)] leading-[1.08] mb-3 max-w-[92%] md:max-w-[80%]">What’s Buried Beneath the Pines</h1>
         <p class="text-base md:text-lg text-zinc-200 max-w-[90%] md:max-w-[65%]">Some families don’t pass down land. They pass down what’s buried beneath it.</p>
       </div>
@@ -96,7 +106,7 @@
       <div class="max-w-5xl mx-auto px-6 md:px-12 py-5 md:py-6">
         <div class="mb-5 md:mb-6 pb-5 md:pb-6 border-b border-white/10">
           <span class="block text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs mb-3">Recognition</span>
-          <div class="flex flex-wrap gap-2"><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="HollyShorts Film Festival" class="no-underline">HollyShorts</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2026</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="Nashville Film Festival" class="no-underline">Nashville</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025, 2026</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="Final Draft Big Break" class="no-underline">Big Break</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="Austin Film Festival" class="no-underline">Austin</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="PAGE International Screenwriting Awards" class="no-underline">PAGE</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025</span></span></div>
+          <div class="flex flex-wrap gap-2"><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="HollyShorts Film Festival" class="no-underline">HollyShorts</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2026</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="Nashville Film Festival" class="no-underline">Nashville</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025, 2026</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]">Script Pipeline</span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="Austin Film Festival" class="no-underline">Austin</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="PAGE International Screenwriting Awards" class="no-underline">PAGE</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="Final Draft Big Break" class="no-underline">Big Break</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2025</span></span></div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-xs md:text-sm">
         <div class="flex sm:flex-col gap-2 sm:gap-1">
@@ -189,7 +199,7 @@
 
 
   <footer class="px-6 md:px-16 py-16 border-t border-white/5 text-center text-xs text-white/35">
-    <p class="mb-4">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws.</p>
+    <p class="mb-4 max-w-3xl mx-auto leading-relaxed">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws. All imagery is photographic: titles in development use licensed stock photography, and produced titles use frames from the finished films.</p>
     <p>&copy; <span id="year"></span> krisshuman.com &middot; Bad Bella Productions. All rights reserved.</p>
   </footer>
 

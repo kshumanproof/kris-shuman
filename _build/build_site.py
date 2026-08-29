@@ -136,7 +136,7 @@ def nav(prefix, current=""):
 def footer(prefix):
     return f"""
   <footer class="px-6 md:px-16 py-16 border-t border-white/5 text-center text-xs text-white/35">
-    <p class="mb-4">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws.</p>
+    <p class="mb-4 max-w-3xl mx-auto leading-relaxed">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws. All imagery is photographic: titles in development use licensed stock photography, and produced titles use frames from the finished films.</p>
     <p>&copy; <span id="year"></span> krisshuman.com &middot; Bad Bella Productions. All rights reserved.</p>
   </footer>
 """
@@ -348,8 +348,14 @@ def nomination_count(p):
 
 def listed_nominations(p):
     """Placements spelled out on the project page - the majors only. The
-    thumbnail badge still counts every placement, listed or not."""
-    return [n for n in p.get("nominations", []) if n["org"] in TIER1_ORGS]
+    thumbnail badge still counts every placement, listed or not.
+
+    Ordered newest first, so the most recent year reads leftmost. An entry is
+    ranked by its EARLIEST year: a chip carrying 2025 and 2026 still reaches back
+    into 2025, so it sits to the right of a chip that is 2026 alone. Ties hold
+    data.py's order, since sorted() is stable; an entry with no year sorts last."""
+    noms = [n for n in p.get("nominations", []) if n["org"] in TIER1_ORGS]
+    return sorted(noms, key=lambda n: -min(n.get("years") or [0]))
 
 
 def show_nominations(p):
@@ -503,6 +509,22 @@ def person_jsonld():
     if awards:
         d["award"] = awards
     return d
+
+
+def still_credit(p):
+    """Photo credit, set inside the hero directly under the tagline.
+
+    Reads as attribution rather than a disclaimer - naming the director and the
+    person who shot or animated it settles provenance better than a label
+    insisting the image is not generative. The film's name is the h1 right above,
+    so the line says "the finished film" instead of repeating the title."""
+    roles = p.get("credit")
+    if not roles:
+        return ""
+    dot = '<span class="text-white/25 px-2">&middot;</span>'
+    tail = dot.join(esc(r) for r in roles)
+    return (f'\n        <p class="mt-5 md:mt-6 text-[11px] md:text-xs text-white/45 '
+            f'leading-relaxed max-w-[90%] md:max-w-[65%]">Stills from the finished film{dot}{tail}</p>')
 
 
 def recognition_chip(n):
@@ -805,20 +827,52 @@ def build_project(p):
     description = project_description(p)
     canonical_path = f"/projects/{p['slug']}.html"
 
+    # object-top only anchors vertically; horizontally object-cover stays centred,
+    # which on a phone crops a wide hero to its middle and can lose the subject.
+    # hero_focus overrides that per project. Underscores because Tailwind arbitrary
+    # values cannot contain spaces.
+    _focus = p.get("hero_focus")
+    hero_object = f"object-[{_focus.replace(' ', '_')}]" if _focus else "object-top"
+    hero_w, hero_h = image_dims(p["image"])
+
     gallery_html = ""
     if p["gallery"] and p.get("show_gallery", False):
-        items = "".join(
-            f"""<div class="space-y-3 w-[78vw] md:w-auto">
-              <img src="{prefix}{g['src'][1:]}" alt="{esc(g.get('caption', p['title']))}" loading="lazy" width="500" height="280" class="w-full h-[230px] md:h-[260px] object-cover bg-zinc-900">
-              <p class="text-sm text-zinc-500">{esc(g.get('caption',''))}</p>
+        def still(g, i, n):
+            """One frame at its true shape. The matte opens from 2.67:1 to 16:9
+            across the film, so each still carries its own aspect rather than a
+            shared crop that would cut picture off five of them.
+
+            With an odd number of stills the last one would sit alone beside an
+            empty half-column. Spanning it across both turns that gap into a
+            deliberate closing frame."""
+            w, h = g.get("w", 16), g.get("h", 9)
+            span = " md:col-span-2" if (n % 2 and i == n - 1) else ""
+            return f"""<div class="w-[82vw] md:w-auto shrink-0{span}">
+              <div class="w-full overflow-hidden bg-zinc-900" style="aspect-ratio:{w}/{h}">
+                <img src="{prefix}{g['src'][1:]}" alt="{esc(g.get('alt') or p['title'] + ' film still')}" loading="lazy" width="{w}" height="{h}" class="w-full h-full object-cover">
+              </div>
             </div>"""
-            for g in p["gallery"]
-        )
+
+        items = "".join(still(g, i, len(p["gallery"]))
+                        for i, g in enumerate(p["gallery"]))
+
+        def dot(i):
+            on = "w-4 bg-ember" if i == 0 else "w-1.5 bg-white/25"
+            return (f'<button type="button" class="h-1.5 {on} rounded-full transition-all" '
+                    f'aria-label="Go to still {i + 1}" aria-current="{str(i == 0).lower()}"></button>')
+
+        dots = "".join(dot(i) for i in range(len(p["gallery"])))
         gallery_html = f"""
     <section class="pb-24 md:pb-28 bg-[#0d0a08] pt-16">
       <p class="text-xs tracking-[0.25em] uppercase text-white/40 mb-8 px-6 md:px-12 max-w-6xl mx-auto">Stills</p>
-      <div class="md:hidden snap-row px-6 -mx-0">{items}</div>
-      <div class="hidden md:grid max-w-6xl mx-auto px-12 grid-cols-3 gap-8">{items}</div>
+      <div class="md:hidden relative" data-stills>
+        <div class="snap-row px-6" data-stills-row>{items}</div>
+        <button type="button" data-stills-next aria-label="Next still" class="absolute right-5 top-[38%] -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-black/60 border border-white/20 text-white/85 active:scale-95 transition">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <div class="flex justify-center items-center gap-2 mt-5 px-6" data-stills-dots>{dots}</div>
+      </div>
+      <div class="hidden md:grid max-w-6xl mx-auto px-12 grid-cols-2 gap-8 items-start">{items}</div>
     </section>
 """
 
@@ -846,18 +900,34 @@ def build_project(p):
         "image": SITE_URL + p["image"],
         "url": SITE_URL + canonical_path,
     }
+    # Every frame on the page belongs to this work, so schema.org gets all of
+    # them rather than the hero alone - that is the association image search reads.
+    if p.get("gallery") and p.get("show_gallery", False):
+        jsonld["image"] = ([SITE_URL + p["image"]]
+                           + [SITE_URL + g["src"] for g in p["gallery"]])
+
     if show_nominations(p):
         jsonld["award"] = [" \u2014 ".join(bits) for bits in nomination_lines(p)]
 
     body = f"""
 {nav(prefix)}
   <main class="bg-[#0a0908] text-white min-h-screen">
-    <section class="relative w-full h-[62vh] md:h-screen overflow-hidden">
-      <img src="{prefix}{p['image'][1:]}" alt="{esc(p['title'])}" class="absolute inset-0 w-full h-full object-cover object-top" width="2200" height="1238">
-      <div class="absolute inset-0 overlay-cinematic"></div>
-      <div class="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 pb-12 md:pb-20 w-full">
+    <section class="relative w-full pt-20">
+      <!-- On a phone the title block sits BELOW the picture, not on it. Anchoring
+           it to the bottom of the hero meant every pixel taken off the section
+           height came out of the photograph while the type stayed put. From md up
+           it goes back to an overlay, where a full-screen hero has room for both.
+
+           pt-20 clears the fixed 80px header, which is only 40% opaque and was
+           veiling the top of the frame. The desktop height subtracts the same 5rem
+           so the hero still ends exactly at the fold rather than overshooting. -->
+      <div class="relative w-full h-[44vh] md:h-[calc(100vh-5rem)] overflow-hidden">
+        <img src="{prefix}{p['image'][1:]}" alt="{esc(p['title'])}" class="absolute inset-0 w-full h-full object-cover {hero_object}" width="{hero_w}" height="{hero_h}">
+        <div class="absolute inset-0 overlay-cinematic"></div>
+      </div>
+      <div class="relative z-10 w-full px-6 md:px-16 pt-6 pb-1 md:pt-0 md:pb-20 md:absolute md:inset-x-0 md:bottom-0">
         <h1 class="font-display font-medium text-[clamp(1.9rem,5.5vw,4.6rem)] leading-[1.08] mb-3 max-w-[92%] md:max-w-[80%]">{esc(p['title'])}</h1>
-        <p class="text-base md:text-lg text-zinc-200 max-w-[90%] md:max-w-[65%]">{esc(p['subtitle'])}</p>
+        <p class="text-base md:text-lg text-zinc-200 max-w-[90%] md:max-w-[65%]">{esc(p['subtitle'])}</p>{still_credit(p)}
       </div>
     </section>
 

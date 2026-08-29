@@ -86,6 +86,9 @@ body {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   gap: 1rem;
+  /* the row carries its own px-6, so the snapport has to start inside it or
+     every slide fights the snap by 24px */
+  scroll-padding-left: 1.5rem;
 }
 .snap-row::-webkit-scrollbar { display: none; }
 .snap-row > * {

@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Who Stole the Head of Bobbi DuPree | Kris Shuman</title>
-  <meta name="description" content="A severed head holds the map to a fortune—now every killer in the territory wants it. 2 screenplay nominations at HollyShorts Film Festival and Nashville Film Festival.">
+  <meta name="description" content="A severed head holds the map to a fortune—now every killer in the territory wants it. 4 screenplay nominations at Nashville Film Festival and HollyShorts Film Festival.">
   <link rel="canonical" href="https://krisshuman.com/projects/dupree.html">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.ico">
 
   <meta property="og:title" content="Who Stole the Head of Bobbi DuPree | Kris Shuman">
-  <meta property="og:description" content="A severed head holds the map to a fortune—now every killer in the territory wants it. 2 screenplay nominations at HollyShorts Film Festival and Nashville Film Festival.">
+  <meta property="og:description" content="A severed head holds the map to a fortune—now every killer in the territory wants it. 4 screenplay nominations at Nashville Film Festival and HollyShorts Film Festival.">
   <meta property="og:url" content="https://krisshuman.com/projects/dupree.html">
   <meta property="og:site_name" content="Kris Shuman">
   <meta property="og:type" content="article">
@@ -24,7 +24,7 @@
   <meta name="twitter:site" content="@thekrisshuman">
   <meta name="twitter:creator" content="@thekrisshuman">
   <meta name="twitter:title" content="Who Stole the Head of Bobbi DuPree | Kris Shuman">
-  <meta name="twitter:description" content="A severed head holds the map to a fortune—now every killer in the territory wants it. 2 screenplay nominations at HollyShorts Film Festival and Nashville Film Festival.">
+  <meta name="twitter:description" content="A severed head holds the map to a fortune—now every killer in the territory wants it. 4 screenplay nominations at Nashville Film Festival and HollyShorts Film Festival.">
   <meta name="twitter:image" content="https://krisshuman.com/images/dupree/dupree-hero.webp">
   <meta name="twitter:image:alt" content="Key image for Who Stole the Head of Bobbi DuPree, Feature — Western / Adventure by Kris Shuman">
 
@@ -54,7 +54,7 @@
     gtag('js', new Date());
     gtag('config', 'G-7LMZHXYYBF');
   </script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "name": "Who Stole the Head of Bobbi DuPree", "description": "In 1876 Indian Territory, the notorious outlaw Bobbi DuPree is beheaded\u2014his wooden eye rumored to contain the secret location of millions in stolen Confederate gold. As word spreads, a ruthless bounty is placed on his severed head, igniting a violent race across the frontier. A reluctant bounty hunt", "genre": "Feature \u2014 Western / Adventure", "creator": {"@type": "Person", "@id": "https://krisshuman.com/#kris-shuman", "name": "Kris Shuman"}, "inLanguage": "en-US", "image": "https://krisshuman.com/images/dupree/dupree-hero.webp", "url": "https://krisshuman.com/projects/dupree.html", "award": ["HollyShorts Film Festival \u2014 2026", "Nashville Film Festival \u2014 2026"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "name": "Who Stole the Head of Bobbi DuPree", "description": "In 1876 Indian Territory, the notorious outlaw Bobbi DuPree is beheaded\u2014his wooden eye rumored to contain the secret location of millions in stolen Confederate gold. As word spreads, a ruthless bounty is placed on his severed head, igniting a violent race across the frontier. A reluctant bounty hunt", "genre": "Feature \u2014 Western / Adventure", "creator": {"@type": "Person", "@id": "https://krisshuman.com/#kris-shuman", "name": "Kris Shuman"}, "inLanguage": "en-US", "image": "https://krisshuman.com/images/dupree/dupree-hero.webp", "url": "https://krisshuman.com/projects/dupree.html", "award": ["Nashville Film Festival \u2014 2026", "HollyShorts Film Festival \u2014 2026"]}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://krisshuman.com/"}, {"@type": "ListItem", "position": 2, "name": "The Slate", "item": "https://krisshuman.com/work.html"}, {"@type": "ListItem", "position": 3, "name": "Who Stole the Head of Bobbi DuPree", "item": "https://krisshuman.com/projects/dupree.html"}]}</script>
 </head>
 <body class="min-h-full bg-[#0a0908] text-white font-sans antialiased">
@@ -83,10 +83,20 @@
   </div>
 
   <main class="bg-[#0a0908] text-white min-h-screen">
-    <section class="relative w-full h-[62vh] md:h-screen overflow-hidden">
-      <img src="../images/dupree/dupree-hero.webp" alt="Who Stole the Head of Bobbi DuPree" class="absolute inset-0 w-full h-full object-cover object-top" width="2200" height="1238">
-      <div class="absolute inset-0 overlay-cinematic"></div>
-      <div class="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 pb-12 md:pb-20 w-full">
+    <section class="relative w-full pt-20">
+      <!-- On a phone the title block sits BELOW the picture, not on it. Anchoring
+           it to the bottom of the hero meant every pixel taken off the section
+           height came out of the photograph while the type stayed put. From md up
+           it goes back to an overlay, where a full-screen hero has room for both.
+
+           pt-20 clears the fixed 80px header, which is only 40% opaque and was
+           veiling the top of the frame. The desktop height subtracts the same 5rem
+           so the hero still ends exactly at the fold rather than overshooting. -->
+      <div class="relative w-full h-[44vh] md:h-[calc(100vh-5rem)] overflow-hidden">
+        <img src="../images/dupree/dupree-hero.webp" alt="Who Stole the Head of Bobbi DuPree" class="absolute inset-0 w-full h-full object-cover object-top" width="2400" height="1350">
+        <div class="absolute inset-0 overlay-cinematic"></div>
+      </div>
+      <div class="relative z-10 w-full px-6 md:px-16 pt-6 pb-1 md:pt-0 md:pb-20 md:absolute md:inset-x-0 md:bottom-0">
         <h1 class="font-display font-medium text-[clamp(1.9rem,5.5vw,4.6rem)] leading-[1.08] mb-3 max-w-[92%] md:max-w-[80%]">Who Stole the Head of Bobbi DuPree</h1>
         <p class="text-base md:text-lg text-zinc-200 max-w-[90%] md:max-w-[65%]">Greed doesn’t just corrupt men—it reveals who they were all along.</p>
       </div>
@@ -96,7 +106,7 @@
       <div class="max-w-5xl mx-auto px-6 md:px-12 py-5 md:py-6">
         <div class="mb-5 md:mb-6 pb-5 md:pb-6 border-b border-white/10">
           <span class="block text-white/35 uppercase tracking-[0.15em] text-[10px] sm:text-xs mb-3">Recognition</span>
-          <div class="flex flex-wrap gap-2"><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="HollyShorts Film Festival" class="no-underline">HollyShorts</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2026</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="Nashville Film Festival" class="no-underline">Nashville</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2026</span></span></div>
+          <div class="flex flex-wrap gap-2"><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="Nashville Film Festival" class="no-underline">Nashville</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2026</span></span><span class="inline-flex items-baseline gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 whitespace-nowrap"><span class="text-white/80 text-xs sm:text-[13px]"><abbr title="HollyShorts Film Festival" class="no-underline">HollyShorts</abbr></span><span class="text-ember text-[10px] tracking-[0.1em] tabular-nums">2026</span></span></div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-xs md:text-sm">
         <div class="flex sm:flex-col gap-2 sm:gap-1">
@@ -162,7 +172,7 @@
         <div class="grid md:grid-cols-3 gap-8">
         <a href="../projects/pines.html" class="group block">
           <div class="relative mb-4">
-            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">In Development</span><span class="inline-flex items-center gap-1.5 text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-gold whitespace-nowrap"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="w-[1.7em] h-[1.7em] shrink-0"><circle cx="12" cy="8" r="6"/><path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/></svg>8 Nominations</span></div>
+            <div class="absolute top-2 left-2 right-2 z-10 flex flex-col items-start gap-1 md:flex-row md:justify-between md:items-center"><span class="text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-white/70 whitespace-nowrap">In Development</span><span class="inline-flex items-center gap-1.5 text-[9px] px-2 py-1 uppercase tracking-[0.25em] bg-black/70 text-gold whitespace-nowrap"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="w-[1.7em] h-[1.7em] shrink-0"><circle cx="12" cy="8" r="6"/><path d="M7.6 12.9 5.4 22l6.6-3.4L18.6 22l-2.2-9.1a8 8 0 0 1-8.8 0z"/></svg>15 Nominations</span></div>
             <img src="../images/pines/pines-hero.webp" alt="What’s Buried Beneath the Pines" loading="lazy" width="400" height="225" class="w-full h-[200px] object-cover bg-zinc-900 transition group-hover:opacity-80">
           </div>
           <p class="text-sm text-white/50 mb-2">What’s Buried Beneath the Pines</p>
@@ -189,7 +199,7 @@
 
 
   <footer class="px-6 md:px-16 py-16 border-t border-white/5 text-center text-xs text-white/35">
-    <p class="mb-4">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws.</p>
+    <p class="mb-4 max-w-3xl mx-auto leading-relaxed">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws. All imagery is photographic: titles in development use licensed stock photography, and produced titles use frames from the finished films.</p>
     <p>&copy; <span id="year"></span> krisshuman.com &middot; Bad Bella Productions. All rights reserved.</p>
   </footer>
 

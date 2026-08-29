@@ -83,10 +83,20 @@
   </div>
 
   <main class="bg-[#0a0908] text-white min-h-screen">
-    <section class="relative w-full h-[62vh] md:h-screen overflow-hidden">
-      <img src="../images/losers-guide/losers-guide-hero.webp" alt="The Loser’s Guide to Surviving the Apocalypse" class="absolute inset-0 w-full h-full object-cover object-top" width="2200" height="1238">
-      <div class="absolute inset-0 overlay-cinematic"></div>
-      <div class="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 pb-12 md:pb-20 w-full">
+    <section class="relative w-full pt-20">
+      <!-- On a phone the title block sits BELOW the picture, not on it. Anchoring
+           it to the bottom of the hero meant every pixel taken off the section
+           height came out of the photograph while the type stayed put. From md up
+           it goes back to an overlay, where a full-screen hero has room for both.
+
+           pt-20 clears the fixed 80px header, which is only 40% opaque and was
+           veiling the top of the frame. The desktop height subtracts the same 5rem
+           so the hero still ends exactly at the fold rather than overshooting. -->
+      <div class="relative w-full h-[44vh] md:h-[calc(100vh-5rem)] overflow-hidden">
+        <img src="../images/losers-guide/losers-guide-hero.webp" alt="The Loser’s Guide to Surviving the Apocalypse" class="absolute inset-0 w-full h-full object-cover object-top" width="2400" height="1350">
+        <div class="absolute inset-0 overlay-cinematic"></div>
+      </div>
+      <div class="relative z-10 w-full px-6 md:px-16 pt-6 pb-1 md:pt-0 md:pb-20 md:absolute md:inset-x-0 md:bottom-0">
         <h1 class="font-display font-medium text-[clamp(1.9rem,5.5vw,4.6rem)] leading-[1.08] mb-3 max-w-[92%] md:max-w-[80%]">The Loser’s Guide to Surviving the Apocalypse</h1>
         <p class="text-base md:text-lg text-zinc-200 max-w-[90%] md:max-w-[65%]">The apocalypse didn’t need a hero. It needed someone who was paying attention.</p>
       </div>
@@ -185,7 +195,7 @@
 
 
   <footer class="px-6 md:px-16 py-16 border-t border-white/5 text-center text-xs text-white/35">
-    <p class="mb-4">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws.</p>
+    <p class="mb-4 max-w-3xl mx-auto leading-relaxed">All scripts, concepts, and materials on this site are the original work of Kris Shuman and are protected under applicable copyright laws. All imagery is photographic: titles in development use licensed stock photography, and produced titles use frames from the finished films.</p>
     <p>&copy; <span id="year"></span> krisshuman.com &middot; Bad Bella Productions. All rights reserved.</p>
   </footer>
 

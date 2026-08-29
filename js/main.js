@@ -196,4 +196,61 @@ document.addEventListener("DOMContentLoaded", function () {
       filterCards(workSearch.value);
     });
   }
+
+  // ---------- stills carousel (mobile) ----------
+  // The row is a CSS scroll-snap strip; this only adds the affordances - an
+  // arrow, dots, and a wrap back to the first frame once you pass the last.
+  // Slide count comes from the DOM, so a gallery of any length just works.
+  document.querySelectorAll("[data-stills]").forEach(function (wrap) {
+    var row = wrap.querySelector("[data-stills-row]");
+    var next = wrap.querySelector("[data-stills-next]");
+    var dotWrap = wrap.querySelector("[data-stills-dots]");
+    if (!row || !dotWrap) return;
+
+    var slides = Array.prototype.slice.call(row.children);
+    var dots = Array.prototype.slice.call(dotWrap.children);
+    if (slides.length < 2) {
+      if (next) next.style.display = "none";
+      dotWrap.style.display = "none";
+      return;
+    }
+
+    function step() {
+      return slides[1].offsetLeft - slides[0].offsetLeft;
+    }
+    function current() {
+      var s = step();
+      if (!s) return 0;
+      return Math.max(0, Math.min(slides.length - 1, Math.round(row.scrollLeft / s)));
+    }
+    function paint() {
+      var i = current();
+      dots.forEach(function (d, n) {
+        var on = n === i;
+        d.classList.toggle("bg-ember", on);
+        d.classList.toggle("w-4", on);
+        d.classList.toggle("bg-white/25", !on);
+        d.classList.toggle("w-1.5", !on);
+        d.setAttribute("aria-current", on ? "true" : "false");
+      });
+    }
+    function go(i) {
+      row.scrollTo({ left: i * step(), behavior: "smooth" });
+    }
+
+    next.addEventListener("click", function () {
+      go((current() + 1) % slides.length);
+    });
+    dots.forEach(function (d, n) {
+      d.addEventListener("click", function () { go(n); });
+    });
+
+    var queued;
+    row.addEventListener("scroll", function () {
+      if (queued) return;
+      queued = requestAnimationFrame(function () { queued = null; paint(); });
+    }, { passive: true });
+    window.addEventListener("resize", paint);
+    paint();
+  });
 });
