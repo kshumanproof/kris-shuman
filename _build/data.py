@@ -62,7 +62,7 @@ PROJECTS = [
         # The short is the proof of concept for the series, and the series site
         # says so, so the hand-off is a fact about the work rather than a plug.
         "cta_link": {"url": "https://beneaththepinestv.com",
-                     "label": "Visit Beneath the Pines",
+                     "label": "What’s Buried Beneath the Pines",
                      "note": "Family Tradition is the proof-of-concept short for the series."},
         "show_gallery": True,
         # Frames from the colour-corrected master. w/h are the real pixel
