@@ -1050,13 +1050,70 @@ def build_robots():
     return f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n"
 
 
+def rendered_images(p):
+    """Every image path a built page will actually put in an <img> or a share
+    card. A gallery that is switched off never reaches the HTML, so its files
+    are not required to exist yet - that is how a project can carry a planned
+    shot list before the stills come back."""
+    refs = [p["image"]] if p.get("image") else []
+    if p.get("gallery") and p.get("show_gallery", False):
+        refs += [g["src"] for g in p["gallery"]]
+    return refs
+
+
+def check_images():
+    """Stop before writing rather than ship a page of broken icons.
+
+    Anything a page will render has to be on disk. Paths that only sit in the
+    data - a hidden gallery waiting on art - are reported instead, because the
+    day that gallery is switched on is the day they start mattering."""
+    missing, waiting = [], {}
+    for p in ACTIVE_PROJECTS:
+        for r in rendered_images(p):
+            if not os.path.exists(os.path.join(OUT, r.lstrip("/"))):
+                missing.append(f"{p['slug']}: {r}")
+        if p.get("gallery") and not p.get("show_gallery", False):
+            gone = [g["src"] for g in p["gallery"]
+                    if not os.path.exists(os.path.join(OUT, g["src"].lstrip("/")))]
+            if gone:
+                waiting[p["slug"]] = len(gone)
+
+    if missing:
+        raise SystemExit("Build stopped - active projects reference images that "
+                         "are not on disk:\n  " + "\n  ".join(missing))
+    if waiting:
+        n = sum(waiting.values())
+        pairs = ", ".join(f"{k} ({v})" for k, v in sorted(waiting.items()))
+        print(f"  note: {n} gallery entries have no file yet, in hidden galleries "
+              f"so nothing renders - {pairs}")
+        print("        turning show_gallery on for one of those will stop the build "
+              "until its files exist.")
+
+
+def prune_stale_pages():
+    """projects/ is build output, so the build owns all of it.
+
+    Switching a project to active=False used to leave its page sitting there for
+    ever - still deployable, still reachable by anyone holding the URL, still
+    indexed from before, and pointing at art that had long since been deleted.
+    Anything in the folder that no active project claims is stale and goes."""
+    live = {f"{p['slug']}.html" for p in ACTIVE_PROJECTS}
+    folder = os.path.join(OUT, "projects")
+    for name in sorted(os.listdir(folder)):
+        if name.endswith(".html") and name not in live:
+            os.remove(os.path.join(folder, name))
+            print(f"  removed stale page projects/{name}")
+
+
 if __name__ == "__main__":
+    check_images()
     os.makedirs(f"{OUT}/images/laurels", exist_ok=True)
     write(f"{OUT}/index.html", build_index())
     write(f"{OUT}/about.html", build_about())
     write(f"{OUT}/work.html", build_work())
     for p in ACTIVE_PROJECTS:
         write(f"{OUT}/projects/{p['slug']}.html", build_project(p))
+    prune_stale_pages()
     write(f"{OUT}/sitemap.xml", build_sitemap())
     write(f"{OUT}/robots.txt", build_robots())
     print(f"Built {3 + len(ACTIVE_PROJECTS)} HTML pages + sitemap.xml + robots.txt")

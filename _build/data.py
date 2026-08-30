@@ -1,5 +1,30 @@
 # Project data extracted from the old Next.js codebase (lib/projects.ts + each project page.tsx),
 # consolidated into one source of truth for the static-site generator.
+#
+# Adding a project
+# ---------------
+# Append a dict below and run `python _build/build_site.py`. Nothing else is
+# wired by hand: the page, the slate card, the work-page grouping, the sitemap
+# entry, the share card and the JSON-LD all come off this record.
+#
+#   active        the only switch that matters. True builds the page and puts
+#                 the project in the sitemap; False removes both, and the build
+#                 deletes the page it left behind.
+#   slate         show it on the homepage slate strip (first six).
+#   featured      the single large card on the homepage. One project only.
+#   image         hero. Required. 16:9 or wider; the page title sits bottom
+#                 left, so keep the subject out of that corner.
+#   hero_focus    optional object-position, e.g. "20% top", when the phone crop
+#                 would otherwise lose the subject.
+#   gallery       list of {src, w, h, alt}. w/h are the real pixel size - the
+#                 stills carry their own shapes rather than a shared crop.
+#   show_gallery  False keeps a planned shot list in the data without rendering
+#                 it. Turning it True requires every file to exist; the build
+#                 refuses to run otherwise rather than shipping broken images.
+#   nominations   list of {org, years}; the badge counts all of them, the
+#                 project page lists only the TIER1_ORGS ones.
+#   credit        only for produced work, where the imagery is frames from the
+#                 finished film.
 
 PROJECTS = [
     {
