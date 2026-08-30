@@ -122,11 +122,16 @@ body {
   justify-content: safe center;
   align-items: safe center;
 }
+/* Zoomed, the frame goes to its own pixel width - set per still from JS -
+   rather than a fixed percentage, so a 1600px still and a 4000px one both land
+   at exactly 1:1 and neither is ever upscaled into mush. */
 .lb-stage.is-zoom img {
   max-width: none;
   max-height: none;
-  width: 280%;
+  width: var(--lb-natural, 100%);
 }
+.lb-stage.can-zoom img { cursor: zoom-in; }
+.lb-stage.is-zoom img { cursor: zoom-out; }
 .snap-row > * {
   scroll-snap-align: start;
   flex-shrink: 0;

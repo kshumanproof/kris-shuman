@@ -234,13 +234,24 @@ document.addEventListener("DOMContentLoaded", function () {
         d.setAttribute("aria-current", on ? "true" : "false");
       });
     }
+    // Where a smooth scroll is heading, or null when the row is at rest.
+    // Deriving the next slide from scrollLeft mid-animation reads a position
+    // the row has not reached yet, so a quick double tap on the arrow lands on
+    // the same slide twice and the second tap is swallowed.
+    var want = null;
     function go(i) {
+      want = i;
       row.scrollTo({ left: i * step(), behavior: "smooth" });
+    }
+    function settled() {
+      if (want !== null && Math.abs(row.scrollLeft - want * step()) < 2) want = null;
     }
 
     next.addEventListener("click", function () {
-      go((current() + 1) % slides.length);
+      go(((want === null ? current() : want) + 1) % slides.length);
     });
+    // A finger on the row always wins over an animation still in flight.
+    row.addEventListener("touchstart", function () { want = null; }, { passive: true });
     dots.forEach(function (d, n) {
       d.addEventListener("click", function () { go(n); });
     });
@@ -248,59 +259,105 @@ document.addEventListener("DOMContentLoaded", function () {
     var queued;
     row.addEventListener("scroll", function () {
       if (queued) return;
-      queued = requestAnimationFrame(function () { queued = null; paint(); });
+      queued = requestAnimationFrame(function () { queued = null; settled(); paint(); });
     }, { passive: true });
     window.addEventListener("resize", paint);
     paint();
   });
 
   /* ---- full-screen still viewer ----------------------------------------
-     The stills come off the film at 2.67:1. On a portrait phone that is a
-     ~160px strip however wide the slide is, so the carousel is the index and
-     this is where the detail lives: the frame fills the screen, one tap takes
-     it to 280% with pan, and turning the handset re-fits it far larger. */
+     Every still on the page is a button into this, on both breakpoints. The
+     openers carry data-lb-i, so the viewer walks the gallery by index and does
+     not care that each frame exists twice in the DOM - once in the phone
+     carousel, once in the desktop grid.
+
+     Zoom is offered only when the screen is actually showing the frame smaller
+     than the file, and it zooms to the file's own width rather than a fixed
+     factor. On a phone that is a big jump; on a wide monitor, where the frame
+     already fits at full resolution, no zoom is offered at all. */
   var lb = document.querySelector("[data-lightbox]");
   var openers = Array.prototype.slice.call(document.querySelectorAll("[data-lb-open]"));
   if (lb && openers.length) {
     var stage = lb.querySelector("[data-lb-stage]");
     var lbImg = lb.querySelector("[data-lb-img]");
     var lbCount = lb.querySelector("[data-lb-count]");
+    var lbHint = lb.querySelector("[data-lb-hint]");
+    var closeBtn = lb.querySelector("[data-lb-close]");
+
+    // One entry per still, keyed by the gallery index the markup carries.
+    var frames = [];
+    openers.forEach(function (b) {
+      frames[parseInt(b.getAttribute("data-lb-i"), 10)] = {
+        src: b.getAttribute("data-lb-src"),
+        alt: b.getAttribute("data-lb-alt") || ""
+      };
+    });
     var at = 0;
+    var cameFrom = null;
+
+    function offerZoom() {
+      // Only worth a zoom if the file has meaningfully more to give.
+      var room = lbImg.naturalWidth > lbImg.clientWidth * 1.15;
+      stage.classList.toggle("can-zoom", room);
+      lbHint.style.visibility = room ? "" : "hidden";
+      stage.style.setProperty("--lb-natural", lbImg.naturalWidth + "px");
+    }
 
     function show(i) {
-      at = (i + openers.length) % openers.length;
+      at = (i + frames.length) % frames.length;
       stage.classList.remove("is-zoom");
-      lbImg.src = openers[at].getAttribute("data-lb-src");
-      lbImg.alt = openers[at].getAttribute("data-lb-alt") || "";
-      lbCount.textContent = at + 1 + " / " + openers.length;
+      lbImg.src = frames[at].src;
+      lbImg.alt = frames[at].alt;
+      lbCount.textContent = at + 1 + " / " + frames.length;
+      if (lbImg.complete) offerZoom();
+      // Warm the neighbours so prev/next lands instantly.
+      [at + 1, at - 1].forEach(function (n) {
+        var f = frames[(n + frames.length) % frames.length];
+        if (f) new Image().src = f.src;
+      });
     }
     function close() {
       lb.classList.add("hidden");
       document.body.style.overflow = "";
       lbImg.removeAttribute("src");
+      // Hand focus to the frame you ended on, in the strip you came from - not
+      // the one you opened. Returning it to the opener drags the phone carousel
+      // backwards to wherever you started, which reads as the thing losing your
+      // place. Landing on the current frame keeps carousel, grid and viewer
+      // telling the same story.
+      var home = cameFrom && cameFrom.parentNode;
+      var back = home && home.querySelector('[data-lb-open][data-lb-i="' + at + '"]');
+      if (back || cameFrom) (back || cameFrom).focus();
     }
 
-    openers.forEach(function (b, i) {
+    lbImg.addEventListener("load", offerZoom);
+    openers.forEach(function (b) {
       b.addEventListener("click", function () {
-        show(i);
+        cameFrom = b;
+        show(parseInt(b.getAttribute("data-lb-i"), 10));
         lb.classList.remove("hidden");
         document.body.style.overflow = "hidden";
+        closeBtn.focus();
       });
     });
-    lb.querySelector("[data-lb-close]").addEventListener("click", close);
+    closeBtn.addEventListener("click", close);
     lb.querySelector("[data-lb-prev]").addEventListener("click", function () { show(at - 1); });
     lb.querySelector("[data-lb-next]").addEventListener("click", function () { show(at + 1); });
 
     lbImg.addEventListener("click", function () {
-      // Centre the blown-up frame on open, otherwise the pan starts in a corner.
+      if (!stage.classList.contains("can-zoom")) return close();
+      // Centre on the blown-up frame, otherwise the pan starts in a corner.
       if (stage.classList.toggle("is-zoom")) {
         stage.scrollLeft = (stage.scrollWidth - stage.clientWidth) / 2;
         stage.scrollTop = (stage.scrollHeight - stage.clientHeight) / 2;
       }
     });
-    // Only the mat around the picture closes; a tap on the picture zooms.
+    // Only the mat around the picture closes; the picture itself zooms.
     stage.addEventListener("click", function (e) {
       if (e.target === stage) close();
+    });
+    window.addEventListener("resize", function () {
+      if (!lb.classList.contains("hidden")) offerZoom();
     });
     document.addEventListener("keydown", function (e) {
       if (lb.classList.contains("hidden")) return;
