@@ -253,4 +253,60 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("resize", paint);
     paint();
   });
+
+  /* ---- full-screen still viewer ----------------------------------------
+     The stills come off the film at 2.67:1. On a portrait phone that is a
+     ~160px strip however wide the slide is, so the carousel is the index and
+     this is where the detail lives: the frame fills the screen, one tap takes
+     it to 280% with pan, and turning the handset re-fits it far larger. */
+  var lb = document.querySelector("[data-lightbox]");
+  var openers = Array.prototype.slice.call(document.querySelectorAll("[data-lb-open]"));
+  if (lb && openers.length) {
+    var stage = lb.querySelector("[data-lb-stage]");
+    var lbImg = lb.querySelector("[data-lb-img]");
+    var lbCount = lb.querySelector("[data-lb-count]");
+    var at = 0;
+
+    function show(i) {
+      at = (i + openers.length) % openers.length;
+      stage.classList.remove("is-zoom");
+      lbImg.src = openers[at].getAttribute("data-lb-src");
+      lbImg.alt = openers[at].getAttribute("data-lb-alt") || "";
+      lbCount.textContent = at + 1 + " / " + openers.length;
+    }
+    function close() {
+      lb.classList.add("hidden");
+      document.body.style.overflow = "";
+      lbImg.removeAttribute("src");
+    }
+
+    openers.forEach(function (b, i) {
+      b.addEventListener("click", function () {
+        show(i);
+        lb.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      });
+    });
+    lb.querySelector("[data-lb-close]").addEventListener("click", close);
+    lb.querySelector("[data-lb-prev]").addEventListener("click", function () { show(at - 1); });
+    lb.querySelector("[data-lb-next]").addEventListener("click", function () { show(at + 1); });
+
+    lbImg.addEventListener("click", function () {
+      // Centre the blown-up frame on open, otherwise the pan starts in a corner.
+      if (stage.classList.toggle("is-zoom")) {
+        stage.scrollLeft = (stage.scrollWidth - stage.clientWidth) / 2;
+        stage.scrollTop = (stage.scrollHeight - stage.clientHeight) / 2;
+      }
+    });
+    // Only the mat around the picture closes; a tap on the picture zooms.
+    stage.addEventListener("click", function (e) {
+      if (e.target === stage) close();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (lb.classList.contains("hidden")) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowRight") show(at + 1);
+      else if (e.key === "ArrowLeft") show(at - 1);
+    });
+  }
 });

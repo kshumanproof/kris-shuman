@@ -837,43 +837,66 @@ def build_project(p):
 
     gallery_html = ""
     if p["gallery"] and p.get("show_gallery", False):
-        def still(g, i, n):
+        def still(g, i, n, flush=False):
             """One frame at its true shape. The matte opens from 2.67:1 to 16:9
             across the film, so each still carries its own aspect rather than a
             shared crop that would cut picture off five of them.
 
-            With an odd number of stills the last one would sit alone beside an
-            empty half-column. Spanning it across both turns that gap into a
-            deliberate closing frame."""
-            w, h = g.get("w", 16), g.get("h", 9)
-            span = " md:col-span-2" if (n % 2 and i == n - 1) else ""
-            return f"""<div class="w-[82vw] md:w-auto shrink-0{span}">
-              <div class="w-full overflow-hidden bg-zinc-900" style="aspect-ratio:{w}/{h}">
-                <img src="{prefix}{g['src'][1:]}" alt="{esc(g.get('alt') or p['title'] + ' film still')}" loading="lazy" width="{w}" height="{h}" class="w-full h-full object-cover">
-              </div>
-            </div>"""
+            flush is the phone treatment. A 2.67:1 frame is a thin strip on a
+            portrait screen no matter how wide the slide gets, so the slide
+            takes the whole viewport and the picture doubles as the way into
+            the full-screen viewer, where the detail actually lives.
 
-        items = "".join(still(g, i, len(p["gallery"]))
-                        for i, g in enumerate(p["gallery"]))
+            On the desktop grid an odd count would leave the last still beside
+            an empty half-column; spanning it turns that gap into a closing
+            frame."""
+            w, h = g.get("w", 16), g.get("h", 9)
+            alt = esc(g.get("alt") or p["title"] + " film still")
+            src = f"{prefix}{g['src'][1:]}"
+            box = (f'<div class="w-full overflow-hidden bg-zinc-900" style="aspect-ratio:{w}/{h}">'
+                   f'<img src="{src}" alt="{alt}" loading="lazy" width="{w}" height="{h}" '
+                   f'class="w-full h-full object-cover"></div>')
+            if flush:
+                return (f'<button type="button" class="w-screen shrink-0 block p-0 border-0 bg-transparent" '
+                        f'data-lb-open data-lb-src="{src}" data-lb-alt="{alt}">{box}</button>')
+            span = " md:col-span-2" if (n % 2 and i == n - 1) else ""
+            return f'<div class="{span.strip()}">{box}</div>'
+
+        n_stills = len(p["gallery"])
+        items_m = "".join(still(g, i, n_stills, True) for i, g in enumerate(p["gallery"]))
+        items_d = "".join(still(g, i, n_stills) for i, g in enumerate(p["gallery"]))
 
         def dot(i):
             on = "w-4 bg-ember" if i == 0 else "w-1.5 bg-white/25"
             return (f'<button type="button" class="h-1.5 {on} rounded-full transition-all" '
                     f'aria-label="Go to still {i + 1}" aria-current="{str(i == 0).lower()}"></button>')
 
-        dots = "".join(dot(i) for i in range(len(p["gallery"])))
+        dots = "".join(dot(i) for i in range(n_stills))
+        arrow = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+                 'stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true">'
+                 '<path d="m9 6 6 6-6 6"/></svg>')
         gallery_html = f"""
     <section class="pb-24 md:pb-28 bg-[#0d0a08] pt-16">
       <p class="text-xs tracking-[0.25em] uppercase text-white/40 mb-8 px-6 md:px-12 max-w-6xl mx-auto">Stills</p>
-      <div class="md:hidden relative" data-stills>
-        <div class="snap-row px-6" data-stills-row>{items}</div>
-        <button type="button" data-stills-next aria-label="Next still" class="absolute right-5 top-[38%] -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-black/60 border border-white/20 text-white/85 active:scale-95 transition">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-        </button>
-        <div class="flex justify-center items-center gap-2 mt-5 px-6" data-stills-dots>{dots}</div>
+      <div class="md:hidden" data-stills>
+        <div class="relative">
+          <div class="snap-row snap-row-flush" data-stills-row>{items_m}</div>
+          <button type="button" data-stills-next aria-label="Next still" class="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-black/55 border border-white/20 text-white/85 active:scale-95 transition">{arrow}</button>
+        </div>
+        <p class="text-[11px] tracking-[0.18em] uppercase text-white/35 text-center mt-4">Tap a frame to enlarge</p>
+        <div class="flex justify-center items-center gap-2 mt-3 px-6" data-stills-dots>{dots}</div>
       </div>
-      <div class="hidden md:grid max-w-6xl mx-auto px-12 grid-cols-2 gap-8 items-start">{items}</div>
+      <div class="hidden md:grid max-w-6xl mx-auto px-12 grid-cols-2 gap-8 items-start">{items_d}</div>
     </section>
+
+    <div data-lightbox class="hidden fixed inset-0 z-[80] bg-black" role="dialog" aria-modal="true" aria-label="Still viewer">
+      <div class="lb-stage" data-lb-stage><img data-lb-img alt=""></div>
+      <button type="button" data-lb-close aria-label="Close viewer" class="absolute top-4 right-4 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white text-2xl leading-none">&times;</button>
+      <button type="button" data-lb-prev aria-label="Previous still" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white/85 rotate-180">{arrow}</button>
+      <button type="button" data-lb-next aria-label="Next still" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white/85">{arrow}</button>
+      <p class="absolute bottom-11 inset-x-0 text-center text-[11px] tracking-[0.18em] uppercase text-white/30 px-6">Tap to zoom &middot; turn your phone for a wider view</p>
+      <p data-lb-count class="absolute bottom-5 inset-x-0 text-center text-[11px] tracking-[0.2em] uppercase text-white/45"></p>
+    </div>
 """
 
     themes_html = "".join(f"<li>{esc(t)}</li>" for t in p["themes"])
