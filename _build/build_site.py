@@ -599,7 +599,14 @@ def build_index():
     title = "Kris Shuman | Screenwriter — Southern Gothic Film & TV"
     description = "Kris Shuman writes character-driven Southern stories for film and television. Browse an active slate of features, limited series, and shorts in development and production."
     featured = next((p for p in ACTIVE_PROJECTS if p.get("featured")), ACTIVE_PROJECTS[0])
-    slate_preview = [p for p in ACTIVE_PROJECTS if p.get("slate")][:6]
+    # The slate strip led with whatever order the data happened to be in, which
+    # put the two projects carrying no placements in the first row and left the
+    # one with fifteen down in the second. Sorting by placement count fixes that
+    # and keeps fixing it: a script that picks up its first nomination moves up
+    # on the next build without anyone touching this file. Python's sort is
+    # stable, so anything level stays in the order data.py sets.
+    slate_preview = sorted([p for p in ACTIVE_PROJECTS if p.get("slate")],
+                           key=nomination_count, reverse=True)[:6]
     cards = "".join(project_card(p, prefix) for p in slate_preview)
 
     body = f"""
@@ -842,6 +849,23 @@ def check_gallery_order():
                     % (p["slug"], fa, sa.rsplit("/", 1)[-1], fb, sb.rsplit("/", 1)[-1]))
 
 
+def cta_link(p):
+    """A hand-off to an outside site that carries the project further.
+
+    Deliberately not a third button. The two buttons above it are the ones that
+    start a conversation, which is what the page is for; sending the reader off
+    the site is a weaker outcome, so it reads as a line of text rather than
+    competing for the same weight. The note carries why the link is there, which
+    on the short film is the whole point - without it a link to a series site
+    just looks like a stray plug."""
+    link = p.get("cta_link")
+    if not link:
+        return ""
+    note = f"{esc(link['note'])} " if link.get("note") else ""
+    return f"""
+        <p class="text-sm text-white/50 leading-relaxed">{note}<a href="{link['url']}" target="_blank" rel="noopener noreferrer" class="text-ember hover:text-ember-light underline underline-offset-4 decoration-ember/40 transition whitespace-nowrap">{esc(link['label'])} &rarr;</a></p>"""
+
+
 def gallery_cell(p):
     """The shape every tile in a project's grid and carousel is cut to.
 
@@ -985,6 +1009,10 @@ def build_project(p):
         "image": SITE_URL + p["image"],
         "url": SITE_URL + canonical_path,
     }
+    # The project's own site is the same work under another address; sameAs is
+    # what lets a search engine join them into one entity instead of two.
+    if p.get("cta_link"):
+        jsonld["sameAs"] = [p["cta_link"]["url"]]
     # Every frame on the page belongs to this work, so schema.org gets all of
     # them rather than the hero alone - that is the association image search reads.
     if p.get("gallery") and p.get("show_gallery", False):
@@ -1066,7 +1094,7 @@ def build_project(p):
         <div class="flex flex-col md:flex-row gap-4">
           <button type="button" data-open-request data-project="{esc(p['title'])}" class="tap-target px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-white/30 text-white/70 hover:text-white hover:border-white/50 transition">Request Materials</button>
           <button type="button" data-open-calendly class="tap-target px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/15 hover:bg-ember/30 transition">Schedule a Call</button>
-        </div>
+        </div>{cta_link(p)}
       </div>
     </section>
 

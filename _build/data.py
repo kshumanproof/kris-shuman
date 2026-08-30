@@ -29,6 +29,9 @@
 #   show_gallery  False keeps a planned shot list in the data without rendering
 #                 it. Turning it True requires every file to exist; the build
 #                 refuses to run otherwise rather than shipping broken images.
+#   cta_link      optional {url, label, note} shown under the CTA buttons and
+#                 fed to schema.org as sameAs. For an outside site that carries
+#                 the project further - a show site, the production company.
 #   nominations   list of {org, years}; the badge counts all of them, the
 #                 project page lists only the TIER1_ORGS ones.
 #   credit        only for produced work, where the imagery is frames from the
@@ -56,6 +59,11 @@ PROJECTS = [
         "nominations": [],
         # Imagery on this page is frames from the finished film; credited, not disclaimed.
         "credit": ["dir. Bailey Donovan", "DP Kristian Dane Lawing"],
+        # The short is the proof of concept for the series, and the series site
+        # says so, so the hand-off is a fact about the work rather than a plug.
+        "cta_link": {"url": "https://beneaththepinestv.com",
+                     "label": "Visit Beneath the Pines",
+                     "note": "Family Tradition is the proof-of-concept short for the series."},
         "show_gallery": True,
         # Frames from the colour-corrected master. w/h are the real pixel
         # dimensions - the matte opens from 2.67:1 to 16:9 across the film,
@@ -114,6 +122,9 @@ PROJECTS = [
         "nominations": [],
         # Imagery on this page is frames from the finished film; credited, not disclaimed.
         "credit": ["dir. Timea Shuman", "animation by Clemhyn Escosora of Adarnia Studio"],
+        "cta_link": {"url": "https://badbellafilms.com/",
+                     "label": "Visit Bad Bella Films",
+                     "note": "Produced by Bad Bella Films."},
         "show_gallery": True,
         "gallery": [
             {"src": "/images/last-stop/last-stop-slugger.webp", "w": 1400, "h": 592, "alt": "An animated young man in a batting helmet rests a bat on his shoulder"},
@@ -250,6 +261,9 @@ PROJECTS = [
             {"org": "The Black List", "result": "Overall evaluation: 6"},
             {"org": "WeScreenplay", "result": "96th percentile evaluation"},
         ],
+        "cta_link": {"url": "https://beneaththepinestv.com",
+                     "label": "Visit the show site",
+                     "note": "The pilot, the deck and the proof-of-concept short live here."},
         "show_gallery": False,
         "gallery": [
             {"src": "/images/pines/burial.webp"},
