@@ -18,6 +18,14 @@
 #                 would otherwise lose the subject.
 #   gallery       list of {src, w, h, alt}. w/h are the real pixel size - the
 #                 stills carry their own shapes rather than a shared crop.
+#   frame         optional frame number a still was pulled at. Give them and the
+#                 build enforces screen order; the filename prefix carries the
+#                 sequence, but the number is what proves it.
+#   gallery_ratio optional "w/h" for the grid and carousel cells. Left out, the
+#                 build uses the commonest shape in the array, so a set that is
+#                 all one aspect just works. Cells are uniform on purpose - the
+#                 grid is a contact sheet, and a ragged row reads as a mistake;
+#                 the full frame is still what opens in the viewer.
 #   show_gallery  False keeps a planned shot list in the data without rendering
 #                 it. Turning it True requires every file to exist; the build
 #                 refuses to run otherwise rather than shipping broken images.
@@ -34,7 +42,7 @@ PROJECTS = [
         "status": "Post-Production",
         "zinger": "Family ain’t what you inherit—it’s what you survive.",
         "overview": "On a storm-soaked night in a dying Southern town, three estranged siblings reunite at a diner after their father’s funeral, hoping to put the past behind them. Instead, old wounds split open as buried truths about their family begin to surface—rumors of murder, secrets about their mother, and the dark legacy tied to their land. As tensions rise, one brother reveals he may be more like their father than anyone wants to admit. What starts as a conversation turns into a reckoning, as the line between victim and monster blurs beyond recognition. When the past finally walks through the door, it becomes clear—this family’s story was never over.",
-        "image": "/images/family-tradition/ft-gray-diner.webp",
+        "image": "/images/family-tradition/ft-gray-diner.webp",  # frame 88318
         # The hero is a wide frame in a tall mobile box, so object-cover keeps
         # only the middle ~42% of it. Gray sits at 26% across, which that window
         # misses entirely. Anchoring at 20% keeps him in shot on a phone.
@@ -52,21 +60,40 @@ PROJECTS = [
         # Frames from the colour-corrected master. w/h are the real pixel
         # dimensions - the matte opens from 2.67:1 to 16:9 across the film,
         # so each still carries its own shape rather than a shared crop.
+        # Screen order, first frame to last. The ft-NN prefix carries the
+        # sequence, so the order survives a rename or a re-export.
+        # Screen order, first frame of the film to last. "frame" is the frame
+        # number the still was pulled at; the build refuses to run if an array
+        # carrying them is out of order, so the sequence cannot drift again.
         "gallery": [
-            {"src": "/images/family-tradition/stills/ft-01-counter-night.webp", "w": 1600, "h": 600, "alt": "A waitress leans across the counter of an empty diner late at night"},
-            {"src": "/images/family-tradition/stills/ft-02-car-night.webp", "w": 1600, "h": 635, "alt": "A man sits alone behind the wheel of a parked car, lit red from outside"},
-            {"src": "/images/family-tradition/stills/ft-03-ranger-counter.webp", "w": 1600, "h": 644, "alt": "A park ranger leans on the counter talking to a waitress, gold records on the wall behind"},
-            {"src": "/images/family-tradition/stills/ft-04-diner-wide.webp", "w": 1600, "h": 600, "alt": "A ranger stands at the door of a near-empty diner, seen past a woman in the foreground"},
-            {"src": "/images/family-tradition/stills/ft-05-purple-standing.webp", "w": 1600, "h": 600, "alt": "A woman in a purple coat stands over a booth mid-sentence"},
-            {"src": "/images/family-tradition/stills/ft-06-booth-purple.webp", "w": 1600, "h": 600, "alt": "A woman in a purple fur coat and a man in a suit sit together in a diner booth"},
-            {"src": "/images/family-tradition/stills/ft-07-jolene-wade.webp", "w": 1600, "h": 600, "alt": "A man in a suit talks close to a woman with long curled hair"},
-            {"src": "/images/family-tradition/stills/ft-08-gingham-react.webp", "w": 1600, "h": 600, "alt": "A waitress in a red gingham top reacts to something across the diner"},
-            {"src": "/images/family-tradition/stills/ft-09-tomato.webp", "w": 1600, "h": 600, "alt": "A man holds up a slice of tomato beside a young woman in a booth"},
-            {"src": "/images/family-tradition/stills/ft-10-two-shot.webp", "w": 1600, "h": 600, "alt": "A young woman looks off past a man\u2019s shoulder in a dim diner booth"},
-            {"src": "/images/family-tradition/stills/ft-11-cook-pass.webp", "w": 1600, "h": 600, "alt": "A cook in a white apron framed through the kitchen pass of a diner"},
-            {"src": "/images/family-tradition/stills/ft-12-shovel.webp", "w": 1600, "h": 600, "alt": "A man raises a long-handled tool, seen from below against bare winter branches"},
-            {"src": "/images/family-tradition/stills/ft-13-knife-carve.webp", "w": 1600, "h": 845, "alt": "A hand carves a mark into pine bark with a pocket knife as sap runs down"},
-            {"src": "/images/family-tradition/stills/ft-14-harlan.webp", "w": 1600, "h": 900, "alt": "An older bearded man in a cap, lit deep red, staring ahead"},
+            {"src": "/images/family-tradition/stills/ft-01-car-night.webp", "w": 1600, "h": 635, "frame": 87742,
+             "alt": "A man sits alone behind the wheel of a parked car, lit red from outside"},
+            {"src": "/images/family-tradition/stills/ft-02-counter-night.webp", "w": 1600, "h": 600, "frame": 88512,
+             "alt": "A waitress leans across the counter of an empty diner late at night"},
+            {"src": "/images/family-tradition/stills/ft-03-cook-pass.webp", "w": 1600, "h": 600, "frame": 88551,
+             "alt": "A cook in a white apron framed through the kitchen pass of a diner"},
+            {"src": "/images/family-tradition/stills/ft-04-purple-standing.webp", "w": 1600, "h": 600, "frame": 91084,
+             "alt": "A woman in a purple coat stands over a booth mid-sentence"},
+            {"src": "/images/family-tradition/stills/ft-05-two-shot.webp", "w": 1600, "h": 600, "frame": 92082,
+             "alt": "A young woman looks off past a man\u2019s shoulder in a dim diner booth"},
+            {"src": "/images/family-tradition/stills/ft-06-gingham-react.webp", "w": 1600, "h": 600, "frame": 94905,
+             "alt": "A waitress in a red gingham top reacts to something across the diner"},
+            {"src": "/images/family-tradition/stills/ft-07-tomato.webp", "w": 1600, "h": 600, "frame": 95305,
+             "alt": "A man holds up a slice of tomato beside a young woman in a booth"},
+            {"src": "/images/family-tradition/stills/ft-08-booth-purple.webp", "w": 1600, "h": 600, "frame": 95341,
+             "alt": "A woman in a purple fur coat and a man in a suit sit together in a diner booth"},
+            {"src": "/images/family-tradition/stills/ft-09-jolene-wade.webp", "w": 1600, "h": 600, "frame": 99790,
+             "alt": "A man in a suit talks close to a woman with long curled hair"},
+            {"src": "/images/family-tradition/stills/ft-10-ranger-counter.webp", "w": 1600, "h": 644, "frame": 101500,
+             "alt": "A park ranger leans on the counter talking to a waitress, gold records on the wall behind"},
+            {"src": "/images/family-tradition/stills/ft-11-diner-wide.webp", "w": 1600, "h": 600, "frame": 102207,
+             "alt": "A ranger stands at the door of a near-empty diner, seen past a woman in the foreground"},
+            {"src": "/images/family-tradition/stills/ft-12-shovel.webp", "w": 1600, "h": 600, "frame": 103390,
+             "alt": "A man raises a long-handled tool, seen from below against bare winter branches"},
+            {"src": "/images/family-tradition/stills/ft-13-knife-carve.webp", "w": 1600, "h": 845, "frame": 103542,
+             "alt": "A hand carves a mark into pine bark with a pocket knife as sap runs down"},
+            {"src": "/images/family-tradition/stills/ft-14-harlan.webp", "w": 1600, "h": 900, "frame": 106168,
+             "alt": "An older bearded man in a cap, lit deep red, staring ahead"},
         ],
         "active": True, "slate": False, "featured": True,
     },

@@ -821,6 +821,52 @@ def build_work():
     return html
 
 
+def check_gallery_order():
+    """Stills have to run in screen order, and the only thing that proves that is
+    the frame number they were pulled at.
+
+    Filenames arrive stripped of it often enough - an upload renames them, an
+    export renumbers them - that the order ends up being inferred from whatever
+    sequence the files happened to land in, which is a coin flip. Where an array
+    records its frame numbers, the build checks them, so a set that is out of
+    order stops the build instead of quietly shipping the film backwards."""
+    for p in ACTIVE_PROJECTS:
+        got = [(g["frame"], g["src"]) for g in (p.get("gallery") or []) if "frame" in g]
+        if len(got) < 2:
+            continue
+        for (fa, sa), (fb, sb) in zip(got, got[1:]):
+            if fb <= fa:
+                raise SystemExit(
+                    "Build stopped - %s stills are out of screen order:\n"
+                    "  frame %d (%s) comes before frame %d (%s)"
+                    % (p["slug"], fa, sa.rsplit("/", 1)[-1], fb, sb.rsplit("/", 1)[-1]))
+
+
+def gallery_cell(p):
+    """The shape every tile in a project's grid and carousel is cut to.
+
+    Stills come off a film in whatever the matte was doing at that moment - this
+    set runs 2.67:1, 1.89:1 and a full 16:9 - and laying those out at their true
+    heights gives a row with one tall tile and one short one, which reads as a
+    bug rather than as fidelity. So the contact sheet is uniform and the viewer
+    keeps the truth: click a tile and the whole frame is there, uncropped.
+
+    The shape is the commonest one in the array rather than a hardcoded ratio,
+    so a future project whose stills are all 16:9 gets a 16:9 sheet without
+    anyone setting anything. Ties go to the widest. gallery_ratio overrides."""
+    if p.get("gallery_ratio"):
+        w, h = p["gallery_ratio"].split("/")
+        return int(w), int(h)
+    shapes = {}
+    for g in p.get("gallery") or []:
+        key = (g.get("w", 16), g.get("h", 9))
+        shapes[key] = shapes.get(key, 0) + 1
+    if not shapes:
+        return 16, 9
+    # most common first; on a tie the widest frame wins
+    return max(shapes, key=lambda k: (shapes[k], k[0] / k[1]))
+
+
 def build_project(p):
     prefix = "../"
     title = f"{p['title']} | Kris Shuman"
@@ -838,9 +884,9 @@ def build_project(p):
     gallery_html = ""
     if p["gallery"] and p.get("show_gallery", False):
         def still(g, i, n, flush=False):
-            """One frame at its true shape. The matte can open from 2.67:1 to
-            16:9 across a film, so each still carries its own aspect rather than
-            a shared crop that would cut picture off half of them.
+            """One tile of the contact sheet, cut to the project's common
+            shape by gallery_cell so a row never mixes heights. The tile is a
+            crop; the frame behind it is not, and that is what the viewer opens.
 
             Both copies of a still - the phone carousel and the desktop grid -
             are buttons into the same viewer, and both carry the same data-lb-i,
@@ -856,12 +902,13 @@ def build_project(p):
             an empty half-column; spanning it turns that gap into a closing
             frame."""
             w, h = g.get("w", 16), g.get("h", 9)
+            cw, ch = gallery_cell(p)
             alt = esc(g.get("alt") or p["title"] + " film still")
             src = f"{prefix}{g['src'][1:]}"
             hover = "" if flush else " transition duration-500 group-hover:scale-[1.03]"
-            box = (f'<div class="w-full overflow-hidden bg-zinc-900" style="aspect-ratio:{w}/{h}">'
+            box = (f'<div class="w-full overflow-hidden bg-zinc-900" style="aspect-ratio:{cw}/{ch}">'
                    f'<img src="{src}" alt="{alt}" loading="lazy" width="{w}" height="{h}" '
-                   f'class="w-full h-full object-cover{hover}"></div>')
+                   f'class="w-full h-full object-cover object-center{hover}"></div>')
             opener = (f'type="button" data-lb-open data-lb-i="{i}" data-lb-src="{src}" '
                       f'data-lb-alt="{alt}" aria-label="Open still {i + 1} of {n}"')
             if flush:
@@ -1122,6 +1169,7 @@ def prune_stale_pages():
 
 if __name__ == "__main__":
     check_images()
+    check_gallery_order()
     os.makedirs(f"{OUT}/images/laurels", exist_ok=True)
     write(f"{OUT}/index.html", build_index())
     write(f"{OUT}/about.html", build_about())
