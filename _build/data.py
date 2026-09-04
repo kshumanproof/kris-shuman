@@ -243,7 +243,7 @@ PROJECTS = [
         "nominations": [
             {"org": "Nashville Film Festival", "years": [2025, 2026], "placement": "Finalist 2025 (One-Hour Pilot); Semifinalist 2026 (60-Minute Pilot)"},
             {"org": "Script Pipeline", "years": [2025], "placement": "Semifinalist - TV Writing Contest"},
-            {"org": "Austin Film Festival", "years": [2025], "placement": "Second Rounder - One-Hour Pilot"},
+            {"org": "Austin Film Festival", "years": [2025, 2026], "placement": "Second Rounder 2025 (One-Hour Pilot); Second Rounder 2026"},
             {"org": "HollyShorts Film Festival", "years": [2026], "placement": "Quarterfinalist"},
             {"org": "PAGE International Screenwriting Awards", "years": [2025], "placement": "Quarterfinalist"},
             {"org": "Final Draft Big Break", "years": [2025], "placement": "Quarterfinalist"},
@@ -295,6 +295,7 @@ PROJECTS = [
         "comps": "Peaky Blinders meets Justified",
         "nominations": [
             {"org": "Nashville Film Festival", "years": [2026], "placement": "Quarterfinalist - 60-Minute Pilot"},
+            {"org": "Austin Film Festival", "years": [2026], "placement": "Second Rounder"},
         ],
         "show_gallery": False,
         "gallery": [],
