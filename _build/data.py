@@ -174,7 +174,7 @@ PROJECTS = [
         "tone": "Character-driven. Gritty. Hopeful. Southern.",
         "comps": "Erin Brockovich meets Crazy Heart",
         "nominations": [
-            {"org": "Austin Film Festival", "years": [2025], "placement": "Second Rounder - Drama Feature"},
+            {"org": "Austin Film Festival", "years": [2025, 2026], "placement": "Second Rounder 2025 (Drama Feature); Second Rounder 2026"},
             {"org": "Los Angeles International Screenwriting Awards", "years": [2025], "placement": "Semifinalist - Fall 2025"},
             {"org": "Filmmatic Drama Screenplay Awards", "years": [2025], "placement": "Quarterfinalist - Season 10"},
             {"org": "Stage 32", "years": [2026], "placement": "Finalist - Open Writing Assignment #0615"},
@@ -207,6 +207,7 @@ PROJECTS = [
         "comps": "No Country for Old Men meets The Hateful Eight",
         "nominations": [
             {"org": "Nashville Film Festival", "years": [2026], "placement": "Semifinalist - Genre Feature"},
+            {"org": "Austin Film Festival", "years": [2026], "placement": "Second Rounder"},
             {"org": "HollyShorts Film Festival", "years": [2026], "placement": "Quarterfinalist"},
             {"org": "ISA / Script Pipeline Great Pitch Competition", "years": [2025], "placement": "Semifinalist"},
             {"org": "ISA Top Reads", "years": [2026], "placement": "Top Reads Selection - Summer 2026"},
