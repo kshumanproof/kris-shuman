@@ -1,0 +1,19 @@
+{
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/projects/:slug([^.]+)", "destination": "/projects/:slug.html", "permanent": true },
+
+    { "source": "/about", "destination": "/about.html", "permanent": true },
+    { "source": "/work", "destination": "/work.html", "permanent": true },
+    { "source": "/screenplays", "destination": "/work.html", "permanent": true },
+    { "source": "/accolades", "destination": "/work.html", "permanent": true },
+    { "source": "/contact", "destination": "/#contact", "permanent": true },
+
+    { "source": "/wilder", "destination": "/projects/wilder.html", "permanent": true },
+    { "source": "/lords-of-franklin-county", "destination": "/projects/lords-of-franklin-county.html", "permanent": true },
+    { "source": "/who-stole-the-head-of-bobbi-dupree", "destination": "/projects/dupree.html", "permanent": true },
+    { "source": "/whats-buried-read-me", "destination": "/projects/pines.html", "permanent": true },
+    { "source": "/family-tradition-read-me", "destination": "/projects/family-tradition.html", "permanent": true },
+    { "source": "/the-last-stop-read-me", "destination": "/projects/the-last-stop.html", "permanent": true }
+  ]
+}
