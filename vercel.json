@@ -62,6 +62,11 @@
       "permanent": true
     },
     {
+      "source": "/wilder-read-me",
+      "destination": "/projects/wilder.html",
+      "permanent": true
+    },
+    {
       "source": "/whats-buried-beneath-the-pines-:rest",
       "destination": "/projects/pines.html",
       "permanent": true
