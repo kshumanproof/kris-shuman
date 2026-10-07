@@ -503,8 +503,14 @@ def person_jsonld():
     CreativeWork points at, and the award list."""
     d = dict(PERSON_JSONLD)
     d["@id"] = SITE_URL + "/#kris-shuman"
-    d["knowsAbout"] = ["Screenwriting", "Southern Gothic fiction",
-                       "Television drama", "Feature film development"]
+    # Mirrors the slate rather than one lane of it: Southern Gothic is 3 of 11
+    # projects, while crime, western, sci-fi, supernatural and horror are the
+    # rest. Telling Google only the narrow term buries the range.
+    d["knowsAbout"] = ["Screenwriting", "Character-driven drama",
+                       "Television drama", "Feature film development",
+                       "Crime drama", "Southern Gothic fiction",
+                       "Western", "Science fiction", "Supernatural fiction",
+                       "Horror", "Coming-of-age fiction"]
     awards = all_awards()
     if awards:
         d["award"] = awards
@@ -596,8 +602,8 @@ def project_card(p, prefix):
 
 def build_index():
     prefix = ""
-    title = "Kris Shuman | Screenwriter — Southern Gothic Film & TV"
-    description = "Kris Shuman writes character-driven Southern stories for film and television. Browse an active slate of features, limited series, and shorts in development and production."
+    title = "Kris Shuman | Screenwriter — Character-Driven Film & TV"
+    description = "Kris Shuman is a screenwriter creating character-driven stories for film and television. Explore features, series, shorts, produced work, and projects in development."
     featured = next((p for p in ACTIVE_PROJECTS if p.get("featured")), ACTIVE_PROJECTS[0])
     # The slate strip led with whatever order the data happened to be in, which
     # put the two projects carrying no placements in the first row and left the
