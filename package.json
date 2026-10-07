@@ -1,0 +1,6 @@
+{
+  "name": "kris-shuman-site",
+  "private": true,
+  "description": "Tailwind is compiled at build time by _build/build_site.py. This file exists only to pin the compiler.",
+  "devDependencies": { "tailwindcss": "^3.4.19" }
+}

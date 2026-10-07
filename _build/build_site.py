@@ -199,18 +199,9 @@ PERSON_JSONLD = {
     ],
 }
 
-TAILWIND_CONFIG = """
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Fraunces', 'Georgia', 'serif'] },
-          colors: { ember: { DEFAULT: '#C9824A', light: '#E2A571', dark: '#7A3B2E' }, gold: '#D8B25C' },
-        }
-      }
-    }
-  </script>
-"""
+# The Tailwind theme moved to _build/tailwind.config.js when the site stopped
+# shipping the Play CDN. It is the same fonts and colours; the difference is
+# that the stylesheet is now built here instead of in the visitor's browser.
 
 
 def head(title, description, canonical_path, og_image, prefix, jsonld_objs=None,
@@ -257,8 +248,7 @@ def head(title, description, canonical_path, og_image, prefix, jsonld_objs=None,
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,600&display=swap" rel="stylesheet">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-{TAILWIND_CONFIG}
+  <link rel="stylesheet" href="{prefix}css/tailwind.css">
   <link rel="stylesheet" href="{prefix}css/styles.css">
 
   <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
@@ -1201,6 +1191,29 @@ def prune_stale_pages():
             print(f"  removed stale page projects/{name}")
 
 
+def build_css():
+    """Compile the stylesheet from the HTML we just wrote, then prove it covers it.
+
+    The Play CDN shipped a compiler to every visitor and resolved classes live, so
+    nothing could ever be missing. A compiled file only contains what the scanner
+    found, and a class it missed fails silently - the page just renders wrong. So
+    the build refuses to finish unless every class on the site has a rule."""
+    import subprocess
+    cli = os.path.join(OUT, "node_modules", ".bin", "tailwindcss")
+    if os.name == "nt" and not os.path.exists(cli):
+        cli += ".cmd"
+    if not os.path.exists(cli):
+        raise SystemExit("Build stopped - Tailwind compiler not installed.\n"
+                         "  run: npm install")
+    subprocess.check_call([cli,
+                           "-c", os.path.join(OUT, "_build", "tailwind.config.js"),
+                           "-i", os.path.join(OUT, "_build", "tailwind.input.css"),
+                           "-o", os.path.join(OUT, "css", "tailwind.css"),
+                           "--minify"], cwd=OUT)
+    subprocess.check_call([sys.executable,
+                           os.path.join(OUT, "_build", "check_css.py")], cwd=OUT)
+
+
 if __name__ == "__main__":
     check_images()
     check_gallery_order()
@@ -1213,4 +1226,5 @@ if __name__ == "__main__":
     prune_stale_pages()
     write(f"{OUT}/sitemap.xml", build_sitemap())
     write(f"{OUT}/robots.txt", build_robots())
+    build_css()
     print(f"Built {3 + len(ACTIVE_PROJECTS)} HTML pages + sitemap.xml + robots.txt")
