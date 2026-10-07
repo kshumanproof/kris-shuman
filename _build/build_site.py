@@ -626,7 +626,7 @@ def build_index():
       <div class="relative z-10 px-6 md:px-16 pb-12 md:pb-20 w-full max-w-4xl">
         <h1 class="font-display font-medium text-[clamp(2.1rem,7vw,4.3rem)] leading-[1.1] mb-4 max-w-[95%]">People Don&rsquo;t Change. <em class="italic text-ember">They Reveal.</em></h1>
         <p class="font-display italic text-xl md:text-2xl text-white/85 tracking-wide mb-7 md:mb-8">Kris Shuman <span class="text-ember/70 not-italic text-[11px] md:text-xs uppercase tracking-[0.35em] align-middle ml-2">Screenwriter</span></p>
-        <p class="text-base md:text-lg text-zinc-200 max-w-xl mb-7">Character-driven Southern stories for film and television &mdash; features, limited series, and shorts, in active development and production.</p>
+        <p class="text-base md:text-lg text-zinc-200 max-w-xl mb-7">Character-driven Southern stories for film and television: features, limited series, and shorts, in active development and production.</p>
         <button type="button" data-open-calendly class="tap-target inline-block px-8 py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/15 hover:bg-ember/30 transition">Schedule a Call</button>
       </div>
     </section>
@@ -684,7 +684,7 @@ def build_index():
 
     <section id="contact" class="px-6 md:px-16 py-32 md:py-44 border-t border-white/5 text-center bg-[#0d0a08]">
       <div class="max-w-xl mx-auto">
-        <p class="font-display text-xl md:text-2xl leading-relaxed mb-12">If something here fits what you&rsquo;re building&mdash;<br class="hidden md:block">let&rsquo;s talk.</p>
+        <p class="font-display text-xl md:text-2xl leading-relaxed mb-12">If something here fits what you&rsquo;re building, let&rsquo;s talk.</p>
         <button type="button" data-open-calendly class="tap-target inline-block px-12 py-5 text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/20 hover:bg-ember/35 transition">Schedule a Call</button>
         <p class="mt-8 text-xs text-white/40">Or <a href="mailto:kris@krisshuman.com" class="underline hover:text-ember transition">email Kris</a></p>
 
@@ -721,7 +721,7 @@ def build_about():
       <div class="relative z-10 px-6 md:px-16 pt-32 pb-14 md:pb-20 w-full">
         <div class="max-w-2xl mx-auto space-y-5 text-center text-white">
           <p class="text-base md:text-lg text-white/90 leading-snug">Being raised in the South, stories weren&rsquo;t told. They were lived. Avoided. Buried. But that&rsquo;s not just where I&rsquo;m from. That&rsquo;s how people are.</p>
-          <p class="text-base md:text-lg text-white/90 leading-snug">Recovery didn&rsquo;t give me answers. It just made it harder to ignore things. And once you start seeing the truth &mdash; you can&rsquo;t unsee it.</p>
+          <p class="text-base md:text-lg text-white/90 leading-snug">Recovery didn&rsquo;t give me answers. It just made it harder to ignore things. And once you start seeing the truth, you can&rsquo;t unsee it.</p>
           <p class="text-base md:text-lg text-white/90 leading-snug">That&rsquo;s what I write about: people at the breaking point, and the moment where who they&rsquo;ve been pretending to be stops working.</p>
           <p class="text-base md:text-lg text-white/90 leading-snug">I don&rsquo;t build characters. I follow them. And eventually, the truth shows up.</p>
           <p class="font-display pt-3 text-xl md:text-2xl font-medium text-white leading-snug">I didn&rsquo;t come to storytelling to escape anything. I came to face it. And I chose to write about it.</p>
@@ -1096,7 +1096,7 @@ def build_project(p):
 
     <section class="pb-24 pt-16">
       <div class="max-w-3xl mx-auto px-6 md:px-12 space-y-8">
-        <p class="font-display text-2xl">If this kind of story fits what you&rsquo;re building&mdash;let&rsquo;s talk.</p>
+        <p class="font-display text-2xl">If this kind of story fits what you&rsquo;re building, let&rsquo;s talk.</p>
         <div class="flex flex-col md:flex-row gap-4">
           <button type="button" data-open-request data-project="{esc(p['title'])}" class="tap-target px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-white/30 text-white/70 hover:text-white hover:border-white/50 transition">Request Materials</button>
           <button type="button" data-open-calendly class="tap-target px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/15 hover:bg-ember/30 transition">Schedule a Call</button>
