@@ -42,7 +42,7 @@ PROJECTS = [
         "slug": "family-tradition",
         "title": "Family Tradition",
         "format": "short", "genre": "Short Film — Southern Gothic / Drama",
-        "status": "Post-Production",
+        "status": "Produced",
         "zinger": "Family ain’t what you inherit—it’s what you survive.",
         "overview": "On a storm-soaked night in a dying Southern town, three estranged siblings reunite at a diner after their father’s funeral, hoping to put the past behind them. Instead, old wounds split open as buried truths about their family begin to surface: rumors of murder, secrets about their mother, and the dark legacy tied to their land. As tensions rise, one brother reveals he may be more like their father than anyone wants to admit. What starts as a conversation turns into a reckoning, as the line between victim and monster blurs beyond recognition. When the past finally walks through the door, it becomes clear—this family’s story was never over.",
         "image": "/images/family-tradition/ft-gray-diner.webp",  # frame 88318
@@ -156,7 +156,7 @@ PROJECTS = [
         "nominations": [],
         "show_gallery": False,
         "gallery": [],
-        "active": True, "slate": True, "featured": False,
+        "active": True, "slate": False, "featured": False,
     },
     {
         "slug": "wilder",
@@ -409,7 +409,7 @@ PROJECTS = [
         "slug": "losers-guide",
         "title": "The Loser’s Guide to Surviving the Apocalypse",
         "format": "feature", "genre": "Feature — Post-Apocalyptic Dramedy / Horror",
-        "status": "Early Development",
+        "status": "In Development",
         "zinger": "He spent his whole life invisible—now everyone still alive is following his rules.",
         "overview": "Fifteen years after the world fell to the dark-dwelling things survivors call Vamps, Nicole Wells walks away from a failing settlement carrying a duct-taped notebook she found by accident. It was written by Luke Hadley, an invisible, watchful teenager who lived through the first days by noticing what everyone stronger than him missed, and who filled its pages with rules for staying alive. Following those rules across a ruined America, Nicole retraces ground Luke walked a decade and a half earlier and falls in love with a boy she is certain is long dead. Behind her, word spreads. A pilgrimage forms. And a crowd that size makes exactly the kind of noise the dark has been listening for.",
         "image": "/images/losers-guide/losers-guide-hero.webp",
@@ -423,7 +423,7 @@ PROJECTS = [
         "nominations": [],
         "show_gallery": False,
         "gallery": [],
-        "active": True, "slate": False, "featured": False,
+        "active": True, "slate": True, "featured": False,
     },
     {
         "slug": "nowhere-kings",
@@ -499,7 +499,7 @@ PROJECTS = [
 # Order for the homepage "slate" preview + work page grouping
 FORMAT_LABEL = {"feature": "Features", "tv": "Television", "short": "Shorts"}
 STATUS_GROUPS = [
-    ("Produced & In Production", ["Post-Production", "In Production"]),
+    ("Produced & In Production", ["Produced", "Post-Production", "In Production"]),
     ("In Development", ["In Development"]),
     ("Early / Concept", ["Early Development", "Concept"]),
 ]
