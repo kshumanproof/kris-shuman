@@ -191,7 +191,7 @@ PERSON_JSONLD = {
     "name": "Kris Shuman",
     "url": SITE_URL,
     "jobTitle": "Screenwriter",
-    "description": "Screenwriter crafting character-driven Southern stories about identity, redemption, consequence, and the cost of becoming who you are.",
+    "description": "Screenwriter crafting character-driven stories about identity, redemption, consequence, and the cost of becoming who you are.",
     "sameAs": [
         "https://www.imdb.com/name/nm15546725/",
         "https://www.linkedin.com/in/krisshuman/",
@@ -616,7 +616,7 @@ def build_index():
       <div class="relative z-10 px-6 md:px-16 pb-12 md:pb-20 w-full max-w-4xl">
         <h1 class="font-display font-medium text-[clamp(2.1rem,7vw,4.3rem)] leading-[1.1] mb-4 max-w-[95%]">People Don&rsquo;t Change. <em class="italic text-ember">They Reveal.</em></h1>
         <p class="font-display italic text-xl md:text-2xl text-white/85 tracking-wide mb-7 md:mb-8">Kris Shuman <span class="text-ember/70 not-italic text-[11px] md:text-xs uppercase tracking-[0.35em] align-middle ml-2">Screenwriter</span></p>
-        <p class="text-base md:text-lg text-zinc-200 max-w-xl mb-7">Character-driven Southern stories for film and television: features, limited series, and shorts, in active development and production.</p>
+        <p class="text-base md:text-lg text-zinc-200 max-w-xl mb-7">Character-driven stories for film and television: features, limited series, and shorts, in active development and production.</p>
         <button type="button" data-open-calendly class="tap-target inline-block px-8 py-4 text-xs md:text-sm uppercase tracking-[0.3em] border border-ember text-white bg-ember/15 hover:bg-ember/30 transition">Schedule a Call</button>
       </div>
     </section>

@@ -407,7 +407,7 @@ PROJECTS = [
     },
     {
         "slug": "losers-guide",
-        "title": "The Loser’s Guide to Surviving the Apocalypse",
+        "title": "A Loser’s Guide to Surviving the Apocalypse",
         "format": "feature", "genre": "Feature — Post-Apocalyptic Dramedy / Horror",
         "status": "In Development",
         "zinger": "He spent his whole life invisible—now everyone still alive is following his rules.",
