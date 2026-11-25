@@ -161,7 +161,7 @@ PROJECTS = [
     {
         "slug": "wilder",
         "title": "Wilder",
-        "format": "feature", "genre": "Feature — Southern Drama",
+        "format": "feature", "genre": "Feature — Drama",
         "status": "In Development",
         "zinger": "She lied her way into his story—now it’s the only thing that can save her life.",
         "overview": "In 1984 Mississippi, a struggling single mother impersonates a journalist to land a career-making interview with a reclusive racing legend on the verge of retirement. Desperate to prove she’s more than the life she’s been handed, she crosses a line that could cost her everything—her children, her future, and her sense of self. As she earns the trust of a man haunted by his own past, their connection begins to blur the line between truth and performance. What starts as a con becomes something real, forcing them both to confront the cost of the lives they’ve lived and the ones they still might choose. When the truth finally catches up, she must decide if she’s willing to lose it all to finally become someone worth believing in.",
@@ -171,7 +171,7 @@ PROJECTS = [
         "teaser": "Until you make the unconscious conscious, it’ll direct your life—and you’ll call it fate.",
         "teaser_speaker": "Sophie Waters",
         "themes": ["Identity", "Reinvention", "Truth Vs. Performance", "Redemption"],
-        "tone": "Character-driven. Gritty. Hopeful. Southern.",
+        "tone": "Character-driven. Gritty. Hopeful.",
         "comps": "Erin Brockovich meets Crazy Heart",
         "nominations": [
             {"org": "Austin Film Festival", "years": [2025, 2026], "placement": "Second Rounder 2025 (Drama Feature); Second Rounder 2026"},
@@ -281,7 +281,7 @@ PROJECTS = [
     {
         "slug": "lords-of-franklin-county",
         "title": "Lords of Franklin County",
-        "format": "tv", "genre": "Pilot — Southern Crime / Drama / Period",
+        "format": "tv", "genre": "Pilot — Crime / Drama / Period",
         "status": "In Development",
         "zinger": "When the law robs the poor, an outlaw gives it back.",
         "overview": "In Depression-era Franklin County, a war-scarred drifter returns home to find his land stolen, his town controlled, and its people crushed under the thumb of a corrupt judge and ruthless sheriff. With nothing left to lose, he assembles a ragtag crew—a preacher with a moral code, a giant with a gentle heart, and a reckless young outlaw—and begins stealing from the wealthy elite who profit off the suffering of others. As their legend grows, so does the danger. The law closes in. Loyalties fracture. And the line between justice and revenge begins to blur. Because in a town where the system is broken, the question isn’t who’s right—it’s who’s willing to do something about it.",

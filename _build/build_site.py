@@ -21,7 +21,7 @@ FORMSPREE = "https://formspree.io/f/mgorgjgb"
 # actually render. Filename is deliberately new so Facebook, LinkedIn and X fetch
 # it fresh instead of serving whatever they cached for the old one.
 SITE_COVER = "/og-cover.jpg"
-SITE_COVER_ALT = "A dirt road running into dense Southern pine woods under a flat grey sky"
+SITE_COVER_ALT = "A dirt road running into dense pine woods under a flat grey sky"
 
 _DIMS = {}
 
@@ -493,12 +493,13 @@ def person_jsonld():
     CreativeWork points at, and the award list."""
     d = dict(PERSON_JSONLD)
     d["@id"] = SITE_URL + "/#kris-shuman"
-    # Mirrors the slate rather than one lane of it: Southern Gothic is 3 of 11
-    # projects, while crime, western, sci-fi, supernatural and horror are the
-    # rest. Telling Google only the narrow term buries the range.
+    # Mirrors the slate rather than one lane of it. Deliberately carries no
+    # regional label: the work spans crime, western, sci-fi, supernatural,
+    # horror and coming-of-age, and tagging the writer to one region is the
+    # pigeonhole this list exists to avoid.
     d["knowsAbout"] = ["Screenwriting", "Character-driven drama",
                        "Television drama", "Feature film development",
-                       "Crime drama", "Southern Gothic fiction",
+                       "Crime drama", "Gothic fiction",
                        "Western", "Science fiction", "Supernatural fiction",
                        "Horror", "Coming-of-age fiction"]
     awards = all_awards()
@@ -610,7 +611,7 @@ def build_index():
   <main class="bg-[#0a0908] text-white">
 
     <section class="relative w-full min-h-[78vh] md:min-h-[94vh] flex flex-col justify-end overflow-hidden">
-      <img src="{prefix}images/forest-road.webp" alt="A lone forest road at dusk, evoking the rural Southern settings of Kris Shuman's stories" class="absolute inset-0 w-full h-full object-cover" width="2200" height="1467">
+      <img src="{prefix}images/forest-road.webp" alt="A lone forest road at dusk, evoking the rural settings of Kris Shuman's stories" class="absolute inset-0 w-full h-full object-cover" width="2200" height="1467">
       <div class="absolute inset-0 overlay-cinematic"></div>
       <div class="absolute inset-0 overlay-vignette"></div>
       <div class="relative z-10 px-6 md:px-16 pb-12 md:pb-20 w-full max-w-4xl">
@@ -699,14 +700,14 @@ def build_index():
 
 def build_about():
     prefix = ""
-    title = "About Kris Shuman | Southern Screenwriter"
-    description = "Kris Shuman is a Southern screenwriter writing character-driven film and television about identity, recovery, and the cost of becoming who you are."
+    title = "About Kris Shuman | Screenwriter"
+    description = "Kris Shuman is a screenwriter writing character-driven film and television about identity, recovery, and the cost of becoming who you are."
     body = f"""
 {nav(prefix)}
   <main class="bg-[#0a0908] text-white">
-    <h1 class="sr-only">Kris Shuman &mdash; Southern screenwriter for film and television</h1>
+    <h1 class="sr-only">Kris Shuman &mdash; screenwriter for film and television</h1>
     <section class="relative w-full min-h-[100vh] flex flex-col justify-center">
-      <img src="{prefix}images/about/forest-road.webp" alt="A quiet Southern forest road" class="absolute inset-0 w-full h-full object-cover overflow-hidden" width="2200" height="1467">
+      <img src="{prefix}images/about/forest-road.webp" alt="A quiet forest road" class="absolute inset-0 w-full h-full object-cover overflow-hidden" width="2200" height="1467">
       <div class="absolute inset-0 overlay-cinematic"></div>
       <div class="relative z-10 px-6 md:px-16 pt-32 pb-14 md:pb-20 w-full">
         <div class="max-w-2xl mx-auto space-y-5 text-center text-white">
