@@ -167,6 +167,14 @@ PROJECTS = [
         "overview": "In 1984 Mississippi, a struggling single mother impersonates a journalist to land a career-making interview with a reclusive racing legend on the verge of retirement. Desperate to prove she’s more than the life she’s been handed, she crosses a line that could cost her everything—her children, her future, and her sense of self. As she earns the trust of a man haunted by his own past, their connection begins to blur the line between truth and performance. What starts as a con becomes something real, forcing them both to confront the cost of the lives they’ve lived and the ones they still might choose. When the truth finally catches up, she must decide if she’s willing to lose it all to finally become someone worth believing in.",
         "image": "/images/wilder/wilder-hero.webp",
         "hero_source": "/images/wilder/wilder.jpeg",
+        # 4:3 original, so the 16:9 crop is 1920x1080. Left native instead of
+        # upscaling to the usual 2400 - that would add file size, not detail.
+        "hero_size": (1920, 1080),
+        # Graded at TONE/CAST 0.65 rather than the 0.92/0.85 default. The
+        # reference is a dusk forest; this is overcast daylight, and matching it
+        # all the way turns a bright sky into a storm that was never in the
+        # frame. Re-run as: make_heroes.py with those two dials at 0.65.
+        "hero_grade": "tone 0.65 / cast 0.65 / sat 0.93 / grain 1.1 / vignette 0.13",
         "subtitle": "To become who she’s meant to be, she has to risk losing everything she’s pretending to be.",
         "teaser": "Until you make the unconscious conscious, it’ll direct your life—and you’ll call it fate.",
         "teaser_speaker": "Sophie Waters",

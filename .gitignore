@@ -56,3 +56,7 @@ next-env.d.ts
 images/**/*.jpeg
 images/**/*.jpg
 images/laurels/HollyShorts+Logo.png
+
+# files Claude delivers into the chat land here when this folder is open;
+# they are previews and comparisons, never part of the site
+/Claude outputs/
